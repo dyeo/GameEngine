@@ -75,28 +75,28 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(ProjectDir)Include;$(SolutionDir)Maestro\Include;$(SolutionDir)Maestro\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
     <OutDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\Intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(ProjectDir)Include;$(SolutionDir)Maestro\Include;$(SolutionDir)Maestro\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
     <OutDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\Intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(ProjectDir)Include;$(SolutionDir)Maestro\Include;$(SolutionDir)Maestro\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
     <OutDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\Intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)Include;$(SolutionDir)Maestro\Include;$(SolutionDir)Maestro\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
     <OutDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\Intermediate\</IntDir>
