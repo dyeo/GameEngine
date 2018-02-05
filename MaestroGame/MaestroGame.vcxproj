@@ -26,7 +26,7 @@
     <ProjectGuid>{65047270-E870-452A-BADE-E96D927C978C}</ProjectGuid>
     <RootNamespace>GameEngineTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
-    <ProjectName>MaestroTest</ProjectName>
+    <ProjectName>MaestroGame</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -74,32 +74,32 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)Include;$(SolutionDir)Maestro\Include;$(SolutionDir)Maestro\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Include;$(SolutionDir)MaestroEngine\Include;$(SolutionDir)MaestroEngine\Source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)MaestroEngine\Build\$(PlatformTarget)\;$(SolutionDir)MaestroEngine\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
-    <OutDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\Intermediate\</IntDir>
+    <OutDir>$(ProjectDir)Game\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)Temp\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir)Include;$(SolutionDir)Maestro\Include;$(SolutionDir)Maestro\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Include;$(SolutionDir)MaestroEngine\Include;$(SolutionDir)MaestroEngine\Source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)MaestroEngine\Build\$(PlatformTarget)\;$(SolutionDir)MaestroEngine\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
-    <OutDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\Intermediate\</IntDir>
+    <OutDir>$(ProjectDir)Game\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)Temp\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)Include;$(SolutionDir)Maestro\Include;$(SolutionDir)Maestro\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Include;$(SolutionDir)MaestroEngine\Include;$(SolutionDir)MaestroEngine\Source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)MaestroEngine\Build\$(PlatformTarget)\;$(SolutionDir)MaestroEngine\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
-    <OutDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\Intermediate\</IntDir>
+    <OutDir>$(ProjectDir)Game\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)Temp\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)Include;$(SolutionDir)Maestro\Include;$(SolutionDir)Maestro\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\;$(SolutionDir)Maestro\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Include;$(SolutionDir)MaestroEngine\Include;$(SolutionDir)MaestroEngine\Source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Library\;$(SolutionDir)MaestroEngine\Build\$(PlatformTarget)\;$(SolutionDir)MaestroEngine\Build\$(PlatformTarget)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
-    <OutDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)Build\$(PlatformTarget)\$(Configuration)\Intermediate\</IntDir>
+    <OutDir>$(ProjectDir)Game\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)Temp\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
