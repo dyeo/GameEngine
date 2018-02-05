@@ -21,7 +21,7 @@
 # x86/
 [Bb]uild/
 [Bb]in/
-[Gg]ame/
+# [Gg]ame/
 [Oo]bj/
 [Ll]og/
 [Tt]emp/
