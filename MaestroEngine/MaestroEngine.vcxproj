@@ -19,10 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Maestro.cpp" />
+    <ClCompile Include="Source\System.cpp" />
+    <ClCompile Include="Source\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Component.h" />
+    <ClInclude Include="Source\Composable.h" />
+    <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Maestro.h" />
+    <ClInclude Include="Source\System.h" />
+    <ClInclude Include="Source\Transform.h" />
+    <ClInclude Include="Source\Updatable.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
