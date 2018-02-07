@@ -56,8 +56,6 @@ System * const Maestro::GetSystemFromTypeIndex(std::type_index sysType)
 
 void Maestro::OnCreate()
 {
-	// andrew: initialization code goes here
-
 	CheckStorage(MINIMUM_SPACE_REQUIRED);
 	CheckMemory(MINIMUM_PHYSICAL_MEMORY_REQUIRED, MINIMUM_VIRTUAL_MEMORY_REQUIRED);
 	ReadCPUSpeed();
