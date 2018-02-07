@@ -53,6 +53,8 @@ void Maestro::Run()
 
 void Maestro::OnCreate()
 {
+	// andrew: initialization code goes here
+
 	for (auto it = systems.begin(); it != systems.end(); ++it)
 	{
 		it->OnCreate();

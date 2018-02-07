@@ -2,6 +2,6 @@
 
 int main(char *argc, char **argv)
 {
-	::Maestro m;
+	Maestro m;
 	m.Run();
 }
