@@ -1,10 +1,11 @@
 #ifndef _MAESTRO_COMPONENT_H_
 #define _MAESTRO_COMPONENT_H_
 
-#include "Updatable.h"
-#include "System.h"
+#include "Maestro.h"
 
-#include <assert.h>
+#include <typeinfo>
+#include <typeindex>
+#include <type_traits>
 
 class Entity;
 
@@ -56,13 +57,15 @@ private:
 
 template <typename C> inline C * const Component::CreateComponent()
 {
-	std::static_assert<
+	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
 	System *const managingSystem = Maestro::GetManagingSystem<C>();
-	return managingSystem->OnComponentCreate(entity, std::type_index(typeid(C)));
+	Component *const component = managingSystem->OnComponentCreate(entity, std::type_index(typeid (C)));
+	return static_cast <C * const> (component);
 }
 
 template <typename C> inline bool Component::DestroyComponent(C *const component)
 {
+	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
 	System *const managingSystem = Maestro::GetManagingSystem<C>();
 	return managingSystem->OnComponentDestroy(entity, component);
 }

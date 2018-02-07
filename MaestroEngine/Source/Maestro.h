@@ -10,6 +10,7 @@
 #include <utility>
 #include <typeinfo>
 #include <typeindex>
+#include <type_traits>
 #include <optional.h>
 
 class Maestro : public Updatable
@@ -107,7 +108,7 @@ inline System *const Maestro::GetSystem()
 template<typename C>
 inline bool Maestro::SetManagingSystem(System * const system)
 {
-	std::static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
 	auto type = nonstd::make_optional(std::type_index(typeid(system)));
 	if (type == nonstd::nullopt)
 	{
@@ -133,7 +134,7 @@ inline System * const Maestro::GetManagingSystem()
 template<typename S>
 inline std::type_index Maestro::GetSystemIndex()
 {
-	std::static_assert(std::is_base_of<System, S>::value, "S does not inherit System.");
+	static_assert(std::is_base_of<System, S>::value, "S does not inherit System.");
 	return std::type_index(typeid(S));
 }
 
