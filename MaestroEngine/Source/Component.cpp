@@ -2,8 +2,9 @@
 
 #include "System.h"
 
-Component::Component(System *const system)
+Component::Component(System *const system, Entity *const entity)
 	: system(system)
+	, entity(entity)
 {
 
 }
@@ -29,14 +30,6 @@ void Component::OnFinish()
 }
 
 void Component::OnDestroy()
-{
-}
-
-void Component::CreateComponent()
-{
-}
-
-void Component::DestroyComponent()
 {
 }
 

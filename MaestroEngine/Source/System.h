@@ -1,12 +1,13 @@
 #ifndef _MAESTRO_SYSTEM_H_
 #define _MAESTRO_SYSTEM_H_
 
-#include "Component.h"
-#include "Entity.h"
+#include "Updatable.h"
 
 #include <typeindex>
 
 class Maestro;
+class Component;
+class Entity;
 
 class System : public Updatable
 {
@@ -14,8 +15,8 @@ public:
 
 	System(Maestro *const engine);
 
-	virtual Component* OnComponentCreate(Entity *srcEnt, std::type_index cmpType);
-	virtual bool OnComponentDestroy(Entity *srcEnt, Component *srcCmp);
+	virtual Component*const OnComponentCreate(Entity *const srcEnt, std::type_index cmpType);
+	virtual bool OnComponentDestroy(Entity *const srcEnt, Component *const srcCmp);
 
 	virtual void OnCreate() override;
 	virtual void OnStart() override;

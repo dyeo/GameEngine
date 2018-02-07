@@ -1,17 +1,18 @@
 #include "System.h"
 #include "Maestro.h"
+#include "Component.h"
 
 System::System(Maestro *const engine)
 	: engine(engine)
 {
 }
 
-Component * System::OnComponentCreate(Entity * srcEnt, std::type_index cmpType)
+Component * const System::OnComponentCreate(Entity *const srcEnt, std::type_index cmpType)
 {
 	return nullptr;
 }
 
-bool System::OnComponentDestroy(Entity * srcEnt, Component * srcCmp)
+bool System::OnComponentDestroy(Entity *const srcEnt, Component *const srcCmp)
 {
 	return false;
 }
