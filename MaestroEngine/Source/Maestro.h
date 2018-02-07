@@ -1,6 +1,11 @@
 
 #ifndef _MAESTRO_MAESTRO_H_
+#define MINIMUM_SPACE_REQUIRED 300
+#define MINIMUM_PHYSICAL_MEMORY_REQUIRED 1024
+#define MINIMUM_VIRTUAL_MEMORY_REQUIRED 1024
+
 #define _MAESTRO_MAESTRO_H_
+
 
 #include "Updatable.h"
 #include "System.h"
@@ -11,6 +16,9 @@
 #include <typeinfo>
 #include <typeindex>
 #include <optional.h>
+#include "windows.h"
+#include "direct.h"
+
 
 class Maestro : public Updatable
 {
@@ -46,6 +54,12 @@ public:
 	double elapsedTime = 0.0f;
 	double currentTime = 0.0f; 
 	double deltaTime = 0.0f;
+
+	bool CheckStorage(const DWORDLONG diskSpaceNeeded);
+	bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded);
+	DWORD ReadCPUSpeed();
+	std::string ReadCPUArch();
+
 
 private:
 

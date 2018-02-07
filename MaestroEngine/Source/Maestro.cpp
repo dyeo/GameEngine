@@ -58,6 +58,11 @@ void Maestro::OnCreate()
 {
 	// andrew: initialization code goes here
 
+	CheckStorage(MINIMUM_SPACE_REQUIRED);
+	CheckMemory(MINIMUM_PHYSICAL_MEMORY_REQUIRED, MINIMUM_VIRTUAL_MEMORY_REQUIRED);
+	ReadCPUSpeed();
+	ReadCPUArch();
+
 	for (auto it = systems.begin(); it != systems.end(); ++it)
 	{
 		it->OnCreate();
@@ -121,6 +126,105 @@ void Maestro::OnDestroy()
 		printf("%s\n", __FUNCSIG__);
 	#endif // _DEBUG
 }
+
+/// <summary>
+/// Checks the storage.
+/// </summary>
+/// <param name="diskSpaceNeeded">The disk space needed in MB.</param>
+/// <returns>returns your input value if the requirement is met</returns>
+bool Maestro::CheckStorage(const DWORDLONG diskSpaceNeeded)
+{
+	// Check for enough free disk space on the current disk.
+	int const drive = _getdrive();
+	struct _diskfree_t diskfree;
+	_getdiskfree(drive, &diskfree);
+	unsigned __int64 const neededClusters = (diskSpaceNeeded * 1048576) /
+		(diskfree.sectors_per_cluster*diskfree.bytes_per_sector);
+	if (diskfree.avail_clusters < neededClusters) {
+		// if you get here you dont have enough disk space!
+		printf("CheckStorage Failure : Not enough physical storage.");
+		isRunning = false;
+		return false;
+	}
+	printf("Sufficient disk space. Only %i MB needed.\n", diskSpaceNeeded);
+	return true;
+}
+
+/// <summary>
+/// Checks the memory.
+/// </summary>
+/// <param name="physicalRAMNeeded">The physical ram needed.</param>
+/// <param name="virtualRAMNeeded">The virtual ram needed.</param>
+/// <returns>return two values if the requirements are met; physical memory, and virtual memory.</returns>
+bool Maestro::CheckMemory(const DWORDLONG physicalRAMNeeded, const	DWORDLONG virtualRAMNeeded) {
+	MEMORYSTATUSEX status;
+	status.dwLength = sizeof(status);
+	GlobalMemoryStatusEx(&status);
+	if ((status.ullTotalPhys / 1048576) < physicalRAMNeeded) {
+		printf("CheckMemory Failure : Not enough physical memory.");
+		isRunning = false;
+		return false;
+	}
+	else
+	{
+		printf("Sufficient Physical Memory. Physical Memory Available: %i Megaytes available.\n", (status.ullAvailPhys / 1048576));
+	}
+	// Check for enough free memory.
+	if ((status.ullAvailVirtual / 1048576) < virtualRAMNeeded) {
+		printf("CheckMemory Failure : Not enough virtual memory.");
+		isRunning = false;
+		return false;
+	}
+	else
+	{
+		printf("Sufficient Virtual Memory. Virtual Memory Available: %u MegaBytes vailable.\n", (status.ullAvailVirtual/ 1048576));
+	}
+	return true;
+}
+
+/// <summary>
+/// Reads the cpu arch.
+/// </summary>
+/// <returns>The CPU Architecture as defined in the Registry.</returns>
+std::string Maestro::ReadCPUArch() {
+	DWORD BufSize = 1024;
+	char name[1024];
+	std::string dwMHz;
+	DWORD type = REG_SZ;
+	HKEY hKey;
+	// open the key where the proc speed is hidden:
+	long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey);
+	if (lError == ERROR_SUCCESS) {
+		// query the key:
+		RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)&name, &BufSize);
+	}
+	std::cout << "Your processor Architecture: \n" << name << std::endl;
+	return std::string(name);
+}
+
+/// <summary>
+/// Reads the cpu speed.
+/// </summary>
+/// <returns>A calculation to represent your cpu speed in MHz</returns>
+DWORD Maestro::ReadCPUSpeed() {
+	DWORD BufSize = sizeof(DWORD);
+	DWORD dwMHz = 0;
+	DWORD type = REG_DWORD;
+	HKEY hKey;
+	// open the key where the proc speed is hidden:
+	long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey);
+	if (lError == ERROR_SUCCESS) {
+		// query the key:
+		RegQueryValueEx(hKey, "~MHz", NULL, &type, (LPBYTE)&dwMHz, &BufSize);
+		printf("CPU Speed is ~%f GHz.\n", ((float)dwMHz * 0.001f));
+	}
+	return dwMHz;
+}
+
+
+
+
+
 
 const double Maestro::GetHiresTimeSeconds() const
 {
