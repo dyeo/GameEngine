@@ -14,12 +14,8 @@ void Maestro::Run()
 
 	currentTime = GetHiresTimeSeconds() - DELTATIME_FIXED;
 
-	int __debugi = 60;
-
 	while (isRunning)
 	{
-		if (__debugi < 0) break;
-
 		double newTime = GetHiresTimeSeconds();
 		double frameTime = newTime - currentTime;
 		currentTime = newTime;
@@ -41,8 +37,6 @@ void Maestro::Run()
 		}
 
 		OnRender();
-
-		__debugi--;
 	}
 
 	OnFinish();
