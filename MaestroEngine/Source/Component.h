@@ -2,11 +2,10 @@
 #define _MAESTRO_COMPONENT_H_
 
 #include "Updatable.h"
-#include "Composable.h"
 
 class System;
 
-class Component : public Updatable, public Composable
+class Component : public Updatable
 {
 public:
 
