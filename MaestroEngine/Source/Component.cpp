@@ -1,6 +1,7 @@
 #include "Component.h"
 
 #include "System.h"
+#include "Entity.h"
 
 Component::Component(System *const system, Entity *const entity)
 	: system(system)
@@ -33,10 +34,12 @@ void Component::OnDestroy()
 {
 }
 
-void Component::CreateEntity()
+Entity *const Component::CreateEntity()
 {
+	return CreateComponent<Entity>();
 }
 
-void Component::DestroyEntity()
+bool Component::DestroyEntity(Entity *const ent)
 {
+	return DestroyComponent<Entity>(ent);
 }
