@@ -1,19 +1,15 @@
 #ifndef _MAESTRO_ENTITY_H_
 #define _MAESTRO_ENTITY_H_
 
-#include "Composable.h"
+#include "Component.h"
 
-class Entity : public Composable
+class Entity : public Component
 {
 public:
 
-	virtual void CreateComponent() override;
-	virtual void DestroyComponent() override;
-	virtual void CreateEntity() override;
-	virtual void DestroyEntity() override;
+	Entity();
 
 private:
-
 };
 
 #endif // !_MAESTRO_ENTITY_H_

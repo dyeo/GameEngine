@@ -1,17 +1,9 @@
 #include "Entity.h"
 
-void Entity::CreateComponent()
-{
-}
+#include "Maestro.h"
 
-void Entity::DestroyComponent()
+Entity::Entity()
+	: Component(Maestro::GetManagingSystem<Entity>())
 {
-}
 
-void Entity::CreateEntity()
-{
-}
-
-void Entity::DestroyEntity()
-{
 }

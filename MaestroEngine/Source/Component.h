@@ -4,9 +4,13 @@
 #include "Updatable.h"
 #include "Composable.h"
 
+class System;
+
 class Component : public Updatable, public Composable
 {
 public:
+
+	Component(System *const system);
 
 	virtual void OnCreate() override;
 	virtual void OnStart() override;
@@ -15,10 +19,14 @@ public:
 	virtual void OnFinish() override;
 	virtual void OnDestroy() override;
 
-	virtual void CreateComponent() override;
-	virtual void DestroyComponent() override;
-	virtual void CreateEntity() override;
-	virtual void DestroyEntity() override;
+	void CreateComponent();
+	void DestroyComponent();
+	void CreateEntity();
+	void DestroyEntity();
+
+protected:
+
+	System *const system;
 
 private:
 };

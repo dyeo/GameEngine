@@ -3,24 +3,24 @@
 #include <assert.h>
 #include <chrono>
 #include <iostream>
-#include <type_traits>
 
 #include <SFML/Graphics.hpp>
+
+std::vector<System> Maestro::systems = std::vector<System>();
+std::map<std::type_index, nonstd::optional<std::type_index>> Maestro::managers = std::map<std::type_index, nonstd::optional<std::type_index>>();
 
 ///
 void Maestro::Run()
 {
 	OnCreate();
 
-	currentTime = GetHiresTimeSeconds() - DELTATIME_FIXED;
-
+	currentTime = GetHiresTimeSeconds();
+	
 	while (isRunning)
 	{
 		double newTime = GetHiresTimeSeconds();
-		double frameTime = newTime - currentTime;
 		currentTime = newTime;
-
-		accumulator += frameTime;
+		deltaTime = newTime - currentTime;
 
 		if (!isStarted)
 		{
@@ -28,14 +28,9 @@ void Maestro::Run()
 			isStarted = true;
 		}
 
-		while (accumulator >= DELTATIME_FIXED)
-		{
-			OnUpdate();
+		// dan: make this more robust later
 
-			accumulator -= DELTATIME_FIXED;
-			elapsedTime += DELTATIME_FIXED;
-		}
-
+		OnUpdate();
 		OnRender();
 	}
 
@@ -43,6 +38,20 @@ void Maestro::Run()
 	OnDestroy();
 
 	getchar();
+}
+
+///
+System * const Maestro::GetSystemFromTypeIndex(std::type_index sysType)
+{
+	for (auto it = systems.begin(); it != systems.end(); ++it)
+	{
+		auto st = std::type_index(typeid(*it));
+		if (st == sysType)
+		{
+			return it._Ptr;
+		}
+	}
+	return nullptr;
 }
 
 void Maestro::OnCreate()

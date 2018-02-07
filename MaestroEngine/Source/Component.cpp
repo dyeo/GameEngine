@@ -1,5 +1,13 @@
 #include "Component.h"
 
+#include "System.h"
+
+Component::Component(System *const system)
+	: system(system)
+{
+
+}
+
 void Component::OnCreate()
 {
 }

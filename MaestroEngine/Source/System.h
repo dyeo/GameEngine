@@ -6,9 +6,13 @@
 
 #include <typeindex>
 
+class Maestro;
+
 class System : public Updatable
 {
 public:
+
+	System(Maestro *const engine);
 
 	virtual Component* OnComponentCreate(Entity *srcEnt, std::type_index cmpType);
 	virtual bool OnComponentDestroy(Entity *srcEnt, Component *srcCmp);
@@ -19,6 +23,10 @@ public:
 	virtual void OnRender() override;
 	virtual void OnFinish() override;
 	virtual void OnDestroy() override;
+
+protected:
+
+	Maestro *const engine;
 
 private:
 };
