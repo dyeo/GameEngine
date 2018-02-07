@@ -7,116 +7,121 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace MAESTRO_NAMESPACE
+///
+void Maestro::Run()
 {
-	///
-	void Maestro::Run()
-	{
+	OnCreate();
 
-	}
+	currentTime = GetHiresTimeSeconds() - DELTATIME_FIXED;
 
-	///
-	template<typename SysType> 
-	bool Maestro::AddSystem()
+	int __debugi = 60;
+
+	while (isRunning)
 	{
-		auto sysType = GetSystemIndex<SysType>();
-		for (auto it = systems.begin(); it != systems.end(); ++it)
+		if (__debugi < 0) break;
+
+		double newTime = GetHiresTimeSeconds();
+		double frameTime = newTime - currentTime;
+		currentTime = newTime;
+
+		accumulator += frameTime;
+
+		if (!isStarted)
 		{
-			if (it->first == sysType)
-			{
-				printf("FATAL ERROR: Cannot add system " + sysType.name + "; system already exists.")
-				return false;
-			}			
+			OnStart();
+			isStarted = true;
 		}
-		systems.push_back(std::make_pair(sysType, SysType()));
-		return true;
-	}
 
-	///
-	template<typename SysType>
-	bool Maestro::RemoveSystem()
-	{
-		auto sysType = GetSystemIndex<SysType>();
-		for (auto it = systems.begin(); it != systems.end(); ++it)
+		while (accumulator >= DELTATIME_FIXED)
 		{
-			if (it->first == sysType)
-			{
-				systems.erase(it--);
-				return true;
-			}
+			OnUpdate();
+
+			accumulator -= DELTATIME_FIXED;
+			elapsedTime += DELTATIME_FIXED;
 		}
-		return false;
+
+		OnRender();
+
+		__debugi--;
 	}
 
-	///
-	template<typename SysType> 
-	System *Maestro::GetSystem()
+	OnFinish();
+	OnDestroy();
+
+	getchar();
+}
+
+void Maestro::OnCreate()
+{
+	for (auto it = systems.begin(); it != systems.end(); ++it)
 	{
-		auto sysType = GetSystemIndex<SysType>();
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			if (it->first == sysType)
-			{
-				return &(it->second);
-			}
-		}
-		return nullptr;
+		it->OnCreate();
 	}
+	#ifdef _DEBUG
+		printf("%s\n", __FUNCSIG__);
+	#endif // _DEBUG
+}
 
-	///
-	template<typename SysType> 
-	std::type_index Maestro::GetSystemIndex()
+void Maestro::OnStart()
+{
+	for (auto it = systems.begin(); it != systems.end(); ++it)
 	{
-		std::static_assert(std::is_base_of<System, SysType>::value, "SysType does not inherit System.");
-		return typeid(SysType);
+		it->OnStart();
 	}
+	#ifdef _DEBUG
+		printf("%s\n", __FUNCSIG__);
+	#endif // _DEBUG
+}
 
-	void Maestro::OnCreate()
+void Maestro::OnUpdate()
+{
+	for (auto it = systems.begin(); it != systems.end(); ++it)
 	{
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			it->second.OnCreate();
-		}
+		it->OnUpdate();
 	}
+	#ifdef _DEBUG
+		printf("%s\n", __FUNCSIG__);
+	#endif // _DEBUG
+}
 
-	void Maestro::OnStart()
+void Maestro::OnRender()
+{
+	for (auto it = systems.begin(); it != systems.end(); ++it)
 	{
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			it->second.OnStart();
-		}
+		it->OnRender();
 	}
+	#ifdef _DEBUG
+		printf("%s\n", __FUNCSIG__);
+	#endif // _DEBUG
+}
 
-	void Maestro::OnUpdate()
+void Maestro::OnFinish()
+{
+	for (auto it = systems.begin(); it != systems.end(); ++it)
 	{
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			it->second.OnUpdate();
-		}
+		it->OnFinish();
 	}
+	#ifdef _DEBUG
+		printf("%s\n", __FUNCSIG__);
+	#endif // _DEBUG
+}
 
-	void Maestro::OnRender()
+void Maestro::OnDestroy()
+{
+	for (auto it = systems.begin(); it != systems.end(); ++it)
 	{
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			it->second.OnRender();
-		}
+		it->OnDestroy();
 	}
+	#ifdef _DEBUG
+		printf("%s\n", __FUNCSIG__);
+	#endif // _DEBUG
+}
 
-	void Maestro::OnFinish()
-	{
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			it->second.OnFinish();
-		}
-	}
-
-	void Maestro::OnDestroy()
-	{
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			it->second.OnDestroy();
-		}
-	}
-
+const double Maestro::GetHiresTimeSeconds() const
+{
+	auto t0 = std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::seconds>(std::chrono::seconds(0));
+	auto t1 = std::chrono::high_resolution_clock::now();
+	auto s0 = std::chrono::time_point_cast<std::chrono::seconds>(t0);
+	auto s1 = std::chrono::time_point_cast<std::chrono::seconds>(t1);
+	return std::chrono::duration_cast<std::chrono::duration<double>>(t1 - t0).count();
 }
