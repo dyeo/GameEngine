@@ -6,6 +6,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <direct.h>
+
 std::vector<System> Maestro::systems = std::vector<System>();
 std::map<std::type_index, nonstd::optional<std::type_index>> Maestro::managers = std::map<std::type_index, nonstd::optional<std::type_index>>();
 

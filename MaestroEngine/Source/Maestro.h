@@ -16,8 +16,9 @@
 #include <typeindex>
 #include <type_traits>
 #include <optional.h>
-#include "windows.h"
-#include "direct.h"
+
+#define NOMINMAX
+#include <Windows.h>
 
 class Maestro : public Updatable
 {

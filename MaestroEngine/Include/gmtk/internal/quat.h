@@ -140,14 +140,14 @@ namespace GMTK_NAMESPACE
 		}
 
 		//!
-		inline vec<T, 3> operator*(const vec<T, 3> &v) {
-			Quat<T> vp = (*this) * Quat<T>(0, v.x, v.y, v.z) * conj(*this);
+		inline vec<T, 3> operator*(const vec<T, 3> &v) const {
+			Quat<T> vp = Quat<T>(*this) * Quat<T>(0, v.x, v.y, v.z) * conj(Quat<T>(*this));
 			return vec<T, 3>(vp.x, vp.y, vp.z);
 		}
 		
 		//!
-		inline vec<T, 3> operator/(const vec<T, 3> &v) {
-			Quat<T> vp = (*this) * Quat<T>(0, -v.x, -v.y, -v.z) * conj(*this);
+		inline vec<T, 3> operator/(const vec<T, 3> &v) const {
+			Quat<T> vp = Quat<T>(*this) * Quat<T>(0, -v.x, -v.y, -v.z) * conj(Quat<T>(*this));
 			return vec<T, 3>(vp.x, vp.y, vp.z);
 		}
 
