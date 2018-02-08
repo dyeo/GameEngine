@@ -1,7 +1,7 @@
 #include "Maestro.h"
 
 #include <assert.h>
-#include <chrono>
+#include <time.h>
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
@@ -18,11 +18,13 @@ void Maestro::Run()
 
 	currentTime = GetHiresTimeSeconds();
 	
-	while (isRunning)
+	while (isRunning && window.isOpen())
 	{
 		double newTime = GetHiresTimeSeconds();
-		currentTime = newTime;
 		deltaTime = newTime - currentTime;
+		elapsedTime += deltaTime;
+		currentTime = newTime;
+		printf("%f", deltaTime);
 
 		if (!isStarted)
 		{
@@ -58,6 +60,19 @@ System * const Maestro::GetSystemFromTypeIndex(std::type_index sysType)
 
 void Maestro::OnCreate()
 {
+	window.create(sf::VideoMode(1920, 1080), "Maestro Test Window");
+	//window.setView(sf::View(sf::Vector2f(1920.f*0.5f, 1080.f*0.5f), sf::Vector2f(1920.f*0.5f, 1080.f*0.5f)));
+
+	splashTexture = new sf::Texture();
+	if (splashTexture->loadFromFile("./Assets/splash.png") != true)
+	{
+		printf("FATAL ERROR: Splash screen image not found. Not really fatal, but c'mon man you need one.");
+		isRunning = false;
+		return;
+	}
+	splashSprite = new sf::Sprite();
+	splashSprite->setTexture(*splashTexture);
+
 	CheckStorage(MINIMUM_SPACE_REQUIRED);
 	CheckMemory(MINIMUM_PHYSICAL_MEMORY_REQUIRED, MINIMUM_VIRTUAL_MEMORY_REQUIRED);
 	ReadCPUSpeed();
@@ -85,6 +100,23 @@ void Maestro::OnStart()
 
 void Maestro::OnUpdate()
 {
+	if (elapsedTime >= 3.0f)
+	{
+		isRunning = false;
+		window.close();
+		return;
+	}
+
+	sf::Event event;
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed)
+		{
+			isRunning = false;
+			window.close();
+			return;
+		}
+	}
 	for (auto it = systems.begin(); it != systems.end(); ++it)
 	{
 		it->OnUpdate();
@@ -96,6 +128,10 @@ void Maestro::OnUpdate()
 
 void Maestro::OnRender()
 {
+	window.clear();
+	window.draw(*splashSprite);
+	window.display();
+
 	for (auto it = systems.begin(); it != systems.end(); ++it)
 	{
 		it->OnRender();
@@ -204,9 +240,6 @@ DWORD Maestro::ReadCPUSpeed() {
 
 const double Maestro::GetHiresTimeSeconds() const
 {
-	auto t0 = std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::seconds>(std::chrono::seconds(0));
-	auto t1 = std::chrono::high_resolution_clock::now();
-	auto s0 = std::chrono::time_point_cast<std::chrono::seconds>(t0);
-	auto s1 = std::chrono::time_point_cast<std::chrono::seconds>(t1);
-	return std::chrono::duration_cast<std::chrono::duration<double>>(t1 - t0).count();
+	auto t = clock();
+	return ((double)clock()) / ((double)CLOCKS_PER_SEC);
 }

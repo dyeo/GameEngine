@@ -17,6 +17,8 @@
 #include <type_traits>
 #include <optional.h>
 
+#include <SFML/Graphics.hpp>
+
 #define NOMINMAX
 #include <Windows.h>
 
@@ -124,6 +126,11 @@ private:
 
 	static std::vector<System> systems;
 	static std::map<std::type_index, nonstd::optional<std::type_index>> managers;
+
+	sf::RenderWindow window;
+	sf::Sprite *splashSprite;
+	sf::Texture *splashTexture;
+
 };
 
 ///
