@@ -74,8 +74,7 @@ protected:
 private:
 };
 
-template<typename C>
-inline C * const Component::GetComponent()
+template <typename C> inline C * const Component::GetComponent()
 {
 	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
 	std::type_index componentType = std::type_index(typeid(C));
@@ -85,8 +84,7 @@ inline C * const Component::GetComponent()
 	return static_cast <C * const> (component);
 }
 
-template<typename C>
-inline C * const Component::GetComponent(int cmpInd)
+template <typename C> inline C * const Component::GetComponent(int cmpInd)
 {
 	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
 	std::type_index componentType = std::type_index(typeid(C));
