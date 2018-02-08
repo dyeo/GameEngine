@@ -19,13 +19,21 @@
 
 #include <SFML/Graphics.hpp>
 
-#define NOMINMAX
-#include <Windows.h>
-
 class Maestro : public Updatable
 {
+// methods
 public:
 	
+	Maestro() {};
+	virtual ~Maestro() override {};
+
+	virtual void OnCreate() override;
+	virtual void OnStart() override;
+	virtual void OnUpdate() override;
+	virtual void OnRender() override;
+	virtual void OnFinish() override;
+	virtual void OnDestroy() override;
+
 	/// <summary>
 	/// Runs the Maestro engine 
 	/// </summary>
@@ -75,13 +83,36 @@ public:
 	/// </summary>
 	/// <returns>The System's type_index.</returns>
 	template<typename S> static std::type_index GetSystemIndex();
+	
+	/// <summary>
+	/// Checks the storage.
+	/// </summary>
+	/// <param name="diskSpaceNeeded">The disk space needed in MB.</param>
+	/// <returns>returns your input value if the requirement is met</returns>
+	bool CheckStorage(const unsigned long long diskSpaceNeeded);
 
-	virtual void OnCreate() override;
-	virtual void OnStart() override;
-	virtual void OnUpdate() override;
-	virtual void OnRender() override;
-	virtual void OnFinish() override;
-	virtual void OnDestroy() override;
+	/// <summary>
+	/// Checks the memory.
+	/// </summary>
+	/// <param name="physicalRAMNeeded">The physical ram needed.</param>
+	/// <param name="virtualRAMNeeded">The virtual ram needed.</param>
+	/// <returns>return two values if the requirements are met; physical memory, and virtual memory.</returns>
+	bool CheckMemory(const unsigned long long physicalRAMNeeded, const unsigned long long virtualRAMNeeded);
+	
+	/// <summary>
+	/// Reads the cpu arch.
+	/// </summary>
+	/// <returns>The CPU Architecture as defined in the Registry.</returns>
+	std::string ReadCPUArch();
+
+	/// <summary>
+	/// Reads the system CPU speed.
+	/// </summary>
+	/// <returns>The system CPU speed, in MHz.</returns>
+	unsigned long ReadCPUSpeed();
+
+// members
+public:
 
 	// application state
 	bool isStarted = false;
@@ -92,35 +123,8 @@ public:
 	// timestepping
 	const double GetHiresTimeSeconds() const;
 	double elapsedTime = 0.0f;
-	double currentTime = 0.0f; 
+	double currentTime = 0.0f;
 	double deltaTime = 0.0f;
-
-	/// <summary>
-	/// Checks the storage.
-	/// </summary>
-	/// <param name="diskSpaceNeeded">The disk space needed in MB.</param>
-	/// <returns>returns your input value if the requirement is met</returns>
-	bool CheckStorage(const DWORDLONG diskSpaceNeeded);
-
-	/// <summary>
-	/// Checks the memory.
-	/// </summary>
-	/// <param name="physicalRAMNeeded">The physical ram needed.</param>
-	/// <param name="virtualRAMNeeded">The virtual ram needed.</param>
-	/// <returns>return two values if the requirements are met; physical memory, and virtual memory.</returns>
-	bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded);
-	
-	/// <summary>
-	/// Reads the cpu arch.
-	/// </summary>
-	/// <returns>The CPU Architecture as defined in the Registry.</returns>
-	std::string ReadCPUArch();
-
-	/// <summary>
-	/// Reads the cpu speed.
-	/// </summary>
-	/// <returns>A calculation to represent your cpu speed in MHz</returns>
-	DWORD ReadCPUSpeed();
 
 private:
 

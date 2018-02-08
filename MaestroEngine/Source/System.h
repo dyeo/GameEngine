@@ -11,9 +11,11 @@ class Entity;
 
 class System : public Updatable
 {
+// methods
 public:
 
 	System(Maestro *const engine);
+	virtual ~System() override {};
 
 	virtual Component*const OnComponentCreate(Entity *const srcEnt, std::type_index cmpType);
 	virtual bool OnComponentDestroy(Entity *const srcEnt, Component *const srcCmp);
@@ -25,6 +27,7 @@ public:
 	virtual void OnFinish() override;
 	virtual void OnDestroy() override;
 
+// members
 protected:
 
 	Maestro *const engine;

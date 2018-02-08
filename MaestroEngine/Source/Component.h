@@ -11,9 +11,11 @@ class Entity;
 
 class Component : public Updatable
 {
+// methods
 public:
 
 	Component(System *const system, Entity *const entity);
+	virtual ~Component() override {};
 
 	virtual void OnCreate() override;
 	virtual void OnStart() override;
@@ -53,10 +55,14 @@ public:
 	/// <returns>True if the destroy operation was successful, false otherwise.</returns>
 	bool DestroyEntity(Entity * const ent);
 
+// members
+public:
+
+	Entity *const entity;
+
 protected:
 
 	System *const system;
-	Entity *const entity;
 
 private:
 };

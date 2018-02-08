@@ -7,6 +7,7 @@
 
 class Transform : public Component
 {
+// methods
 public:
 
 	Transform(System * const sys, Entity * const ent);
@@ -71,6 +72,7 @@ public:
 
 	void SetLocalScale(gm::vec3 & scl);
 
+// members
 private:
 
 	Transform *parent;

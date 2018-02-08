@@ -3,7 +3,10 @@
 
 class Updatable
 {
+// methods
 public:
+
+	virtual ~Updatable() {};
 
 	/// <summary>
 	/// Called once when the Updatable is created, before OnStart or OnUpdate.
@@ -35,6 +38,8 @@ public:
 	/// </summary>
 	virtual void OnDestroy() = 0;
 
+// members
+private:
 };
 
 #endif // !_MAESTRO_UPDATABLE_H_

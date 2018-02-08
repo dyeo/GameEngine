@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <Windows.h>
 #include <direct.h>
 
 std::vector<System> Maestro::systems = std::vector<System>();
@@ -163,7 +164,7 @@ void Maestro::OnDestroy()
 	#endif // _DEBUG
 }
 
-bool Maestro::CheckStorage(const DWORDLONG diskSpaceNeeded)
+bool Maestro::CheckStorage(const unsigned long long diskSpaceNeeded)
 {
 	// Check for enough free disk space on the current disk.
 	int const drive = _getdrive();
@@ -181,7 +182,7 @@ bool Maestro::CheckStorage(const DWORDLONG diskSpaceNeeded)
 	return true;
 }
 
-bool Maestro::CheckMemory(const DWORDLONG physicalRAMNeeded, const	DWORDLONG virtualRAMNeeded) {
+bool Maestro::CheckMemory(const unsigned long long physicalRAMNeeded, const	unsigned long long virtualRAMNeeded) {
 	MEMORYSTATUSEX status;
 	status.dwLength = sizeof(status);
 	GlobalMemoryStatusEx(&status);
@@ -219,11 +220,11 @@ std::string Maestro::ReadCPUArch() {
 		// query the key:
 		RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)&name, &BufSize);
 	}
-	std::cout << "Your processor Architecture: \n" << name << std::endl;
+	std::cout << "Your CPU Architecture: \n" << name << std::endl;
 	return std::string(name);
 }
 
-DWORD Maestro::ReadCPUSpeed() {
+unsigned long Maestro::ReadCPUSpeed() {
 	DWORD BufSize = sizeof(DWORD);
 	DWORD dwMHz = 0;
 	DWORD type = REG_DWORD;

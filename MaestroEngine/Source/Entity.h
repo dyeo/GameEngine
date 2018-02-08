@@ -7,10 +7,13 @@
 
 class Entity : public Component
 {
+// methods
 public:
 
 	Entity();
+	virtual ~Entity() override {};
 
+// members
 protected:
 
 	friend Component;
