@@ -125,11 +125,6 @@ void Maestro::OnDestroy()
 	#endif // _DEBUG
 }
 
-/// <summary>
-/// Checks the storage.
-/// </summary>
-/// <param name="diskSpaceNeeded">The disk space needed in MB.</param>
-/// <returns>returns your input value if the requirement is met</returns>
 bool Maestro::CheckStorage(const DWORDLONG diskSpaceNeeded)
 {
 	// Check for enough free disk space on the current disk.
@@ -148,12 +143,6 @@ bool Maestro::CheckStorage(const DWORDLONG diskSpaceNeeded)
 	return true;
 }
 
-/// <summary>
-/// Checks the memory.
-/// </summary>
-/// <param name="physicalRAMNeeded">The physical ram needed.</param>
-/// <param name="virtualRAMNeeded">The virtual ram needed.</param>
-/// <returns>return two values if the requirements are met; physical memory, and virtual memory.</returns>
 bool Maestro::CheckMemory(const DWORDLONG physicalRAMNeeded, const	DWORDLONG virtualRAMNeeded) {
 	MEMORYSTATUSEX status;
 	status.dwLength = sizeof(status);
@@ -180,10 +169,6 @@ bool Maestro::CheckMemory(const DWORDLONG physicalRAMNeeded, const	DWORDLONG vir
 	return true;
 }
 
-/// <summary>
-/// Reads the cpu arch.
-/// </summary>
-/// <returns>The CPU Architecture as defined in the Registry.</returns>
 std::string Maestro::ReadCPUArch() {
 	DWORD BufSize = 1024;
 	char name[1024];
@@ -200,10 +185,6 @@ std::string Maestro::ReadCPUArch() {
 	return std::string(name);
 }
 
-/// <summary>
-/// Reads the cpu speed.
-/// </summary>
-/// <returns>A calculation to represent your cpu speed in MHz</returns>
 DWORD Maestro::ReadCPUSpeed() {
 	DWORD BufSize = sizeof(DWORD);
 	DWORD dwMHz = 0;
@@ -218,11 +199,6 @@ DWORD Maestro::ReadCPUSpeed() {
 	}
 	return dwMHz;
 }
-
-
-
-
-
 
 const double Maestro::GetHiresTimeSeconds() const
 {

@@ -7,7 +7,6 @@ Component::Component(System *const system, Entity *const entity)
 	: system(system)
 	, entity(entity)
 {
-
 }
 
 void Component::OnCreate()

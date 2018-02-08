@@ -6,7 +6,6 @@
 
 #define _MAESTRO_MAESTRO_H_
 
-
 #include "Updatable.h"
 #include "System.h"
 
@@ -19,7 +18,6 @@
 #include <optional.h>
 #include "windows.h"
 #include "direct.h"
-
 
 class Maestro : public Updatable
 {
@@ -94,11 +92,32 @@ public:
 	double currentTime = 0.0f; 
 	double deltaTime = 0.0f;
 
+	/// <summary>
+	/// Checks the storage.
+	/// </summary>
+	/// <param name="diskSpaceNeeded">The disk space needed in MB.</param>
+	/// <returns>returns your input value if the requirement is met</returns>
 	bool CheckStorage(const DWORDLONG diskSpaceNeeded);
+
+	/// <summary>
+	/// Checks the memory.
+	/// </summary>
+	/// <param name="physicalRAMNeeded">The physical ram needed.</param>
+	/// <param name="virtualRAMNeeded">The virtual ram needed.</param>
+	/// <returns>return two values if the requirements are met; physical memory, and virtual memory.</returns>
 	bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded);
-	DWORD ReadCPUSpeed();
+	
+	/// <summary>
+	/// Reads the cpu arch.
+	/// </summary>
+	/// <returns>The CPU Architecture as defined in the Registry.</returns>
 	std::string ReadCPUArch();
 
+	/// <summary>
+	/// Reads the cpu speed.
+	/// </summary>
+	/// <returns>A calculation to represent your cpu speed in MHz</returns>
+	DWORD ReadCPUSpeed();
 
 private:
 
