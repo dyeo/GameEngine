@@ -31,6 +31,13 @@ public:
 	template <typename C> C * const GetComponent();
 
 	/// <summary>
+	/// Gets the first component of this type from this component's entity.
+	/// </summary>
+	/// <param name="mpInd">The order of the Components of the current type, ranging from 0-n, where 0 is the first created Component and n is the last.</param>
+	/// <returns>A const-pointer to the component if it exists, or nullptr otherwise.</returns>
+	template <typename C> C * const GetComponent(int cmpInd);
+
+	/// <summary>
 	/// Creates a component and assigns it to its respective system to be updated by the engine.
 	/// </summary>
 	/// <returns>A const-pointer to the created component, or nullptr if the component could not be created.</returns>
@@ -71,7 +78,22 @@ template<typename C>
 inline C * const Component::GetComponent()
 {
 	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
-	Component *const component = entity->components.at(std::type_index(typeid(C)));
+	std::type_index componentType = std::type_index(typeid(C));
+
+	auto it = entity->components.find(componentType);
+	Component *const component = (it == entity->components.end()) ? nullptr : it->second;
+	return static_cast <C * const> (component);
+}
+
+template<typename C>
+inline C * const Component::GetComponent(int cmpInd)
+{
+	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+	std::type_index componentType = std::type_index(typeid(C));
+
+	auto bucket = entity->components.equal_range(componentType);
+	auto it = bucket->first + cmpInd;
+	Component *const component = (it >= bucket->second) ? nullptr : it->second;
 	return static_cast <C * const> (component);
 }
 
@@ -79,7 +101,11 @@ template <typename C> inline C * const Component::CreateComponent()
 {
 	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
 	System *const managingSystem = Maestro::GetManagingSystem<C>();
-	Component *const component = managingSystem->OnComponentCreate(entity, std::type_index(typeid(C)));
+	std::type_index componentType = std::type_index(typeid(C));
+
+	Component *const component = managingSystem->OnComponentCreate(entity, componentType);
+	entity->components.insert(std::make_pair(componentType, component));
+	component->OnCreate();
 	return static_cast <C * const> (component);
 }
 
@@ -87,7 +113,20 @@ template <typename C> inline bool Component::DestroyComponent(C *const component
 {
 	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
 	System *const managingSystem = Maestro::GetManagingSystem<C>();
-	return managingSystem->OnComponentDestroy(entity, component);
+	std::type_index componentType = std::type_index(typeid(C));
+	
+	auto iters = entity->components.equal_range(entity->components.find(componentType));
+	for (auto it = iters->first; it != iters->second; it++)
+	{
+		if (component == &(*it))
+		{
+			static_cast<Component *const>(component)->OnDestroy();
+			entity.erase(it);
+			return;
+		}
+	}
+	bool destroyResult = managingSystem->OnComponentDestroy(entity, component);
+	return destroyResult;
 }
 
 #endif // !_MAESTRO_COMPONENT_H_

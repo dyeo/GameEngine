@@ -5,5 +5,5 @@
 Entity::Entity()
 	: Component(Maestro::GetManagingSystem<Entity>(), this)
 {
-	components = std::unordered_map<std::type_index, Component *const>();
+	components = std::multimap<std::type_index, Component *const>();
 }
