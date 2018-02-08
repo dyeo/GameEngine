@@ -41,9 +41,6 @@
     <ClInclude Include="Source\Component.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Composable.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Entity.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>

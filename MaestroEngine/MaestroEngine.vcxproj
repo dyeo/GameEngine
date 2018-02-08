@@ -27,7 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component.h" />
-    <ClInclude Include="Source\Composable.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Maestro.h" />
     <ClInclude Include="Source\System.h" />
