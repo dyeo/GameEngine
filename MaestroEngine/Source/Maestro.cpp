@@ -85,6 +85,7 @@ void Maestro::OnCreate()
 	#ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);
 	#endif // _DEBUG
+		isInitialized = true;
 }
 
 void Maestro::OnStart()
@@ -100,12 +101,12 @@ void Maestro::OnStart()
 
 void Maestro::OnUpdate()
 {
-	if (elapsedTime >= 3.0f)
-	{
-		isRunning = false;
-		window.close();
-		return;
-	}
+	//if (elapsedTime >= 3.0f)
+	//{
+	//	isRunning = false;
+	//	window.close();
+	//	return;
+	//}
 
 	sf::Event event;
 	while (window.pollEvent(event))
@@ -129,7 +130,11 @@ void Maestro::OnUpdate()
 void Maestro::OnRender()
 {
 	window.clear();
-	window.draw(*splashSprite);
+
+	if(elapsedTime <= SPLASH_SCREEN_TIMEOUT || !isInitialized)
+	{
+	window.draw(*splashSprite);	
+	}
 	window.display();
 
 	for (auto it = systems.begin(); it != systems.end(); ++it)

@@ -3,6 +3,7 @@
 #define MINIMUM_SPACE_REQUIRED 300
 #define MINIMUM_PHYSICAL_MEMORY_REQUIRED 1024
 #define MINIMUM_VIRTUAL_MEMORY_REQUIRED 1024
+#define SPLASH_SCREEN_TIMEOUT 2
 
 #define _MAESTRO_MAESTRO_H_
 
@@ -86,6 +87,7 @@ public:
 	// application state
 	bool isStarted = false;
 	bool isRunning = true;
+	bool isInitialized = false;
 	// bool isPaused = false;
 	// bool hasFocus = true;
 
