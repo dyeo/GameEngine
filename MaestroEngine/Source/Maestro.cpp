@@ -165,7 +165,7 @@ bool Maestro::CheckMemory(const DWORDLONG physicalRAMNeeded, const	DWORDLONG vir
 	}
 	else
 	{
-		printf("Sufficient Physical Memory. Physical Memory Available: %i Megaytes available.\n", (status.ullAvailPhys / 1048576));
+		printf("Sufficient Physical Memory. Physical Memory Available: %i MB available.\n", (status.ullAvailPhys / 1048576));
 	}
 	// Check for enough free memory.
 	if ((status.ullAvailVirtual / 1048576) < virtualRAMNeeded) {
@@ -175,7 +175,7 @@ bool Maestro::CheckMemory(const DWORDLONG physicalRAMNeeded, const	DWORDLONG vir
 	}
 	else
 	{
-		printf("Sufficient Virtual Memory. Virtual Memory Available: %u MegaBytes vailable.\n", (status.ullAvailVirtual/ 1048576));
+		printf("Sufficient Virtual Memory. Virtual Memory Available: %u MB vailable.\n", (status.ullAvailVirtual/ 1048576));
 	}
 	return true;
 }
