@@ -21,12 +21,18 @@ public:
 	virtual void OnRender() override;
 	virtual void OnFinish() override;
 	virtual void OnDestroy() override;
-	
+
+	/// <summary>
+	/// Gets the first component of this type from this component's entity.
+	/// </summary>
+	/// <returns>A const-pointer to the component if it exists, or nullptr otherwise.</returns>
+	template <typename C> C * const GetComponent();
+
 	/// <summary>
 	/// Creates a component and assigns it to its respective system to be updated by the engine.
 	/// </summary>
 	/// <returns>A const-pointer to the created component, or nullptr if the component could not be created.</returns>
-	template <typename C> C *const CreateComponent();
+	template <typename C> C * const CreateComponent();
 
 	/// <summary>
 	/// Removes a component from its respective system and destroys it.
@@ -45,7 +51,7 @@ public:
 	/// Removes the entity from the update loop and destroys it.
 	/// </summary>
 	/// <returns>True if the destroy operation was successful, false otherwise.</returns>
-	bool DestroyEntity(Entity *const ent);
+	bool DestroyEntity(Entity * const ent);
 
 protected:
 
@@ -55,11 +61,19 @@ protected:
 private:
 };
 
+template<typename C>
+inline C * const Component::GetComponent()
+{
+	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+	Component *const component = entity->components.at(std::type_index(typeid(C)));
+	return static_cast <C * const> (component);
+}
+
 template <typename C> inline C * const Component::CreateComponent()
 {
 	static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
 	System *const managingSystem = Maestro::GetManagingSystem<C>();
-	Component *const component = managingSystem->OnComponentCreate(entity, std::type_index(typeid (C)));
+	Component *const component = managingSystem->OnComponentCreate(entity, std::type_index(typeid(C)));
 	return static_cast <C * const> (component);
 }
 
