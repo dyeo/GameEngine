@@ -19,8 +19,10 @@
 #define MINIMUM_VIRTUAL_MEMORY_REQUIRED 1024
 
 namespace mae
-{
-
+{	
+	/// <summary>
+	/// The main Engine object. Responsible for interfacing with the operating system, managing systems, providing the update loop, and managing additional update threads.
+	/// </summary>
 	class Engine : public Updatable
 	{
 		// methods

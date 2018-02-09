@@ -7,7 +7,10 @@
 
 namespace mae
 {
-
+	
+	/// <summary>
+	/// The Transform class is the scene graph node responsible for allowing objects to manipulate their children spatially.
+	/// </summary>
 	class Transform : public Component
 	{
 		// methods

@@ -3,7 +3,10 @@
 
 namespace mae
 {
-
+	
+	/// <summary>
+	/// The Updatable interface contract enforces objects that inherit from this interface are capable of being part of the Engine update loop.
+	/// </summary>
 	class Updatable
 	{
 		// methods

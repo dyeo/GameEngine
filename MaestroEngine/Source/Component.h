@@ -11,7 +11,11 @@ namespace mae
 {
 
 	class Entity;
-
+	
+	/// <summary>
+	/// Components are discrete buckets of data and functionality associated with an Entity. 
+	/// Component types are claimed by a System, and the System manages their creation, updating, and destruction.
+	/// </summary>
 	class Component : public Updatable
 	{
 		// methods
@@ -19,12 +23,35 @@ namespace mae
 
 		Component(System *const system, Entity *const entity);
 		virtual ~Component() override {};
-
+		
+		/// <summary>
+		/// Called once when the Component is created, before OnStart or OnUpdate.
+		/// </summary>
 		virtual void OnCreate() override;
+		
+		/// <summary>
+		/// Called once during the update loop for this Component, before the first OnUpdate.
+		/// </summary>
 		virtual void OnStart() override;
+		
+		/// <summary>
+		/// Called during the update loop for this Component, and is called at least once per frame.
+		/// </summary>
 		virtual void OnUpdate() override;
+		
+		/// <summary>
+		/// Called following OnUpdate for this Component, and is called as many times as possible per frame (or once per frame if vsync is enabled).
+		/// </summary>
 		virtual void OnRender() override;
-		virtual void OnFinish() override;
+		
+		/// <summary>
+		/// Called once after the update loop for this Component, before any Component in this object's update loop are destroyed.
+		/// </summary>
+		virtual void OnFinish() override;		
+
+		/// <summary>
+		/// Called after OnFinish for this Component, before the object is destroyed.
+		/// </summary>
 		virtual void OnDestroy() override;
 
 		/// <summary>

@@ -1,6 +1,8 @@
 #ifndef _MAESTRO_MAESTRO_H_
 #define _MAESTRO_MAESTRO_H_
 
+#include "Engine.h"
+
 namespace mae
 {	
 	/// <summary>

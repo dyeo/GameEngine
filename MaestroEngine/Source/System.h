@@ -11,7 +11,11 @@ namespace mae
 	class Engine;
 	class Component;
 	class Entity;
-
+	
+	/// <summary>
+	/// A System to be managed by the Engine. Hooks into the Engine's update loop and manages Components that it claims through communication with the Engine. 
+	/// Systems are responsible for allocating new Components on request, appropriately calling their OnStart and OnFinish methods, updating them according to their purpose, and destroying them on request.
+	/// </summary>
 	class System : public Updatable
 	{
 		// methods
