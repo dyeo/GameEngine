@@ -36,10 +36,10 @@
     <ClCompile Include="Source\Entity.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Maestro.cpp">
+    <ClCompile Include="Source\System.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\System.cpp">
+    <ClCompile Include="Source\Engine.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,9 +50,6 @@
     <ClInclude Include="Source\Entity.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Maestro.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\System.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
@@ -60,6 +57,9 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Updatable.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
