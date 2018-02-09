@@ -3,42 +3,47 @@
 #include "System.h"
 #include "Entity.h"
 
-Component::Component(System *const system, Entity *const entity)
-	: system(system)
-	, entity(entity)
+namespace mae
 {
-}
 
-void Component::OnCreate()
-{
-}
+	Component::Component(System *const system, Entity *const entity)
+		: system(system)
+		, entity(entity)
+	{
+	}
 
-void Component::OnStart()
-{
-}
+	void Component::OnCreate()
+	{
+	}
 
-void Component::OnUpdate()
-{
-}
+	void Component::OnStart()
+	{
+	}
 
-void Component::OnRender()
-{
-}
+	void Component::OnUpdate()
+	{
+	}
 
-void Component::OnFinish()
-{
-}
+	void Component::OnRender()
+	{
+	}
 
-void Component::OnDestroy()
-{
-}
+	void Component::OnFinish()
+	{
+	}
 
-Entity *const Component::CreateEntity()
-{
-	return CreateComponent<Entity>();
-}
+	void Component::OnDestroy()
+	{
+	}
 
-bool Component::DestroyEntity(Entity *const ent)
-{
-	return DestroyComponent<Entity>(ent);
+	Entity *const Component::CreateEntity()
+	{
+		return CreateComponent<Entity>();
+	}
+
+	bool Component::DestroyEntity(Entity *const ent)
+	{
+		return DestroyComponent<Entity>(ent);
+	}
+
 }

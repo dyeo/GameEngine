@@ -5,21 +5,26 @@
 
 #include <unordered_map>
 
-class Entity : public Component
+namespace mae
 {
-// methods
-public:
 
-	Entity();
-	virtual ~Entity() override {};
+	class Entity : public Component
+	{
+		// methods
+	public:
 
-// members
-protected:
+		Entity();
+		virtual ~Entity() override {};
 
-	friend Component;
-	std::multimap<std::type_index, Component *const> components;
+		// members
+	protected:
 
-private:
-};
+		friend Component;
+		std::multimap<std::type_index, Component *const> components;
+
+	private:
+	};
+
+}
 
 #endif // !_MAESTRO_ENTITY_H_

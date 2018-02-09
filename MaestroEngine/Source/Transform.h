@@ -5,88 +5,93 @@
 
 #include <gmtk/gmtk.h>
 
-class Transform : public Component
+namespace mae
 {
-// methods
-public:
 
-	Transform(System * const sys, Entity * const ent);
+	class Transform : public Component
+	{
+		// methods
+	public:
 
-	virtual ~Transform();
+		Transform(System * const sys, Entity * const ent);
 
-	//
+		virtual ~Transform();
 
-	void SetParent(Transform *const parent);
+		//
 
-	Transform *const GetParent() const;
+		void SetParent(Transform *const parent);
 
-	void AddChild(Transform *const child);
+		Transform *const GetParent() const;
 
-	void RemoveChild(size_t index);
+		void AddChild(Transform *const child);
 
-	void RemoveChild(Transform *const child);
+		void RemoveChild(size_t index);
 
-	Transform *const GetChild(size_t index) const;
+		void RemoveChild(Transform *const child);
 
-	bool IsChild(Transform *const child) const;
+		Transform *const GetChild(size_t index) const;
 
-	size_t GetChildren() const { return children.size(); }
+		bool IsChild(Transform *const child) const;
 
-	//
+		size_t GetChildren() const { return children.size(); }
 
-	virtual void OnUpdate() override;
+		//
 
-	//
+		virtual void OnUpdate() override;
 
-	void Translate(gm::vec3 & dsp);
+		//
 
-	const gm::vec3 & GetPosition() const;
+		void Translate(gm::vec3 & dsp);
 
-	void SetPosition(gm::vec3 & pos);
+		const gm::vec3 & GetPosition() const;
 
-	const gm::vec3 & GetLocalPosition() const;
+		void SetPosition(gm::vec3 & pos);
 
-	void SetLocalPosition(gm::vec3 & pos);
+		const gm::vec3 & GetLocalPosition() const;
 
-	//
+		void SetLocalPosition(gm::vec3 & pos);
 
-	void Rotate(gm::quat & rot);
+		//
 
-	const gm::quat & GetRotation() const;
+		void Rotate(gm::quat & rot);
 
-	void SetRotation(gm::quat & rot);
+		const gm::quat & GetRotation() const;
 
-	const gm::quat & GetLocalRotation() const;
+		void SetRotation(gm::quat & rot);
 
-	void SetLocalRotation(gm::quat & rot);
+		const gm::quat & GetLocalRotation() const;
 
-	//
+		void SetLocalRotation(gm::quat & rot);
 
-	void Scale(gm::vec3 & scl);
+		//
 
-	const gm::vec3 & GetScale() const;
+		void Scale(gm::vec3 & scl);
 
-	void SetScale(gm::vec3 & scl);
+		const gm::vec3 & GetScale() const;
 
-	const gm::vec3 & GetLocalScale() const;
+		void SetScale(gm::vec3 & scl);
 
-	void SetLocalScale(gm::vec3 & scl);
+		const gm::vec3 & GetLocalScale() const;
 
-// members
-private:
+		void SetLocalScale(gm::vec3 & scl);
 
-	Transform *parent;
+		// members
+	private:
 
-	std::vector<Transform *> children;
-	
-	gm::vec3 local_position;
-	gm::quat local_rotation;
-	gm::vec3 local_scale;
-	
-	gm::vec3 global_position;
-	gm::quat global_rotation;
-	gm::vec3 global_scale;
+		Transform *parent;
 
-};
+		std::vector<Transform *> children;
+
+		gm::vec3 local_position;
+		gm::quat local_rotation;
+		gm::vec3 local_scale;
+
+		gm::vec3 global_position;
+		gm::quat global_rotation;
+		gm::vec3 global_scale;
+
+	};
+
+}
 
 #endif // !_MAESTRO_TRANSFORM_H_

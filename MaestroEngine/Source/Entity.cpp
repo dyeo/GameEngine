@@ -1,9 +1,14 @@
 #include "Entity.h"
 
-#include "Maestro.h"
+#include "Engine.h"
 
-Entity::Entity()
-	: Component(Maestro::GetManagingSystem<Entity>(), this)
+namespace mae
 {
-	components = std::multimap<std::type_index, Component *const>();
+
+	Entity::Entity()
+		: Component(Engine::GetManagingSystem<Entity>(), this)
+	{
+		components = std::multimap<std::type_index, Component *const>();
+	}
+
 }

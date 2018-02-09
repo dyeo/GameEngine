@@ -1,42 +1,47 @@
 #include "System.h"
-#include "Maestro.h"
+#include "Engine.h"
 #include "Component.h"
 
-System::System(Maestro *const engine)
-	: engine(engine)
+namespace mae
 {
-}
 
-Component * const System::OnComponentCreate(Entity *const srcEnt, std::type_index cmpType)
-{
-	return nullptr;
-}
+	System::System(Engine *const engine)
+		: engine(engine)
+	{
+	}
 
-bool System::OnComponentDestroy(Entity *const srcEnt, Component *const srcCmp)
-{
-	return false;
-}
+	Component * const System::OnComponentCreate(Entity *const srcEnt, std::type_index cmpType)
+	{
+		return nullptr;
+	}
 
-void System::OnCreate()
-{
-}
+	bool System::OnComponentDestroy(Entity *const srcEnt, Component *const srcCmp)
+	{
+		return false;
+	}
 
-void System::OnStart()
-{
-}
+	void System::OnCreate()
+	{
+	}
 
-void System::OnUpdate()
-{
-}
+	void System::OnStart()
+	{
+	}
 
-void System::OnRender()
-{
-}
+	void System::OnUpdate()
+	{
+	}
 
-void System::OnFinish()
-{
-}
+	void System::OnRender()
+	{
+	}
 
-void System::OnDestroy()
-{
+	void System::OnFinish()
+	{
+	}
+
+	void System::OnDestroy()
+	{
+	}
+
 }

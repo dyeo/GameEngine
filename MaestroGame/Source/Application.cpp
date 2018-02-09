@@ -2,6 +2,6 @@
 
 int main(char *argc, char **argv)
 {
-	Maestro m;
+	mae::Engine m;
 	m.Run();
 }
