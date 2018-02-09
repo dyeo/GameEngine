@@ -1,6 +1,5 @@
-
-#ifndef _MAESTRO_MAESTRO_H_
-#define _MAESTRO_MAESTRO_H_
+#ifndef _MAESTRO_ENGINE_H_
+#define _MAESTRO_ENGINE_H_
 
 #include "Updatable.h"
 #include "System.h"
@@ -257,4 +256,4 @@ namespace mae
 
 }
 
-#endif // !_MAESTRO_MAESTRO_H_
+#endif // !_MAESTRO_ENGINE_H_
