@@ -24,6 +24,10 @@ namespace mae
 	{
 	}
 
+	void Component::OnFixedUpdate()
+	{
+	}
+
 	void Component::OnRender()
 	{
 	}

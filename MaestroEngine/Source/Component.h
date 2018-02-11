@@ -40,6 +40,11 @@ namespace mae
 		virtual void OnUpdate() override;
 		
 		/// <summary>
+		/// Called once per physics frame for this Updatadable.
+		/// </summary>
+		virtual void OnFixedUpdate() override;
+
+		/// <summary>
 		/// Called following OnUpdate for this Component, and is called as many times as possible per frame (or once per frame if vsync is enabled).
 		/// </summary>
 		virtual void OnRender() override;

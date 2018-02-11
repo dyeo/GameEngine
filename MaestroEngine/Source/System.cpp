@@ -32,6 +32,10 @@ namespace mae
 	{
 	}
 
+	void System::OnFixedUpdate()
+	{
+	}
+
 	void System::OnRender()
 	{
 	}

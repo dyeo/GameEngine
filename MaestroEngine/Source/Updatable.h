@@ -30,6 +30,11 @@ namespace mae
 		virtual void OnUpdate() = 0;
 
 		/// <summary>
+		/// Called once per physics frame for this Updatadable.
+		/// </summary>
+		virtual void OnFixedUpdate() = 0;
+
+		/// <summary>
 		/// Called following OnUpdate for this Updatable, and is called as many times as possible per frame (or once per frame if vsync is enabled).
 		/// </summary>
 		virtual void OnRender() = 0;

@@ -1,7 +1,6 @@
 #include "Engine.h"
 
 #include <assert.h>
-#include <time.h>
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
@@ -21,13 +20,13 @@ namespace mae
 
 		currentTime = GetHiresTimeSeconds();
 
-		while (isRunning && window.isOpen())
+		while (true)
 		{
 			double newTime = GetHiresTimeSeconds();
 			deltaTime = newTime - currentTime;
 			elapsedTime += deltaTime;
 			currentTime = newTime;
-			printf("%f", deltaTime);
+			accumulator += deltaTime;
 
 			if (!isStarted)
 			{
@@ -37,11 +36,31 @@ namespace mae
 
 			// dan: make this more robust later
 
+			// regular update
 			OnUpdate();
+
+			// fixed update
+			if (accumulator > 0.2)
+			{
+				accumulator = 0.2;
+			}
+			
+			while (accumulator > DELTATIME_FIXED)
+			{
+				OnFixedUpdate();
+				accumulator -= deltaTime;
+			}
+						
+			// render
 			OnRender();
+
+			if (!isRunning || !window.isOpen())
+			{
+				OnFinish();
+				break;
+			}
 		}
 
-		OnFinish();
 		OnDestroy();
 
 		getchar();
@@ -63,6 +82,8 @@ namespace mae
 
 	void Engine::OnCreate()
 	{
+		t0 = std::chrono::high_resolution_clock::now();
+
 		window.create(sf::VideoMode(1920, 1080), "Maestro Test Window");
 		//window.setView(sf::View(sf::Vector2f(1920.f*0.5f, 1080.f*0.5f), sf::Vector2f(1920.f*0.5f, 1080.f*0.5f)));
 
@@ -103,6 +124,13 @@ namespace mae
 
 	void Engine::OnUpdate()
 	{
+		for (auto it = systems.begin(); it != systems.end(); ++it)
+		{
+			it->OnUpdate();
+		}
+#ifdef _DEBUG
+		printf("%s\n", __FUNCSIG__);
+#endif // _DEBUG
 		if (elapsedTime >= 3.0f)
 		{
 			isRunning = false;
@@ -120,9 +148,13 @@ namespace mae
 				return;
 			}
 		}
+	}
+
+	void Engine::OnFixedUpdate()
+	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->OnUpdate();
+			it->OnFixedUpdate();
 		}
 #ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);
@@ -131,9 +163,6 @@ namespace mae
 
 	void Engine::OnRender()
 	{
-		window.clear();
-		window.draw(*splashSprite);
-		window.display();
 
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
@@ -142,6 +171,9 @@ namespace mae
 #ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);
 #endif // _DEBUG
+		window.clear();
+		window.draw(*splashSprite);
+		window.display();
 	}
 
 	void Engine::OnFinish()
@@ -243,7 +275,11 @@ namespace mae
 
 	const double Engine::GetHiresTimeSeconds() const
 	{
-		auto t = clock();
-		return ((double)clock()) / ((double)CLOCKS_PER_SEC);
+		using namespace std::chrono;
+
+		high_resolution_clock::time_point t1 = high_resolution_clock::now();
+
+		duration<double> time_span = duration_cast<duration<double>>(t1 - t0);
+		return time_span.count();
 	}
 }
