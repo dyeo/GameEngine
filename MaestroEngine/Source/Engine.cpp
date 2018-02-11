@@ -10,8 +10,12 @@
 
 namespace mae
 {
-	std::vector<System> Engine::systems = std::vector<System>();
-	std::map<std::type_index, nonstd::optional<std::type_index>> Engine::managers = std::map<std::type_index, nonstd::optional<std::type_index>>();
+	///
+	Engine::Engine()
+		: systems(std::vector<System>())
+		, managers(std::map<std::type_index, nonstd::optional<std::type_index>>())
+	{
+	}
 
 	///
 	void Engine::Run()

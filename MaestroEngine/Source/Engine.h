@@ -32,7 +32,7 @@ namespace mae
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
-		Engine() {};
+		Engine();
 
 		/// <summary>
 		/// Virtual destructor.
@@ -83,26 +83,26 @@ namespace mae
 		/// Adds a system to the engine's update loop.
 		/// </summary>
 		/// <returns>True if the System was successfully added, false otherwise.</returns>
-		template<typename S> static bool AddSystem();
+		template<typename S> bool AddSystem();
 
 		/// <summary>
 		/// Removes a System from the engine's update loop.
 		/// </summary>
 		/// <returns>True if the system was successfully removed, false otherwise.</returns>
-		template<typename S> static bool RemoveSystem();
+		template<typename S> bool RemoveSystem();
 
 		/// <summary>
 		/// Retrieves a System currently in the engine's update loop.
 		/// </summary>
 		/// <returns>The System if it exists, or nullptr otherwise.</returns>
-		template<typename S> static System *const GetSystem();
+		template<typename S> System *const GetSystem();
 
 		/// <summary>
 		/// Retrieves a System currently in the engine's update loop.
 		/// </summary>
 		/// <param name="s">The system's type_index.</param>
 		/// <returns>The System if it exists, or nullptr otherwise.</returns>
-		static System *const GetSystemFromTypeIndex(std::type_index s);
+		System *const GetSystemFromTypeIndex(std::type_index s);
 
 		/// <summary>
 		///	Assigns the component designated in the template argument to a system to be managed. 
@@ -110,13 +110,13 @@ namespace mae
 		/// </summary>
 		/// <param name="system">The managing System if there is one, or nullptr otherwise.</param>
 		/// <returns></returns>
-		template<typename C> static bool SetManagingSystem(System *const system);
+		template<typename C> bool SetManagingSystem(System *const system);
 
 		/// <summary>
 		/// Retrieves the System in charge of managing the Component.
 		/// </summary>
 		/// <returns>A const pointer to the managing System if it exists, or nullptr otherwise.</returns>
-		template<typename C> static System *const GetManagingSystem();
+		template<typename C> System *const GetManagingSystem();
 
 		/// <summary>
 		/// Retrieves a type_index for the given system. This method also checks the validity of the system being indexed.
@@ -172,8 +172,8 @@ namespace mae
 		double accumulator = 0.0;
 		std::chrono::time_point<std::chrono::high_resolution_clock> t0;
 
-		static std::vector<System> systems;
-		static std::map<std::type_index, nonstd::optional<std::type_index>> managers;
+		std::vector<System> systems;
+		std::map<std::type_index, nonstd::optional<std::type_index>> managers;
 
 		sf::RenderWindow window;
 		sf::Sprite *splashSprite;

@@ -6,7 +6,7 @@
 namespace mae
 {	
 	/// <summary>
-	/// Static class responsible for safe and simple user-interface with the engine.
+	/// Static class responsible for safe and simple user interface with the engine.
 	/// </summary>
 	class Maestro
 	{

@@ -133,7 +133,7 @@ namespace mae
 	template <typename C> inline C * const Component::CreateComponent()
 	{
 		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
-		System *const managingSystem = Engine::GetManagingSystem<C>();
+		System *const managingSystem = system->engine->GetManagingSystem<C>();
 		std::type_index componentType = std::type_index(typeid(C));
 
 		Component *const component = managingSystem->OnComponentCreate(entity, componentType);
@@ -145,7 +145,7 @@ namespace mae
 	template <typename C> inline bool Component::DestroyComponent(C *const component)
 	{
 		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
-		System *const managingSystem = Engine::GetManagingSystem<C>();
+		System *const managingSystem = system->engine->GetManagingSystem<C>();
 		std::type_index componentType = std::type_index(typeid(C));
 
 		auto bucket = entity->components.equal_range(componentType);

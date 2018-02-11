@@ -77,7 +77,7 @@ namespace mae
 		virtual void OnDestroy() override;
 
 		// members
-	protected:
+	public:
 
 		Engine *const engine;
 
