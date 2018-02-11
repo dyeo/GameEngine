@@ -4,6 +4,7 @@
 #include "Updatable.h"
 #include "System.h"
 
+#include <chrono>
 #include <vector>
 #include <map>
 #include <utility>
@@ -52,6 +53,11 @@ namespace mae
 		/// Called during the update loop for this Updatable, and is called at least once per frame.
 		/// </summary>
 		virtual void OnUpdate() override;
+		
+		/// <summary>
+		/// Called once per physics frame for this Updatadable.
+		/// </summary>
+		virtual void OnFixedUpdate() override;
 
 		/// <summary>
 		/// Called following OnUpdate for this Updatable, and is called as many times as possible per frame (or once per frame if vsync is enabled).
@@ -155,12 +161,16 @@ namespace mae
 		// bool hasFocus = true;
 
 		// timestepping
+		const double DELTATIME_FIXED = 1.0 / 60.0;
 		const double GetHiresTimeSeconds() const;
-		double elapsedTime = 0.0f;
-		double currentTime = 0.0f;
-		double deltaTime = 0.0f;
+		double elapsedTime = 0.0;
+		double currentTime = 0.0;
+		double deltaTime = 0.0;
 
 	private:
+
+		double accumulator = 0.0;
+		std::chrono::time_point<std::chrono::high_resolution_clock> t0;
 
 		static std::vector<System> systems;
 		static std::map<std::type_index, nonstd::optional<std::type_index>> managers;
