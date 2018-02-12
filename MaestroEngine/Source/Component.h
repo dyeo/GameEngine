@@ -3,6 +3,7 @@
 
 #include "Engine.h"
 
+#include <cstdint>
 #include <typeinfo>
 #include <typeindex>
 #include <type_traits>
@@ -22,7 +23,7 @@ namespace mae
 	public:
 
 		Component(System *const system, Entity *const entity);
-		virtual ~Component() override {};
+		virtual ~Component() override;
 		
 		/// <summary>
 		/// Called once when the Component is created, before OnStart or OnUpdate.
@@ -60,39 +61,39 @@ namespace mae
 		virtual void OnDestroy() override;
 
 		/// <summary>
-		/// Gets the first component of this type from this component's entity.
+		/// Gets the first Component of this type from this Component's Entity.
 		/// </summary>
-		/// <returns>A const-pointer to the component if it exists, or nullptr otherwise.</returns>
+		/// <returns>The Component if it exists, or nullptr otherwise.</returns>
 		template <typename C> C * const GetComponent();
 
 		/// <summary>
-		/// Gets the first component of this type from this component's entity.
+		/// Gets the first Component of this type from this Component's Entity.
 		/// </summary>
 		/// <param name="mpInd">The order of the Components of the current type, ranging from 0-n, where 0 is the first created Component and n is the last.</param>
-		/// <returns>A const-pointer to the component if it exists, or nullptr otherwise.</returns>
+		/// <returns>The Component if it exists, or nullptr otherwise.</returns>
 		template <typename C> C * const GetComponent(int cmpInd);
 
 		/// <summary>
-		/// Creates a component and assigns it to its respective system to be updated by the engine.
+		/// Creates a Component and assigns it to its respective System to be updated by the Engine.
 		/// </summary>
-		/// <returns>A const-pointer to the created component, or nullptr if the component could not be created.</returns>
+		/// <returns>The created Component, or nullptr if the Component could not be created.</returns>
 		template <typename C> C * const CreateComponent();
 
 		/// <summary>
-		/// Removes a component from its respective system and destroys it.
+		/// Removes a Component from its respective Saystem and destroys it.
 		/// </summary>
 		/// <param name="component">The component to be destroyed.</param>
 		/// <returns>True if the destroy operation was successful, false otherwise.</returns>
 		template <typename C> bool DestroyComponent(C *const cmp);
 
 		/// <summary>
-		/// Creates an entity and adds it to the update loop.
+		/// Creates an Entity and adds it to the update loop.
 		/// </summary>
-		/// <returns>The entity that was created.</returns>
+		/// <returns>The Entity that was created.</returns>
 		Entity *const CreateEntity();
 
 		/// <summary>
-		/// Removes the entity from the update loop and destroys it.
+		/// Removes the Entity from the update loop and destroys it.
 		/// </summary>
 		/// <returns>True if the destroy operation was successful, false otherwise.</returns>
 		bool DestroyEntity(Entity * const ent);
@@ -101,17 +102,20 @@ namespace mae
 	public:
 
 		Entity *const entity;
-
-	protected:
-
 		System *const system;
 
 	private:
+
+		friend class ComponentHandle;
+
+		uint32_t uniqueId;
+		uint32_t handleIndex;
+
 	};
 
 	template <typename C> inline C * const Component::GetComponent()
 	{
-		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		std::type_index componentType = std::type_index(typeid(C));
 
 		auto it = entity->components.find(componentType);
@@ -121,7 +125,7 @@ namespace mae
 
 	template <typename C> inline C * const Component::GetComponent(int cmpInd)
 	{
-		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		std::type_index componentType = std::type_index(typeid(C));
 
 		auto bucket = entity->components.equal_range(componentType);
@@ -132,7 +136,7 @@ namespace mae
 
 	template <typename C> inline C * const Component::CreateComponent()
 	{
-		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		System *const managingSystem = system->engine->GetManagingSystem<C>();
 		std::type_index componentType = std::type_index(typeid(C));
 
@@ -144,7 +148,7 @@ namespace mae
 
 	template <typename C> inline bool Component::DestroyComponent(C *const component)
 	{
-		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		System *const managingSystem = system->engine->GetManagingSystem<C>();
 		std::type_index componentType = std::type_index(typeid(C));
 
