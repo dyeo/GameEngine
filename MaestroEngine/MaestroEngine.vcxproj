@@ -28,7 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component.h" />
-    <ClInclude Include="Source\ComponentHandle.hpp" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\Maestro.h" />

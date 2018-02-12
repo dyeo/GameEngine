@@ -1,13 +1,11 @@
 #include "System.h"
-#include "Engine.h"
+
 #include "Component.h"
 
 namespace mae
 {
 
 	System::System(Engine *const engine)
-		: engine(engine)
-		, handles()
 	{
 	}
 
@@ -47,16 +45,6 @@ namespace mae
 
 	void System::OnDestroy()
 	{
-	}
-
-	uint32_t System::GenerateUniqueComponentId()
-	{
-		return ++counter;
-	}
-
-	uint32_t System::GetFreeHandleSlot()
-	{
-		return (std::find(handles.begin(), handles.end(), nullptr) - handles.begin());
 	}
 
 }

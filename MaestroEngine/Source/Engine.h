@@ -96,10 +96,24 @@ namespace mae
 		template<typename S> bool RemoveSystem();
 
 		/// <summary>
+		/// Removes a System from the engine's update loop.
+		/// </summary>
+		/// <param name="sysType">The System type.</param>
+		/// <returns>True if the system was successfully removed, false otherwise.</returns>
+		bool RemoveSystem(std::type_index sysType);
+
+		/// <summary>
 		/// Retrieves a System currently in the engine's update loop.
 		/// </summary>
 		/// <returns>The System if it exists, or nullptr otherwise.</returns>
 		template<typename S> System *const GetSystem();
+
+		/// <summary>
+		/// Retrieves a System currently in the engine's update loop.
+		/// </summary>
+		/// <param name="sysType">The System type.</param>
+		/// <returns>The System if it exists, or nullptr otherwise.</returns>
+		System *const GetSystem(std::type_index sysType);
 
 		/// <summary>
 		/// Retrieves a System currently in the engine's update loop.
@@ -112,15 +126,31 @@ namespace mae
 		///	Assigns the component designated in the template argument to a system to be managed. 
 		/// The system managing this component is responsible for the creation and destruction of the component in memory, as well as updating the component.
 		/// </summary>
-		/// <param name="system">The managing System if there is one, or nullptr otherwise.</param>
-		/// <returns></returns>
+		/// <param name="system">The managing System.</param>
+		/// <returns>True if the managing System was successfully set, or false otherwise.</returns>
 		template<typename C> bool SetManagingSystem(System *const system);
+
+		/// <summary>
+		///	Assigns the component designated in the template argument to a system to be managed. 
+		/// The system managing this component is responsible for the creation and destruction of the component in memory, as well as updating the component.
+		/// </summary>
+		/// <param name="system">The managing System.</param>
+		/// <param name="cmpType">The Component type.</param>
+		/// <returns>True if the managing System was successfully set, or false otherwise.</returns>
+		bool SetManagingSystem(System *const system, std::type_index cmpType);
 
 		/// <summary>
 		/// Retrieves the System in charge of managing the Component.
 		/// </summary>
 		/// <returns>A const pointer to the managing System if it exists, or nullptr otherwise.</returns>
 		template<typename C> System *const GetManagingSystem();
+
+		/// <summary>
+		/// Retrieves the System in charge of managing the Component.
+		/// </summary>
+		/// <param name="cmpType>The Component's type.</param>
+		/// <returns>A const pointer to the managing System if it exists, or nullptr otherwise.</returns>
+		System *const GetManagingSystem(std::type_index cmpType);
 
 		/// <summary>
 		/// Retrieves a type_index for the given system. This method also checks the validity of the system being indexed.
@@ -199,7 +229,7 @@ namespace mae
 		auto sysType = GetSystemIndex<S>();
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			auto st = std::type_index(typeid(*it));
+			std::type_index st(typeid(*it));
 			if (st == sysType)
 			{
 				printf("FATAL ERROR: Cannot add system " + sysType.name + "; system already exists.");
@@ -215,16 +245,7 @@ namespace mae
 	inline bool Engine::RemoveSystem()
 	{
 		auto sysType = GetSystemIndex<S>();
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			auto st = std::type_index(typeid(*it));
-			if (st == sysType)
-			{
-				systems.erase(it--);
-				return true;
-			}
-		}
-		return false;
+		return RemoveSystem(sysType);
 	}
 
 	///
@@ -232,41 +253,23 @@ namespace mae
 	inline System *const Engine::GetSystem()
 	{
 		auto sysType = GetSystemIndex<S>();
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			auto st = std::type_index(typeid(*it));
-			if (st == sysType)
-			{
-				return it._Ptr;
-			}
-		}
-		return nullptr;
+		return GetSystem(sysType);
 	}
 
 	///
 	template<typename C>
-	inline bool Engine::SetManagingSystem(System * const system)
+	inline bool Engine::SetManagingSystem(System *const system)
 	{
 		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
-		auto type = nonstd::make_optional(std::type_index(typeid(system)));
-		if (type == nonstd::nullopt)
-		{
-			return false;
-		}
-		managers[std::type_index(typeid(C))] = type;
-		return true;
+		return SetManagingSystem(system, typeid(C));
 	}
 
 	///
 	template<typename C>
 	inline System * const Engine::GetManagingSystem()
 	{
-		auto type = managers[typeid(C)];
-		if (type == nonstd::nullopt)
-		{
-			return nullptr;
-		}
-		return GetSystemFromTypeIndex(*type);
+		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
+		return GetManagingSystem(typeid(C));
 	}
 
 	///

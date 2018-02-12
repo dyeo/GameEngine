@@ -68,8 +68,5 @@
     <ClInclude Include="Source\Maestro.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ComponentHandle.hpp">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
