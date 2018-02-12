@@ -24,7 +24,7 @@ namespace mae
 	public:
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="System"/> class.
+		/// Initializes a new instance of the System class.
 		/// </summary>
 		/// <param name="engine">The <see cref="Engine"/> engine instance.</param>
 		System(Engine *const engine);
@@ -85,28 +85,14 @@ namespace mae
 		/// </summary>
 		virtual void OnDestroy() override;
 
-		/// <summary>
-		/// Retrieves a unique Component identifier for a Component managed by this System.
-		/// </summary>
-		/// <returns>A unique component identifier.</returns>
-		uint32_t GenerateUniqueComponentId();
-
-		/// <summary>
-		/// Retrieves a free slot from the System's handle table.
-		/// </summary>
-		/// <returns>The slot's index.</returns>
-		uint32_t GetFreeHandleSlot();
-
 		// members
 	public:
 
 		friend class Component;
-		friend class Handle;
 
-		Engine *const engine;
+		//Engine *const engine;
 
 		uint32_t counter = 0;
-		std::vector<Component *> handles;
 
 	private:
 	};

@@ -106,7 +106,7 @@ namespace mae
 			auto st = std::type_index(typeid(*it));
 			if (st == sysType)
 			{
-				return it._Ptr;
+				return &(*it);
 			}
 		}
 		return nullptr;

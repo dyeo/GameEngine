@@ -1,0 +1,9 @@
+diff a/MaestroEngine/MaestroEngine.vcxproj.filters b/MaestroEngine/MaestroEngine.vcxproj.filters	(rejected hunks)
+@@ -71,6 +71,7 @@
+     <ClInclude Include="Source\Maestro.h">
+       <Filter>Header Files\Core</Filter>
+     </ClInclude>
++    <ClInclude Include="Source\Handle.h">
+       <Filter>Header Files\Core</Filter>
+     </ClInclude>
+   </ItemGroup>

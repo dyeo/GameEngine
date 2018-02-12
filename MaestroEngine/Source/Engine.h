@@ -229,7 +229,7 @@ namespace mae
 		auto sysType = GetSystemIndex<S>();
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			auto st = std::type_index(typeid(*it));
+			std::type_index st(typeid(*it));
 			if (st == sysType)
 			{
 				printf("FATAL ERROR: Cannot add system " + sysType.name + "; system already exists.");
@@ -258,7 +258,7 @@ namespace mae
 
 	///
 	template<typename C>
-	inline bool Engine::SetManagingSystem(System * const system)
+	inline bool Engine::SetManagingSystem(System *const system)
 	{
 		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		return SetManagingSystem(system, typeid(C));

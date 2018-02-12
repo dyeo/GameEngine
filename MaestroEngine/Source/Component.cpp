@@ -1,7 +1,10 @@
 #include "Component.h"
 
+#include "Maestro.h"
 #include "System.h"
 #include "Entity.h"
+
+#include <iterator>
 
 namespace mae
 {
@@ -11,21 +14,10 @@ namespace mae
 		, system(system)
 		, entity(entity)
 	{
-		uniqueId = system->GenerateUniqueComponentId();
-		handleIndex = system->GetFreeHandleSlot();
-		if (handleIndex == system->handles.size())
-		{
-			system->handles.push_back(this);
-		}
-		else
-		{
-			system->handles[handleIndex] = this;
-		}
 	}
 
 	Component::~Component()
 	{
-		system->handles[handleIndex] = nullptr;
 	}
 
 	void Component::OnCreate()
@@ -56,43 +48,43 @@ namespace mae
 	{
 	}
 
-	Handle Component::GetComponent(std::type_index cmpType)
+	Component *const Component::GetComponent(std::type_index cmpType)
 	{
 		auto it = entity->components.find(cmpType);
-		Handle component = (it == entity->components.end()) ? nullptr : it->second;
+		Component *const component = (it == entity->components.end()) ? nullptr : it->second;
 
 		return component;
 	}
 
-	Handle Component::GetComponent(int cmpInd, std::type_index cmpType)
+	Component *const Component::GetComponent(int cmpInd, std::type_index cmpType)
 	{
 		auto bucket = entity->components.equal_range(cmpType);
-		auto it = bucket.first + cmpInd;
-		Handle component = (it >= bucket.second) ? nullptr : it->second;
+		auto it = bucket.first;
+		std::advance(it, cmpInd);
+
+		Component *const component = (it != bucket.second) ? nullptr : it->second;
 
 		return component;
 	}
 
-	bool Component::CreateComponent(std::type_index cmpType)
+	Component *const Component::CreateComponent(std::type_index cmpType)
 	{
-		System *const managingSystem = system->engine->GetManagingSystem(cmpType);
-		Entity *const ent = *entity;
-		Handle component = managingSystem->OnComponentCreate(ent, cmpType);
-		entity->components.insert(std::make_pair(cmpType, (*component)));
+		System *const managingSystem = Maestro::GetEngine()->GetManagingSystem(cmpType);
+
+		Component *const component = managingSystem->OnComponentCreate(entity, cmpType);
+		entity->components.insert(std::make_pair(cmpType, component));
 		component->OnCreate();
 		return component;
 	}
 
-	bool Component::DestroyComponent(Handle cmp, std::type_index cmpType)
+	bool Component::DestroyComponent(Component *const component, std::type_index cmpType)
 	{
-		System *const managingSystem = system->engine->GetManagingSystem(cmpType);
-
-		entity->OnUpdate();
-
+		System *const managingSystem = Maestro::GetEngine()->GetManagingSystem(cmpType);
+		
 		auto bucket = entity->components.equal_range(cmpType);
 		for (auto it = bucket.first; it != bucket.second; ++it)
 		{
-			if (component == Handle(it->second))
+			if (component == it->second)
 			{
 				component->OnDestroy();
 				entity->components.erase(it);
@@ -103,12 +95,12 @@ namespace mae
 		return managingSystem->OnComponentDestroy(entity, component);
 	}
 
-	Handle Component::CreateEntity()
+	Entity *const Component::CreateEntity()
 	{
-		return CreateComponent<Entity>();
+		return static_cast<Entity *const>(CreateComponent<Entity>());
 	}
 
-	bool Component::DestroyEntity(Handle ent)
+	bool Component::DestroyEntity(Entity *const ent)
 	{
 		return DestroyComponent<Entity>(ent);
 	}

@@ -1,0 +1,9 @@
+diff a/MaestroEngine/MaestroEngine.vcxproj b/MaestroEngine/MaestroEngine.vcxproj	(rejected hunks)
+@@ -29,6 +29,7 @@
+   </ItemGroup>
+   <ItemGroup>
+     <ClInclude Include="Source\Component.h" />
++    <ClInclude Include="Source\Handle.h" />
+     <ClInclude Include="Source\Entity.h" />
+     <ClInclude Include="Source\Engine.h" />
+     <ClInclude Include="Source\Maestro.h" />
