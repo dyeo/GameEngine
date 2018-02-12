@@ -1,9 +1,16 @@
 #ifndef _MAESTRO_ENGINE_H_
 #define _MAESTRO_ENGINE_H_
 
+// maestro includes
 #include "Updatable.h"
 #include "System.h"
 
+// external includes
+#include <optional.h>
+#include <SFML/Graphics.hpp>
+
+// standard includes
+#include <cstdint>
 #include <chrono>
 #include <vector>
 #include <map>
@@ -11,9 +18,6 @@
 #include <typeinfo>
 #include <typeindex>
 #include <type_traits>
-#include <optional.h>
-
-#include <SFML/Graphics.hpp>
 
 #define MINIMUM_SPACE_REQUIRED 300
 #define MINIMUM_PHYSICAL_MEMORY_REQUIRED 1024
@@ -150,6 +154,12 @@ namespace mae
 		/// </summary>
 		/// <returns>The system CPU speed, in MHz.</returns>
 		unsigned long ReadCPUSpeed();
+		
+		/// <summary>
+		/// Gets the time since the engine was created in seconds, using the highest-resolution clock available to the system.
+		/// </summary>
+		/// <returns>Returns the elapsed time, in seconds.</returns>
+		const double GetHiresTimeSeconds() const;
 
 		// members
 	public:
@@ -162,19 +172,20 @@ namespace mae
 
 		// timestepping
 		const double DELTATIME_FIXED = 1.0 / 60.0;
-		const double GetHiresTimeSeconds() const;
 		double elapsedTime = 0.0;
 		double currentTime = 0.0;
 		double deltaTime = 0.0;
 
 	private:
 
+		friend class Component;
+
 		double accumulator = 0.0;
 		std::chrono::time_point<std::chrono::high_resolution_clock> t0;
 
 		std::vector<System> systems;
 		std::map<std::type_index, nonstd::optional<std::type_index>> managers;
-
+		
 		sf::RenderWindow window;
 		sf::Sprite *splashSprite;
 		sf::Texture *splashTexture;

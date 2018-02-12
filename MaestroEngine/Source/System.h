@@ -3,7 +3,9 @@
 
 #include "Updatable.h"
 
+#include <cstdint>
 #include <typeindex>
+#include <vector>
 
 namespace mae
 {
@@ -33,12 +35,19 @@ namespace mae
 		virtual ~System() override {};
 
 		/// <summary>
-		/// Called when a new <see cref="Component"/> that has been claimed by this <see cref="System"/> (using <see cref="Engine::SetManagingSystem" />) is requested by a Component or <see cref="Entity"/>.
+		/// Called when an object of a Component type that has been claimed by this System (using Engine::SetManagingSystem) is created.
 		/// </summary>
 		/// <param name="srcEnt">The source Entity.</param>
 		/// <param name="cmpType">The Component's type_index.</param>
 		/// <returns>A const pointer to the created Component, stored internally by the System.</returns>
 		virtual Component*const OnComponentCreate(Entity *const srcEnt, std::type_index cmpType);
+		
+		/// <summary>
+		/// Called when an object of a Component type that has been claimed by this System (using Engine::SetManagingSystem) is destroyed.
+		/// </summary>
+		/// <param name="srcEnt">The source Entity.</param>
+		/// <param name="cmpType">The Component's type_index.</param>
+		/// <returns>True if the Component was successfully destroyed, false otherwise.</returns>
 		virtual bool OnComponentDestroy(Entity *const srcEnt, Component *const srcCmp);
 		
 		/// <summary>
@@ -76,10 +85,27 @@ namespace mae
 		/// </summary>
 		virtual void OnDestroy() override;
 
+		/// <summary>
+		/// Retrieves a unique Component identifier for a Component managed by this System.
+		/// </summary>
+		/// <returns>A unique component identifier.</returns>
+		uint32_t GenerateUniqueComponentId();
+
+		/// <summary>
+		/// Retrieves a free slot from the System's handle table.
+		/// </summary>
+		/// <returns>The slot's index.</returns>
+		uint32_t GetFreeHandleSlot();
+
 		// members
 	public:
 
+		friend class Component;
+
 		Engine *const engine;
+
+		uint32_t counter = 0;
+		std::vector<Component *> handles;
 
 	private:
 	};

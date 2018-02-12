@@ -1,9 +1,10 @@
 #include "Engine.h"
 
-#include <assert.h>
-#include <iostream>
-
 #include <SFML/Graphics.hpp>
+
+#include <algorithm>
+#include <cassert>
+#include <iostream>
 
 #include <Windows.h>
 #include <direct.h>
@@ -12,8 +13,8 @@ namespace mae
 {
 	///
 	Engine::Engine()
-		: systems(std::vector<System>())
-		, managers(std::map<std::type_index, nonstd::optional<std::type_index>>())
+		: systems()
+		, managers()
 	{
 	}
 
@@ -48,13 +49,13 @@ namespace mae
 			{
 				accumulator = 0.2;
 			}
-			
+
 			while (accumulator > DELTATIME_FIXED)
 			{
 				OnFixedUpdate();
 				accumulator -= deltaTime;
 			}
-						
+
 			// render
 			OnRender();
 
@@ -220,7 +221,8 @@ namespace mae
 		return true;
 	}
 
-	bool Engine::CheckMemory(const unsigned long long physicalRAMNeeded, const	unsigned long long virtualRAMNeeded) {
+	bool Engine::CheckMemory(const unsigned long long physicalRAMNeeded, const	unsigned long long virtualRAMNeeded)
+	{
 		MEMORYSTATUSEX status;
 		status.dwLength = sizeof(status);
 		GlobalMemoryStatusEx(&status);
@@ -234,7 +236,8 @@ namespace mae
 			printf("Sufficient Physical Memory. Physical Memory Available: %i MB available.\n", (status.ullAvailPhys / 1048576));
 		}
 		// Check for enough free memory.
-		if ((status.ullAvailVirtual / 1048576) < virtualRAMNeeded) {
+		if ((status.ullAvailVirtual / 1048576) < virtualRAMNeeded)
+		{
 			printf("CheckMemory Failure : Not enough virtual memory.");
 			isRunning = false;
 			return false;
@@ -246,7 +249,8 @@ namespace mae
 		return true;
 	}
 
-	std::string Engine::ReadCPUArch() {
+	std::string Engine::ReadCPUArch()
+	{
 		DWORD BufSize = 1024;
 		char name[1024];
 		std::string dwMHz;
@@ -262,7 +266,8 @@ namespace mae
 		return std::string(name);
 	}
 
-	unsigned long Engine::ReadCPUSpeed() {
+	unsigned long Engine::ReadCPUSpeed()
+	{
 		DWORD BufSize = sizeof(DWORD);
 		DWORD dwMHz = 0;
 		DWORD type = REG_DWORD;

@@ -10,6 +10,21 @@ namespace mae
 		: system(system)
 		, entity(entity)
 	{
+		uniqueId = system->GenerateUniqueComponentId();
+		handleIndex = system->GetFreeHandleSlot();
+		if (handleIndex == system->handles.size())
+		{
+			system->handles.push_back(this);
+		}
+		else
+		{
+			system->handles[handleIndex] = this;
+		}
+	}
+
+	Component::~Component()
+	{
+		system->handles[handleIndex] = nullptr;
 	}
 
 	void Component::OnCreate()
