@@ -106,6 +106,8 @@ namespace mae
 
 	private:
 
+		friend class ComponentHandle;
+
 		uint32_t uniqueId;
 		uint32_t handleIndex;
 
@@ -113,7 +115,7 @@ namespace mae
 
 	template <typename C> inline C * const Component::GetComponent()
 	{
-		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		std::type_index componentType = std::type_index(typeid(C));
 
 		auto it = entity->components.find(componentType);
@@ -123,7 +125,7 @@ namespace mae
 
 	template <typename C> inline C * const Component::GetComponent(int cmpInd)
 	{
-		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		std::type_index componentType = std::type_index(typeid(C));
 
 		auto bucket = entity->components.equal_range(componentType);
@@ -134,7 +136,7 @@ namespace mae
 
 	template <typename C> inline C * const Component::CreateComponent()
 	{
-		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		System *const managingSystem = system->engine->GetManagingSystem<C>();
 		std::type_index componentType = std::type_index(typeid(C));
 
@@ -146,7 +148,7 @@ namespace mae
 
 	template <typename C> inline bool Component::DestroyComponent(C *const component)
 	{
-		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		System *const managingSystem = system->engine->GetManagingSystem<C>();
 		std::type_index componentType = std::type_index(typeid(C));
 

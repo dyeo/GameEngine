@@ -1,7 +1,11 @@
 #include "Maestro.h"
 
+#include "Engine.h"
+
 int main(char *argc, char **argv)
 {
-	mae::Engine m;
-	m.Run();
+	using namespace mae;
+	Maestro::Initialize();
+	Maestro::GetEngine()->Run();
+	Maestro::Destroy();
 }

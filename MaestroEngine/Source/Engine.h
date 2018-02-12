@@ -247,7 +247,7 @@ namespace mae
 	template<typename C>
 	inline bool Engine::SetManagingSystem(System * const system)
 	{
-		static_assert(std::is_base_of<Component, C>::value, "C does not inherit Component.");
+		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		auto type = nonstd::make_optional(std::type_index(typeid(system)));
 		if (type == nonstd::nullopt)
 		{
@@ -273,7 +273,7 @@ namespace mae
 	template<typename S>
 	inline std::type_index Engine::GetSystemIndex()
 	{
-		static_assert(std::is_base_of<System, S>::value, "S does not inherit System.");
+		static_assert(std::is_base_of<System, S>::value, "Generic S does not inherit System.");
 		return std::type_index(typeid(S));
 	}
 

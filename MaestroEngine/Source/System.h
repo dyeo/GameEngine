@@ -101,6 +101,7 @@ namespace mae
 	public:
 
 		friend class Component;
+		friend class ComponentHandle;
 
 		Engine *const engine;
 
