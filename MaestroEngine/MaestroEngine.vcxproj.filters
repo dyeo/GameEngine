@@ -45,6 +45,9 @@
     <ClCompile Include="Source\Maestro.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Handle.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component.h">
@@ -68,7 +71,7 @@
     <ClInclude Include="Source\Maestro.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ComponentHandle.hpp">
+    <ClInclude Include="Source\Handle.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>

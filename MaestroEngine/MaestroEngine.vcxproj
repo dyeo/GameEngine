@@ -22,13 +22,14 @@
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
+    <ClCompile Include="Source\Handle.cpp" />
     <ClCompile Include="Source\Maestro.cpp" />
     <ClCompile Include="Source\System.cpp" />
     <ClCompile Include="Source\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component.h" />
-    <ClInclude Include="Source\ComponentHandle.hpp" />
+    <ClInclude Include="Source\Handle.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\Maestro.h" />

@@ -71,6 +71,33 @@ namespace mae
 		getchar();
 	}
 
+	bool Engine::RemoveSystem(std::type_index sysType)
+	{
+		for (auto it = systems.begin(); it != systems.end(); ++it)
+		{
+			auto st = std::type_index(typeid(*it));
+			if (st == sysType)
+			{
+				systems.erase(it--);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	System * const Engine::GetSystem(std::type_index sysType)
+	{
+		for (auto it = systems.begin(); it != systems.end(); ++it)
+		{
+			auto st = std::type_index(typeid(*it));
+			if (st == sysType)
+			{
+				return it._Ptr;
+			}
+		}
+		return nullptr;
+	}
+
 	///
 	System * const Engine::GetSystemFromTypeIndex(std::type_index sysType)
 	{
@@ -201,6 +228,27 @@ namespace mae
 #ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);
 #endif // _DEBUG
+	}
+
+	System * const Engine::GetManagingSystem(std::type_index cmpType)
+	{
+		auto type = managers[cmpType];
+		if (type == nonstd::nullopt)
+		{
+			return nullptr;
+		}
+		return GetSystemFromTypeIndex(*type);
+	}
+
+	bool Engine::SetManagingSystem(System * const system, std::type_index cmpType)
+	{
+		auto type = nonstd::make_optional(std::type_index(typeid(system)));
+		if (type == nonstd::nullopt)
+		{
+			return false;
+		}
+		managers[cmpType] = type;
+		return true;
 	}
 
 	bool Engine::CheckStorage(const unsigned long long diskSpaceNeeded)

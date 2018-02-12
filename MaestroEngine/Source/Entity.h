@@ -7,12 +7,13 @@
 
 namespace mae
 {
-	
+
 	/// <summary>
 	/// A static Component that contains other components, and is the smallest object representable in a game Scene.
 	/// </summary>
 	class Entity : public Component
 	{
+
 		// methods
 	public:
 
@@ -20,6 +21,10 @@ namespace mae
 		virtual ~Entity() override {};
 
 		// members
+	public:
+
+		const std::type_index Type;
+
 	protected:
 
 		friend Component;
