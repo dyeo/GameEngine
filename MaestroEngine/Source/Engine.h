@@ -1,9 +1,12 @@
 #ifndef _MAESTRO_ENGINE_H_
 #define _MAESTRO_ENGINE_H_
 
-// maestro includes
+// maestro core includes
 #include "Updatable.h"
 #include "System.h"
+
+// maestro container includes
+#include "ObjectFactory.h"
 
 // external includes
 #include <optional.h>
@@ -193,6 +196,11 @@ namespace mae
 
 		// members
 	public:
+
+		friend class EntityHandle;
+		friend class ObjectFactory;
+
+		ObjectFactory objectFactory;
 
 		// application state
 		bool isStarted = false;

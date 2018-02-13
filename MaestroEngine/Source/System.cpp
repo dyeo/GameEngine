@@ -2,6 +2,8 @@
 
 #include "Component.h"
 
+#include <type_traits>
+
 namespace mae
 {
 
@@ -9,12 +11,12 @@ namespace mae
 	{
 	}
 
-	Component * const System::OnComponentCreate(Entity *const srcEnt, std::type_index cmpType)
+	Component * const System::OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType)
 	{
 		return nullptr;
 	}
 
-	bool System::OnComponentDestroy(Entity *const srcEnt, Component *const srcCmp)
+	bool System::OnComponentDestroy(EntityHandle srcEnt, Component *const srcCmp)
 	{
 		return false;
 	}

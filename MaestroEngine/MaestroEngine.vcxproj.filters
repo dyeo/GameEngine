@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Systems">
       <UniqueIdentifier>{7c0786a2-d60f-4a97-8e83-3005f845c90b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Containers">
+      <UniqueIdentifier>{1ca856a1-b386-42f2-afb6-81659f7e543b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Containers">
+      <UniqueIdentifier>{b93a7e4b-9de4-431f-9fdc-4032c5db9a19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Transform.cpp">
@@ -44,6 +50,12 @@
     </ClCompile>
     <ClCompile Include="Source\Maestro.cpp">
       <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectFactory.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EntityHandle.cpp">
+      <Filter>Source Files\Containers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="Source\Maestro.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectFactory.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EntityHandle.h">
+      <Filter>Header Files\Containers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

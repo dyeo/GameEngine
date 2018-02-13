@@ -9,9 +9,8 @@
 namespace mae
 {
 
-	Component::Component(System *const system, Entity *const entity)
-		: Type(typeid(*this))
-		, system(system)
+	Component::Component(System *const system, EntityHandle entity)
+		: system(system)
 		, entity(entity)
 	{
 	}
@@ -21,7 +20,7 @@ namespace mae
 	}
 
 	void Component::OnCreate()
-	{
+	{		
 	}
 
 	void Component::OnStart()
@@ -97,12 +96,12 @@ namespace mae
 
 	Entity *const Component::CreateEntity()
 	{
-		return static_cast<Entity *const>(CreateComponent<Entity>());
+		return nullptr;
 	}
 
 	bool Component::DestroyEntity(Entity *const ent)
 	{
-		return DestroyComponent<Entity>(ent);
+		return false;
 	}
 
 

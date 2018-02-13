@@ -2,15 +2,19 @@
 
 #include "Maestro.h"
 #include "Engine.h"
+#include "Component.h"
 
 namespace mae
 {
 
 	Entity::Entity()
-		: Type(typeid(Entity))
-		, Component(Maestro::GetEngine()->GetManagingSystem<Entity>(), this)
+		: components()
 	{
-		components = std::multimap<std::type_index, Component *const>();
+	}
+
+	bool Entity::operator==(const Entity & other)
+	{
+		return handleUid == other.handleUid;
 	}
 
 }

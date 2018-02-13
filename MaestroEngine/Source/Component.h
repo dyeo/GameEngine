@@ -3,6 +3,8 @@
 
 #include "Engine.h"
 
+#include "EntityHandle.h"
+
 #include <cstdint>
 #include <typeinfo>
 #include <typeindex>
@@ -21,7 +23,7 @@ namespace mae
 		// methods
 	public:
 
-		Component(System *const system, Entity *const entity);
+		Component(System *const system, EntityHandle entity);
 		virtual ~Component() override;
 		
 		/// <summary>
@@ -104,8 +106,7 @@ namespace mae
 		// members
 	public:
 
-		const std::type_index Type;
-		Entity *const entity;
+		EntityHandle entity;
 		System *const system;
 
 	private:
