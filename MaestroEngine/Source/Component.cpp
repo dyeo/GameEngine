@@ -94,14 +94,14 @@ namespace mae
 		return managingSystem->OnComponentDestroy(entity, component);
 	}
 
-	Entity *const Component::CreateEntity()
+	EntityHandle Component::CreateEntity()
 	{
-		return nullptr;
+		return Maestro::GetEngine()->objectFactory.CreateEntity();
 	}
 
-	bool Component::DestroyEntity(Entity *const ent)
+	bool Component::DestroyEntity(EntityHandle ent)
 	{
-		return false;
+		return Maestro::GetEngine()->objectFactory.DestroyEntity(ent);
 	}
 
 

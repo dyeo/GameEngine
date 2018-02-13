@@ -95,13 +95,13 @@ namespace mae
 		/// Creates an Entity and adds it to the update loop.
 		/// </summary>
 		/// <returns>The Entity that was created.</returns>
-		Entity *const CreateEntity();
+		EntityHandle CreateEntity();
 
 		/// <summary>
 		/// Removes the Entity from the update loop and destroys it.
 		/// </summary>
 		/// <returns>True if the destroy operation was successful, false otherwise.</returns>
-		bool DestroyEntity(Entity *const ent);
+		bool DestroyEntity(EntityHandle ent);
 		
 		// members
 	public:
