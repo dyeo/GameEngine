@@ -16,12 +16,16 @@ namespace mae
 		// methods
 	public:
 
-		Entity();
-
 		bool operator==(const Entity &other);
+		
+	private:
+
+		Entity();
 		
 		// members
 	public:
+
+		const char *name = "New Entity";
 
 		friend Component;
 		friend class EntityHandle;
@@ -33,8 +37,6 @@ namespace mae
 		uint32_t handleUid;
 
 	private:
-
-
 	};
 
 }

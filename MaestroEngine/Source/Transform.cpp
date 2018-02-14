@@ -1,5 +1,7 @@
 #include "Transform.h"
 
+#include "Entity.h"
+
 namespace mae
 {
 
@@ -73,11 +75,19 @@ namespace mae
 
 	void Transform::OnUpdate()
 	{
+		if (__fst)
+		{
+			__fst = false;
+			auto ent = CreateEntity();
+			printf("Entity %u created with %u components.", entity->handleUid, ent->components.size());
+			DestroyEntity(ent);
+		}
 		for (auto ch = children.begin(); ch != children.end(); ++ch)
 		{
 			(*ch)->global_position = global_position + local_position;
 			(*ch)->global_scale = global_scale + local_scale;
 			(*ch)->global_rotation = local_rotation * global_rotation; // dan: doing it backwards, may cause rotation transformation errors (i forget how i implemented my gm::quat mult)
+			(*ch)->OnUpdate();
 		}
 	}
 

@@ -25,6 +25,7 @@
     <ClCompile Include="Source\EntityHandle.cpp" />
     <ClCompile Include="Source\Maestro.cpp" />
     <ClCompile Include="Source\ObjectFactory.cpp" />
+    <ClCompile Include="Source\SceneGraph.cpp" />
     <ClCompile Include="Source\System.cpp" />
     <ClCompile Include="Source\Transform.cpp" />
   </ItemGroup>
@@ -35,6 +36,7 @@
     <ClInclude Include="Source\EntityHandle.h" />
     <ClInclude Include="Source\Maestro.h" />
     <ClInclude Include="Source\ObjectFactory.h" />
+    <ClInclude Include="Source\SceneGraph.h" />
     <ClInclude Include="Source\System.h" />
     <ClInclude Include="Source\Transform.h" />
     <ClInclude Include="Source\Updatable.h" />

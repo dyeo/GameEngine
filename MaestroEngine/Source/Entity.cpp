@@ -12,7 +12,7 @@ namespace mae
 	{
 	}
 
-	bool Entity::operator==(const Entity & other)
+	bool Entity::operator==(const Entity &other)
 	{
 		return handleUid == other.handleUid;
 	}

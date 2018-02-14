@@ -104,6 +104,4 @@ namespace mae
 		return Maestro::GetEngine()->objectFactory.DestroyEntity(ent);
 	}
 
-
-
 }

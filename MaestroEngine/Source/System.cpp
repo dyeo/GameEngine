@@ -10,17 +10,7 @@ namespace mae
 	System::System(Engine *const engine)
 	{
 	}
-
-	Component * const System::OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType)
-	{
-		return nullptr;
-	}
-
-	bool System::OnComponentDestroy(EntityHandle srcEnt, Component *const srcCmp)
-	{
-		return false;
-	}
-
+	
 	void System::OnCreate()
 	{
 	}

@@ -34,7 +34,6 @@ namespace mae
 	private:
 
 		static uint32_t counter;
-
 	};
 
 }
