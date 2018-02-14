@@ -66,7 +66,7 @@ namespace mae
 		return component;
 	}
 
-	Component *const Component::CreateComponent(std::type_index cmpType)
+	Component *const Component::AddComponent(std::type_index cmpType)
 	{
 		System *const managingSystem = Maestro::GetEngine()->GetManagingSystem(cmpType);
 
@@ -76,7 +76,7 @@ namespace mae
 		return component;
 	}
 
-	bool Component::DestroyComponent(Component *const component, std::type_index cmpType)
+	bool Component::RemoveComponent(Component *const component, std::type_index cmpType)
 	{
 		System *const managingSystem = Maestro::GetEngine()->GetManagingSystem(cmpType);
 		

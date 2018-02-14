@@ -80,16 +80,16 @@ namespace mae
 		/// Creates a Component and assigns it to its respective System to be updated by the Engine.
 		/// </summary>
 		/// <returns>The created Component, or nullptr if the Component could not be created.</returns>
-		template <typename C> Component *const CreateComponent();
-		Component *const CreateComponent(std::type_index cmpType);
+		template <typename C> Component *const AddComponent();
+		Component *const AddComponent(std::type_index cmpType);
 
 		/// <summary>
 		/// Removes a Component from its respective Saystem and destroys it.
 		/// </summary>
 		/// <param name="component">The component to be destroyed.</param>
 		/// <returns>True if the destroy operation was successful, false otherwise.</returns>
-		template <typename C> bool DestroyComponent(Component *const cmp);
-		bool DestroyComponent(Component *const cmp, std::type_index cmpType);
+		template <typename C> bool RemoveComponent(Component *const cmp);
+		bool RemoveComponent(Component *const cmp, std::type_index cmpType);
 
 		/// <summary>
 		/// Creates an Entity and adds it to the update loop.
@@ -132,20 +132,20 @@ namespace mae
 		return GetComponent(cmpInd, cmpType);
 	}
 
-	template <typename C> inline Component *const Component::CreateComponent()
+	template <typename C> inline Component *const Component::AddComponent()
 	{
 		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		std::type_index cmpType = std::type_index(typeid(C));
 
-		return CreateComponent(cmpType);
+		return AddComponent(cmpType);
 	}
 
-	template <typename C> inline bool Component::DestroyComponent(Component *const component)
+	template <typename C> inline bool Component::RemoveComponent(Component *const component)
 	{
 		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		std::type_index cmpType = std::type_index(typeid(C));
 
-		return DestroyComponent(component, cmpType);
+		return RemoveComponent(component, cmpType);
 	}
 
 }
