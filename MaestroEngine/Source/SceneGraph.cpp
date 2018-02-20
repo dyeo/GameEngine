@@ -31,10 +31,13 @@ namespace mae
 
 	void SceneGraph::OnUpdate()
 	{
-		for (Transform *t : roots)
+		for (auto it = roots.begin(); it != roots.end(); ++it)
 		{
-			printf(t->entity->name);
-			t->OnUpdate();
+			if ((*it)->GetParent() != nullptr)
+			{
+				roots.erase(it);
+			}
+			(*it)->OnUpdate();
 		}
 	}
 
