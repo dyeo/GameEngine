@@ -8,6 +8,8 @@
 
 #include <Windows.h>
 #include <direct.h>
+#include "Logging.h"
+#include "Logging.h"
 
 namespace mae
 {
@@ -183,7 +185,7 @@ namespace mae
 		{
 			it->second->OnFixedUpdate();
 		}
-		LOG_ERROR(__FUNCTION__);
+		LOG_MESSAGE(__FUNCTION__);
 	}
 
 	void Engine::OnRender()
@@ -248,11 +250,11 @@ namespace mae
 			(diskfree.sectors_per_cluster*diskfree.bytes_per_sector);
 		if (diskfree.avail_clusters < neededClusters) {
 			// if you get here you dont have enough disk space!
-			printf("CheckStorage Failure : Not enough physical storage.");
+			LOG_ERROR("CheckStorage Failure : Not enough physical storage.");
 			isRunning = false;
 			return false;
 		}
-		printf("Sufficient disk space. Only %i MB needed.\n", diskSpaceNeeded);
+		LOG_MESSAGE("Sufficient disk space. Only %i MB needed.\n", diskSpaceNeeded);
 		return true;
 	}
 
@@ -262,24 +264,24 @@ namespace mae
 		status.dwLength = sizeof(status);
 		GlobalMemoryStatusEx(&status);
 		if ((status.ullTotalPhys / 1048576) < physicalRAMNeeded) {
-			printf("CheckMemory Failure : Not enough physical memory.");
+			LOG_ERROR("CheckMemory Failure : Not enough physical memory.");
 			isRunning = false;
 			return false;
 		}
 		else
 		{
-			printf("Sufficient Physical Memory. Physical Memory Available: %i MB available.\n", (status.ullAvailPhys / 1048576));
+			LOG_MESSAGE("Sufficient Physical Memory. Physical Memory Available: %i MB available.\n", (status.ullAvailPhys / 1048576));
 		}
 		// Check for enough free memory.
 		if ((status.ullAvailVirtual / 1048576) < virtualRAMNeeded)
 		{
-			printf("CheckMemory Failure : Not enough virtual memory.");
+			LOG_ERROR("CheckMemory Failure : Not enough virtual memory.");
 			isRunning = false;
 			return false;
 		}
 		else
 		{
-			printf("Sufficient Virtual Memory. Virtual Memory Available: %u MB vailable.\n", (status.ullAvailVirtual / 1048576));
+			LOG_MESSAGE("Sufficient Virtual Memory. Virtual Memory Available: %u MB vailable.\n", (status.ullAvailVirtual / 1048576));
 		}
 		return true;
 	}
@@ -297,7 +299,8 @@ namespace mae
 			// query the key:
 			RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)&name, &BufSize);
 		}
-		std::cout << "Your CPU Architecture: \n" << name << std::endl;
+		//std::cout << "Your CPU Architecture: \n" << name << std::endl;
+		LOG_MESSAGE("Your CPU Architecture: %c \n", name);
 		return std::string(name);
 	}
 
@@ -312,7 +315,7 @@ namespace mae
 		if (lError == ERROR_SUCCESS) {
 			// query the key:
 			RegQueryValueEx(hKey, "~MHz", NULL, &type, (LPBYTE)&dwMHz, &BufSize);
-			printf("CPU Speed is ~%f GHz.\n", ((float)dwMHz * 0.001f));
+			LOG_MESSAGE("CPU Speed is ~%f GHz.\n", ((float)dwMHz * 0.001f));
 		}
 		return dwMHz;
 	}

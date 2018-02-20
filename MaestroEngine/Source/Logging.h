@@ -3,23 +3,27 @@
 
 #ifdef _WIN32
 
-#define FOREGROUND_WHITE 0x7
-#define FOREGROUND_YELLOW 0x6
 
 #define _IMPL_LOG_MESSAGE(msg) \
 	{ \
-		printf("[DEBUG] %s\n", msg); \
+		SET_COLOR(7); printf("[DEBUG] %s\n", msg);  \
 	}
 
 #define _IMPL_LOG_WARNING(msg) \
 	{ \
-		printf("[WARNING] %s\n", msg); \
+		SET_COLOR(14); printf("[WARNING] %s\n", msg); \
 	}
 
 #define _IMPL_LOG_ERROR(msg) \
 	{ \
-		printf("[ERROR] %s\n", msg); \
+		SET_COLOR(12); printf("[ERROR] %s\n", msg); \
 	}
+
+#define _IMPL_SET_COLOR(color) \
+{ \
+HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE); \
+SetConsoleTextAttribute(hcon, color);\
+}
 
 #elif __APPLE__
 
@@ -65,9 +69,11 @@
 
 #define LOG_MESSAGE(msg) _IMPL_LOG_MESSAGE(msg)
 
-#define LOG_WARNING(msg) _IMPL_LOG_MESSAGE(msg)
+#define LOG_WARNING(msg) _IMPL_LOG_WARNING(msg)
 
-#define LOG_ERROR(msg) _IMPL_LOG_MESSAGE(msg)
+#define LOG_ERROR(msg) _IMPL_LOG_ERROR(msg)
+
+#define SET_COLOR(color) _IMPL_SET_COLOR(color) // format is bg;fg. 7 = black; default 10 = black;green, 11 = black;cyan 12 = black;red 13 = black;magenta 14 = black;yellow 15 = black;white
 
 #else
 
@@ -76,6 +82,8 @@
 #define LOG_WARNING(msg) ((void)0)
 
 #define LOG_ERROR(msg) ((void)0)
+
+#define SET_Color(color) ((void)0)
 
 #endif
 
