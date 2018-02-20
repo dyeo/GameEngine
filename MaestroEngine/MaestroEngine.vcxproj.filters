@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Containers">
       <UniqueIdentifier>{b93a7e4b-9de4-431f-9fdc-4032c5db9a19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{c1139887-ac6b-444f-b7bc-2d472c20d8ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Transform.cpp">
@@ -57,6 +60,9 @@
     <ClCompile Include="Source\EntityHandle.cpp">
       <Filter>Source Files\Containers</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SceneGraph.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component.h">
@@ -71,9 +77,6 @@
     <ClInclude Include="Source\Transform.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Updatable.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
@@ -85,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="Source\EntityHandle.h">
       <Filter>Header Files\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneGraph.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Updatable.h">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -75,9 +75,11 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			auto st = std::type_index(typeid(*it));
+			auto st = std::type_index(typeid(*it->second));
 			if (st == sysType)
 			{
+				it->second->OnDestroy();
+				delete it->second;
 				systems.erase(it--);
 				return true;
 			}
@@ -89,24 +91,24 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			auto st = std::type_index(typeid(*it));
+			auto st = std::type_index(typeid(*it->second));
 			if (st == sysType)
 			{
-				return it._Ptr;
+				return it->second;
 			}
 		}
 		return nullptr;
 	}
 
 	///
-	System * const Engine::GetSystemFromTypeIndex(std::type_index sysType)
+	System *const Engine::GetSystemFromTypeIndex(std::type_index sysType)
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			auto st = std::type_index(typeid(*it));
+			auto st = std::type_index(typeid(*it->second));
 			if (st == sysType)
 			{
-				return &(*it);
+				return it->second;
 			}
 		}
 		return nullptr;
@@ -136,7 +138,7 @@ namespace mae
 
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->OnCreate();
+			it->second->OnCreate();
 		}
 #ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);
@@ -147,7 +149,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->OnStart();
+			it->second->OnStart();
 		}
 #ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);
@@ -158,7 +160,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->OnUpdate();
+			it->second->OnUpdate();
 		}
 #ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);
@@ -186,7 +188,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->OnFixedUpdate();
+			it->second->OnFixedUpdate();
 		}
 #ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);
@@ -198,7 +200,7 @@ namespace mae
 
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->OnRender();
+			it->second->OnRender();
 		}
 #ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);
@@ -212,7 +214,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->OnFinish();
+			it->second->OnFinish();
 		}
 #ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);
@@ -223,7 +225,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->OnDestroy();
+			it->second->OnDestroy();
 		}
 #ifdef _DEBUG
 		printf("%s\n", __FUNCSIG__);

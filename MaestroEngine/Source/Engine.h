@@ -18,9 +18,9 @@
 #include <vector>
 #include <map>
 #include <utility>
+#include <type_traits>
 #include <typeinfo>
 #include <typeindex>
-#include <type_traits>
 
 #define MINIMUM_SPACE_REQUIRED 300
 #define MINIMUM_PHYSICAL_MEMORY_REQUIRED 1024
@@ -221,7 +221,7 @@ namespace mae
 		double accumulator = 0.0;
 		std::chrono::time_point<std::chrono::high_resolution_clock> t0;
 
-		std::vector<System> systems;
+		std::vector<std::pair<std::type_index, System*>> systems;
 		std::map<std::type_index, nonstd::optional<std::type_index>> managers;
 		
 		sf::RenderWindow window;
@@ -240,11 +240,13 @@ namespace mae
 			std::type_index st(typeid(*it));
 			if (st == sysType)
 			{
-				printf("FATAL ERROR: Cannot add system " + sysType.name + "; system already exists.");
+				printf("FATAL ERROR: Cannot add system; system already exists.");
 				return false;
 			}
 		}
-		systems.push_back(std::make_pair(sysType, S(this)));
+		System *system = new S(this);
+		auto p = std::make_pair(sysType, system);
+		systems.push_back(p);
 		return true;
 	}
 

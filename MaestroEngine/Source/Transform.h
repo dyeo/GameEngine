@@ -81,6 +81,8 @@ namespace mae
 		// members
 	private:
 
+		friend class SceneGraph;
+
 		Transform *parent;
 
 		std::vector<Transform *> children;

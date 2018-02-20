@@ -41,7 +41,7 @@ namespace mae
 		/// <param name="srcEnt">The source Entity.</param>
 		/// <param name="cmpType">The Component's type_index.</param>
 		/// <returns>A const pointer to the created Component, stored internally by the System.</returns>
-		virtual Component*const OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType);
+		virtual Component*const OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType) = 0;
 		
 		/// <summary>
 		/// Called when an object of a Component type that has been claimed by this System (using Engine::SetManagingSystem) is destroyed.
@@ -49,7 +49,7 @@ namespace mae
 		/// <param name="srcEnt">The source Entity.</param>
 		/// <param name="cmpType">The Component's type_index.</param>
 		/// <returns>True if the Component was successfully destroyed, false otherwise.</returns>
-		virtual bool OnComponentDestroy(EntityHandle srcEnt, Component *const srcCmp);
+		virtual bool OnComponentDestroy(EntityHandle srcEnt, Component *const srcCmp) = 0;
 		
 		/// <summary>
 		/// Called once when the Updatable is created, before OnStart or OnUpdate.

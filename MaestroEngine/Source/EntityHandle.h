@@ -25,6 +25,8 @@ namespace mae
 
 		Entity* operator->();
 
+	private:
+		
 		// members
 	public:
 
