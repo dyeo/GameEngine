@@ -34,6 +34,9 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{c1139887-ac6b-444f-b7bc-2d472c20d8ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{2dd6690a-e13c-45a7-909b-7276c678deb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Transform.cpp">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="Source\Updatable.h">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Logging.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

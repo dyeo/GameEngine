@@ -8,6 +8,9 @@
 // maestro container includes
 #include "ObjectFactory.h"
 
+// maestro utility includes
+#include "Logging.h"
+
 // external includes
 #include <optional.h>
 #include <SFML/Graphics.hpp>

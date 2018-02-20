@@ -119,12 +119,11 @@ namespace mae
 		t0 = std::chrono::high_resolution_clock::now();
 
 		window.create(sf::VideoMode(1920, 1080), "Maestro Test Window");
-		//window.setView(sf::View(sf::Vector2f(1920.f*0.5f, 1080.f*0.5f), sf::Vector2f(1920.f*0.5f, 1080.f*0.5f)));
 
 		splashTexture = new sf::Texture();
 		if (splashTexture->loadFromFile("./Assets/splash.png") != true)
 		{
-			printf("FATAL ERROR: Splash screen image not found. Not really fatal, but c'mon man you need one.");
+			LOG_ERROR("Splash screen image not found. Not really fatal, but c'mon man you need one.");
 			isRunning = false;
 			return;
 		}
@@ -140,9 +139,7 @@ namespace mae
 		{
 			it->second->OnCreate();
 		}
-#ifdef _DEBUG
-		printf("%s\n", __FUNCSIG__);
-#endif // _DEBUG
+		LOG_WARNING(__FUNCTION__);
 	}
 
 	void Engine::OnStart()
@@ -151,9 +148,7 @@ namespace mae
 		{
 			it->second->OnStart();
 		}
-#ifdef _DEBUG
-		printf("%s\n", __FUNCSIG__);
-#endif // _DEBUG
+		LOG_MESSAGE(__FUNCTION__);
 	}
 
 	void Engine::OnUpdate()
@@ -162,9 +157,7 @@ namespace mae
 		{
 			it->second->OnUpdate();
 		}
-#ifdef _DEBUG
-		printf("%s\n", __FUNCSIG__);
-#endif // _DEBUG
+		LOG_MESSAGE(__FUNCTION__);
 		if (elapsedTime >= 3.0f)
 		{
 			isRunning = false;
@@ -190,9 +183,7 @@ namespace mae
 		{
 			it->second->OnFixedUpdate();
 		}
-#ifdef _DEBUG
-		printf("%s\n", __FUNCSIG__);
-#endif // _DEBUG
+		LOG_ERROR(__FUNCTION__);
 	}
 
 	void Engine::OnRender()
@@ -202,9 +193,7 @@ namespace mae
 		{
 			it->second->OnRender();
 		}
-#ifdef _DEBUG
-		printf("%s\n", __FUNCSIG__);
-#endif // _DEBUG
+		LOG_MESSAGE(__FUNCTION__);
 		window.clear();
 		window.draw(*splashSprite);
 		window.display();
@@ -216,9 +205,7 @@ namespace mae
 		{
 			it->second->OnFinish();
 		}
-#ifdef _DEBUG
-		printf("%s\n", __FUNCSIG__);
-#endif // _DEBUG
+		LOG_MESSAGE(__FUNCTION__);
 	}
 
 	void Engine::OnDestroy()
@@ -227,9 +214,7 @@ namespace mae
 		{
 			it->second->OnDestroy();
 		}
-#ifdef _DEBUG
-		printf("%s\n", __FUNCSIG__);
-#endif // _DEBUG
+		LOG_MESSAGE(__FUNCTION__);
 	}
 
 	System * const Engine::GetManagingSystem(std::type_index cmpType)

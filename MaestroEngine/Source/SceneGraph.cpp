@@ -35,7 +35,7 @@ namespace mae
 		{
 			if ((*it)->GetParent() != nullptr)
 			{
-				roots.erase(it);
+				roots.erase(it--);
 			}
 			(*it)->OnUpdate();
 		}

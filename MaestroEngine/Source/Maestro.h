@@ -1,6 +1,8 @@
 #ifndef _MAESTRO_MAESTRO_H_
 #define _MAESTRO_MAESTRO_H_
 
+#include "Logging.h"
+
 namespace mae
 {	
 	class Engine;
