@@ -33,6 +33,7 @@ namespace mae
 	{
 		for (Transform *t : roots)
 		{
+			printf(t->entity->name);
 			t->OnUpdate();
 		}
 	}

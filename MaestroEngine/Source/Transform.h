@@ -81,8 +81,6 @@ namespace mae
 		// members
 	private:
 
-		bool __fst = true;
-
 		friend class SceneGraph;
 
 		Transform *parent;

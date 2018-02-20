@@ -75,13 +75,6 @@ namespace mae
 
 	void Transform::OnUpdate()
 	{
-		if (__fst)
-		{
-			__fst = false;
-			auto ent = CreateEntity();
-			printf("Entity %u created with %u components.", entity->handleUid, ent->components.size());
-			DestroyEntity(ent);
-		}
 		for (auto ch = children.begin(); ch != children.end(); ++ch)
 		{
 			(*ch)->global_position = global_position + local_position;
