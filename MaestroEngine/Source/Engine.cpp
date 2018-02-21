@@ -300,7 +300,7 @@ namespace mae
 			RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)&name, &BufSize);
 		}
 		//std::cout << "Your CPU Architecture: \n" << name << std::endl;
-		LOG_MESSAGE("Your CPU Architecture: %c \n", name);
+		LOG_MESSAGE("Your CPU Architecture: %s \n", name);
 		return std::string(name);
 	}
 
