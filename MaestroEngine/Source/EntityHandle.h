@@ -13,9 +13,11 @@ namespace mae
 		// methods
 	public:
 
+		EntityHandle();
+
 		EntityHandle(Entity *const entity);
 
-		EntityHandle &operator=(EntityHandle &other) = default;
+		EntityHandle &operator=(EntityHandle & other);
 
 		EntityHandle &operator=(Entity *const other);
 		
@@ -32,8 +34,8 @@ namespace mae
 		// members
 	public:
 
-		const uint32_t index;
-		const uint32_t uid;
+		uint32_t index;
+		uint32_t uid;
 
 	private:
 	};

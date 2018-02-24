@@ -11,7 +11,6 @@ namespace mae
 	Entity::Entity()
 		: components()
 	{
-		AddComponent<Transform>();
 	}
 
 	bool Entity::operator==(const Entity &other)

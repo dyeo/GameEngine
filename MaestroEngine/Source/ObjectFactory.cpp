@@ -1,4 +1,5 @@
 #include "ObjectFactory.h"
+#include "Transform.h"
 
 #include <algorithm>
 
@@ -6,13 +7,20 @@ namespace mae
 {
 	uint32_t ObjectFactory::counter = 0;
 
+	ObjectFactory::ObjectFactory()
+		: entities()
+		, handles()
+	{
+	}
+
 	Entity *const ObjectFactory::CreateEntity()
 	{
 		Entity e;
 		e.handleIndex = GetNextFreeIndex();
 		e.handleUid = GetUniqueIdentifier();
 		entities.push_back(e);
-		return &e;
+		entities.back().AddComponent<Transform>();
+		return &(entities.back());
 	}
 
 	bool ObjectFactory::DestroyEntity(Entity * const srcEnt)

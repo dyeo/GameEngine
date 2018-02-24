@@ -6,15 +6,31 @@
 
 namespace mae
 {
+	EntityHandle::EntityHandle()
+		: index(0)
+		, uid(0)
+	{
+
+	}
+
 	EntityHandle::EntityHandle(Entity * const entity)
 		: index(entity->handleIndex)
 		, uid(entity->handleUid)
 	{
 	}
 
+	EntityHandle &EntityHandle::operator=(EntityHandle &other)
+	{
+		index = other.index;
+		uid = other.uid;
+		return *this;
+	}
+
 	EntityHandle &EntityHandle::operator=(Entity *const other)
 	{
-		return EntityHandle(other);
+		index = other->handleIndex;
+		uid = other->handleUid;
+		return *this;
 	}
 
 	bool EntityHandle::operator==(const EntityHandle &other)

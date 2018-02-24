@@ -221,6 +221,8 @@ namespace mae
 		double currentTime = 0.0;
 		double deltaTime = 0.0;
 
+		sf::RenderWindow window;
+
 	private:
 
 		friend class Component;
@@ -230,8 +232,6 @@ namespace mae
 
 		std::vector<std::pair<std::type_index, System*>> systems;
 		std::map<std::type_index, nonstd::optional<std::type_index>> managers;
-		
-		sf::RenderWindow window;
 		sf::Sprite *splashSprite;
 		sf::Texture *splashTexture;
 

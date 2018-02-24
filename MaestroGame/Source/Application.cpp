@@ -8,8 +8,8 @@ int main(char *argc, char **argv)
 {
 	using namespace mae;
 	Maestro::Initialize();
-	Maestro::GetEngine()->gameModeStack.push(new TestGameMode());
 	Maestro::GetEngine()->AddSystem<SceneGraph>();
+	Maestro::GetEngine()->gameModeStack.push(new TestGameMode());
 	Maestro::GetEngine()->Run();
 	Maestro::Destroy();
 }

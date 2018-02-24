@@ -78,7 +78,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			auto st = std::type_index(typeid(*it->second));
+			auto st = std::type_index(typeid(it->second));
 			if (st == sysType)
 			{
 				it->second->OnDestroy();
@@ -94,7 +94,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			auto st = std::type_index(typeid(*it->second));
+			auto st = std::type_index(typeid(it->second));
 			if (st == sysType)
 			{
 				return it->second;
@@ -108,7 +108,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			auto st = std::type_index(typeid(*it->second));
+			auto st = std::type_index(typeid(it->second));
 			if (st == sysType)
 			{
 				return it->second;
