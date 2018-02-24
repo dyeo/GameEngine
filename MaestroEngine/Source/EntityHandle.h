@@ -16,6 +16,8 @@ namespace mae
 		EntityHandle(Entity *const entity);
 
 		EntityHandle &operator=(EntityHandle &other) = default;
+
+		EntityHandle &operator=(Entity *const other);
 		
 		bool operator==(const EntityHandle &other);
 

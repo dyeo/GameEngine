@@ -6,6 +6,7 @@
 
 namespace mae
 {
+
 	class Component;
 
 	/// <summary>

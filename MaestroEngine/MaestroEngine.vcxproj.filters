@@ -66,6 +66,9 @@
     <ClCompile Include="Source\SceneGraph.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameMode.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component.h">
@@ -99,6 +102,9 @@
       <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Source\Logging.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameMode.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>

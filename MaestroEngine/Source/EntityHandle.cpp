@@ -12,6 +12,11 @@ namespace mae
 	{
 	}
 
+	EntityHandle &EntityHandle::operator=(Entity *const other)
+	{
+		return EntityHandle(other);
+	}
+
 	bool EntityHandle::operator==(const EntityHandle &other)
 	{
 		return uid == other.uid;

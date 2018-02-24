@@ -13,6 +13,7 @@
 
 namespace mae
 {
+
 	///
 	Engine::Engine()
 		: systems()
@@ -142,6 +143,9 @@ namespace mae
 			it->second->OnCreate();
 		}
 		LOG_WARNING(__FUNCTION__);
+
+		gameModeStack.top()->OnCreate();
+
 	}
 
 	void Engine::OnStart()
@@ -151,6 +155,9 @@ namespace mae
 			it->second->OnStart();
 		}
 		LOG_MESSAGE(__FUNCTION__);
+
+		gameModeStack.top()->OnStart();
+
 	}
 
 	void Engine::OnUpdate()
@@ -160,11 +167,13 @@ namespace mae
 			it->second->OnUpdate();
 		}
 		LOG_MESSAGE(__FUNCTION__);
+
+		gameModeStack.top()->OnUpdate();
+
 		if (elapsedTime >= 3.0f)
 		{
-			isRunning = false;
-			window.close();
-			return;
+			delete splashSprite;
+			splashSprite = nullptr;
 		}
 
 		sf::Event event;
@@ -186,6 +195,8 @@ namespace mae
 			it->second->OnFixedUpdate();
 		}
 		LOG_MESSAGE(__FUNCTION__);
+
+		gameModeStack.top()->OnFixedUpdate();
 	}
 
 	void Engine::OnRender()
@@ -196,8 +207,14 @@ namespace mae
 			it->second->OnRender();
 		}
 		LOG_MESSAGE(__FUNCTION__);
+
+		gameModeStack.top()->OnRender();
+
 		window.clear();
-		window.draw(*splashSprite);
+		if (splashSprite != nullptr)
+		{
+			window.draw(*splashSprite);
+		}
 		window.display();
 	}
 
@@ -208,6 +225,8 @@ namespace mae
 			it->second->OnFinish();
 		}
 		LOG_MESSAGE(__FUNCTION__);
+
+		gameModeStack.top()->OnFinish();
 	}
 
 	void Engine::OnDestroy()
@@ -217,6 +236,8 @@ namespace mae
 			it->second->OnDestroy();
 		}
 		LOG_MESSAGE(__FUNCTION__);
+
+		gameModeStack.top()->OnDestroy();
 	}
 
 	System * const Engine::GetManagingSystem(std::type_index cmpType)

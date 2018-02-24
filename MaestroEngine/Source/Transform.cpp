@@ -25,6 +25,7 @@ namespace mae
 	{
 		if (parent == this->parent || IsChild(parent) || parent == this) return;
 		this->parent = parent;
+		parent->AddChild(this);
 	}
 
 	Transform *const Transform::GetParent() const
@@ -34,8 +35,9 @@ namespace mae
 
 	void Transform::AddChild(Transform *const child)
 	{
-		if (parent == child || IsChild(child) || child == this) return;
+		if (child == nullptr || parent == child || IsChild(child) || child == this) return;
 		children.push_back(child);
+		child->parent = this;
 	}
 
 	void Transform::RemoveChild(size_t index)

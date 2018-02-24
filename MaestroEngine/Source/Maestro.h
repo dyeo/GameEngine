@@ -2,6 +2,9 @@
 #define _MAESTRO_MAESTRO_H_
 
 #include "Logging.h"
+#include "EntityHandle.h"
+#include "Transform.h"
+#include "Component.h"
 
 namespace mae
 {	
