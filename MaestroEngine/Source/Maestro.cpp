@@ -1,25 +1,28 @@
 #include "Maestro.h"
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
+#include "Engine.h"
 
-void Maestro::Run()
+namespace mae
 {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
+	Engine * Maestro::engine = nullptr;
 
-	while (window.isOpen())
+	void Maestro::Initialize()
 	{
-		sf::Event event;
-		while (window.pollEvent(event))
+		if (engine == nullptr)
 		{
-			if (event.type == sf::Event::Closed)
-				window.close();
+			engine = new Engine();
 		}
-
-		window.clear();
-		window.draw(shape);
-		window.display();
 	}
+
+	void Maestro::Destroy()
+	{
+		delete engine;
+		engine = nullptr;
+	}
+
+	Engine * const Maestro::GetEngine()
+	{
+		return engine;
+	}
+
 }

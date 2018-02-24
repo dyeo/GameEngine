@@ -75,28 +75,28 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(ProjectDir)Include;$(SolutionDir)MaestroEngine\Include;$(SolutionDir)MaestroEngine\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Library\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
     <OutDir>$(ProjectDir)Game\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Temp\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(ProjectDir)Include;$(SolutionDir)MaestroEngine\Include;$(SolutionDir)MaestroEngine\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Library\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
     <OutDir>$(ProjectDir)Game\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Temp\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(ProjectDir)Include;$(SolutionDir)MaestroEngine\Include;$(SolutionDir)MaestroEngine\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Library\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
     <OutDir>$(ProjectDir)Game\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Temp\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)Include;$(SolutionDir)MaestroEngine\Include;$(SolutionDir)MaestroEngine\Source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Library\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Library\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)Source;$(SourcePath)</SourcePath>
     <OutDir>$(ProjectDir)Game\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Temp\$(PlatformTarget)\$(Configuration)\</IntDir>
@@ -106,6 +106,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Maestro.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -116,6 +117,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Maestro.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -128,6 +130,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -142,6 +145,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

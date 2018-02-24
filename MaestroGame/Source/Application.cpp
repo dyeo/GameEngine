@@ -1,7 +1,13 @@
 #include "Maestro.h"
 
-int main(void)
+#include "Engine.h"
+#include "SceneGraph.h"
+
+int main(char *argc, char **argv)
 {
-	Maestro m;
-	m.Run();
+	using namespace mae;
+	Maestro::Initialize();
+	Maestro::GetEngine()->AddSystem<SceneGraph>();
+	Maestro::GetEngine()->Run();
+	Maestro::Destroy();
 }

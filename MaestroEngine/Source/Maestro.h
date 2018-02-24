@@ -1,10 +1,30 @@
-#pragma once
+#ifndef _MAESTRO_MAESTRO_H_
+#define _MAESTRO_MAESTRO_H_
 
-class Maestro
-{
-public:
+#include "Logging.h"
 
-	void Run();
+namespace mae
+{	
+	class Engine;
 
-private:
-};
+	/// <summary>
+	/// Static class responsible for safe and simple user interface with the engine.
+	/// </summary>
+	class Maestro
+	{
+		// methods
+	public:
+
+		static void Initialize();
+		static void Destroy();
+		static Engine *const GetEngine();
+
+		// members
+	private:
+
+		static Engine *engine;
+
+	};
+}
+
+#endif // !_MAESTRO_MAESTRO_H_
