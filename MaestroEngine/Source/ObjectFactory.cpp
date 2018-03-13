@@ -15,11 +15,13 @@ namespace mae
 
 	Entity *const ObjectFactory::CreateEntity()
 	{
-		Entity e;
-		e.handleIndex = GetNextFreeIndex();
-		e.handleUid = GetUniqueIdentifier();
-		entities.push_back(e);
+		entities.push_back(Entity());
+		entities.back().handleIndex = GetNextFreeIndex();
+		entities.back().handleUid = GetUniqueIdentifier();
+		handles.push_back(&(entities.back()));
+
 		entities.back().AddComponent<Transform>();
+
 		return &(entities.back());
 	}
 
@@ -43,8 +45,9 @@ namespace mae
 
 	uint32_t ObjectFactory::GetNextFreeIndex()
 	{
-		auto it = std::find(handles.begin(), handles.end(), nullptr);
-		return (it - handles.begin());
+		return handles.size();
+		// auto it = std::find(handles.begin(), handles.end(), nullptr);
+		// return (it - handles.begin());
 	}
 
 	uint32_t ObjectFactory::GetUniqueIdentifier()

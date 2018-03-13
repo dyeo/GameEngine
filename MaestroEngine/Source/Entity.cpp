@@ -20,10 +20,10 @@ namespace mae
 
 	Component *const Entity::GetComponent(std::type_index cmpType)
 	{
-		auto it = components.find(cmpType);
-		Component *const component = (it == components.end()) ? nullptr : it->second;
+		//using const_ref = std::multimap<std::type_index, Component *const>::const_reference;
+		//auto it = std::find_if(components.begin(), components.end(), [&](const_ref pair) -> bool { return pair.first == cmpType; });
 
-		return component;
+		return GetComponent(0, cmpType);
 	}
 
 	Component *const Entity::GetComponent(int cmpInd, std::type_index cmpType)
