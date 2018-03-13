@@ -8,7 +8,7 @@
 
 namespace mae
 {
-class RigidBody
+class RigidBody //: public Component
 {
 public:
 	/**

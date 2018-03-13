@@ -9,7 +9,7 @@
 
 namespace mae
 {
-class PhysicsEngine
+class PhysicsEngine //: public System
 {
 	
 private:

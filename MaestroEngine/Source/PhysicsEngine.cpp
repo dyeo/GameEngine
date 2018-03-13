@@ -1,5 +1,7 @@
 #include "PhysicsEngine.h"
 
+#include "Maestro.h"
+
 namespace mae
 {
 	
@@ -44,6 +46,10 @@ namespace mae
 	void PhysicsEngine::ResolveCollisions()
 	{
 		//would we use a lambda to iterate through all keys?
+		for (auto it = collisions.begin(); it != collisions.end(); ++it) // it->first is CollisionPair, it->second is CollisionInfo
+		{
+
+		}
 	}
 
 	void PhysicsEngine::PositionalCorrection(CollisionPair c)
@@ -76,7 +82,7 @@ namespace mae
 
 		ResolveCollisions();
 
-		IntegrateBodies(); //needs deltaTime from engine
+		IntegrateBodies(Maestro::GetEngine()->DELTATIME_FIXED); //needs deltaTime from engine
 	}
 
 	void PhysicsEngine::OnFixedUpdate() //hopefully this is integrated in with the engine by doing this

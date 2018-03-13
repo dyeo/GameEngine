@@ -1,5 +1,6 @@
 #include "RigidBody.h"
 
+#include "Maestro.h"
 
 namespace mae
 {
@@ -16,7 +17,7 @@ namespace mae
 
 	bool RigidBody::IsGrounded()
 	{
-		grounded = engine.IsGrounded(this); //instance of the physics engine
+		grounded = static_cast<PhysicsEngine*>(system)->IsGrounded(this); //instance of the physics engine
 		return grounded;
 	}
 
