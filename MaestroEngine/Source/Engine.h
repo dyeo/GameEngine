@@ -205,6 +205,8 @@ namespace mae
 
 		ObjectFactory objectFactory;
 
+		//create instance of the physics engine
+
 		// application state
 		bool isStarted = false;
 		bool isRunning = true;
