@@ -5,7 +5,7 @@
 namespace mae
 {
 
-	Transform::Transform(System * const sys, Entity * const ent)
+	Transform::Transform(System * const sys, EntityHandle ent)
 		: Component(sys, ent)
 		, parent(nullptr)
 	{

@@ -18,7 +18,7 @@ namespace mae
 
 		ObjectFactory();
 
-		Entity *const CreateEntity();
+		EntityHandle CreateEntity();
 		bool DestroyEntity(Entity *const srcEnt);
 		bool DestroyEntity(EntityHandle srcHnd);
 

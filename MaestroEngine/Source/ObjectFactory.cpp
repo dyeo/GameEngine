@@ -13,7 +13,7 @@ namespace mae
 	{
 	}
 
-	Entity *const ObjectFactory::CreateEntity()
+	EntityHandle ObjectFactory::CreateEntity()
 	{
 		entities.push_back(Entity());
 		entities.back().handleIndex = GetNextFreeIndex();
@@ -22,7 +22,7 @@ namespace mae
 
 		entities.back().AddComponent<Transform>();
 
-		return &(entities.back());
+		return EntityHandle(&entities.back());
 	}
 
 	bool ObjectFactory::DestroyEntity(Entity * const srcEnt)

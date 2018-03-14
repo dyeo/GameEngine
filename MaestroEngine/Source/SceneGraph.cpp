@@ -14,9 +14,8 @@ namespace mae
 
 	Component * const SceneGraph::OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType)
 	{
-		Transform *t = new Transform(this, &(*srcEnt));		
-		roots.push_back(t);
-		return t;
+		roots.push_back(new Transform(this, srcEnt));
+		return roots.back();
 	}
 
 	bool SceneGraph::OnComponentDestroy(EntityHandle srcEnt, Component * const srcCmp)

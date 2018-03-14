@@ -16,7 +16,7 @@ namespace mae
 		// methods
 	public:
 
-		Transform(System * const sys, Entity * const ent);
+		Transform(System * const sys, EntityHandle ent);
 
 		virtual ~Transform();
 

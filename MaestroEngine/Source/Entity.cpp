@@ -9,7 +9,6 @@ namespace mae
 {
 
 	Entity::Entity()
-		: components()
 	{
 	}
 
@@ -20,10 +19,11 @@ namespace mae
 
 	Component *const Entity::GetComponent(std::type_index cmpType)
 	{
-		//using const_ref = std::multimap<std::type_index, Component *const>::const_reference;
-		//auto it = std::find_if(components.begin(), components.end(), [&](const_ref pair) -> bool { return pair.first == cmpType; });
+		auto it = components.find(cmpType);
 
-		return GetComponent(0, cmpType);
+		Component *const component = (it == components.end()) ? nullptr : it->second;
+
+		return component;
 	}
 
 	Component *const Entity::GetComponent(int cmpInd, std::type_index cmpType)
@@ -32,7 +32,7 @@ namespace mae
 		auto it = bucket.first;
 		std::advance(it, cmpInd);
 
-		Component *const component = (it != bucket.second) ? nullptr : it->second;
+		Component *const component = (it == bucket.second) ? nullptr : it->second;
 
 		return component;
 	}
@@ -57,7 +57,7 @@ namespace mae
 			if (component == it->second)
 			{
 				component->OnDestroy();
-				components.erase(it);
+				components.erase(it--);
 				break;
 			}
 		}
