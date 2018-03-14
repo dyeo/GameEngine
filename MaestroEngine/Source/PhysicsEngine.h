@@ -42,7 +42,7 @@ public:
 	void ResolveCollisions();
 	void PositionalCorrection(CollisionPair c);
 	void UpdatePhysics();
-	virtual void OnFixedUpdate();
+	//virtual void OnFixedUpdate();
 
 
 };

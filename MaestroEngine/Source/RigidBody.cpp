@@ -46,7 +46,7 @@ namespace mae
 			acceleration = gm::vec2f::zero();
 		}
 		currentVelocity += acceleration * dt;
-		gm::vec2f temp = transform.GetPosition().xy ;
+		gm::vec2f temp = transform.GetPosition().xy ; //probably wrong. Would need to get the actual transform
 		temp += currentVelocity * dt;
 		transform.SetPosition(gm::vec3f(temp));
 		SetAABB();

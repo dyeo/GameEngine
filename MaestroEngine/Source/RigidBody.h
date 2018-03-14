@@ -47,7 +47,7 @@ public:
 	void SetAABB();
 	void Integrate(float dt);
 
-	bool operator!=(const RigidBody rb);
+	bool operator!=(RigidBody rb);
 
 };
 

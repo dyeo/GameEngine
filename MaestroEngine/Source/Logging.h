@@ -3,6 +3,8 @@
 
 #ifdef _WIN32
 
+#define NOMINMAX
+#include <Windows.h>
 
 #define _IMPL_LOG_MESSAGE(...) \
 	{ \
