@@ -49,7 +49,7 @@ namespace mae
 					if (ia != ib)
 					{
 						CollisionPair pair{ *ia,*ib };
-						CollisionInfo colInfo{};
+						CollisionInfo colInfo;
 
 						gm::vec2f distance = ib->transform.GetPosition().xy - ia->transform.GetPosition().xy; //this is wrong, and Unity's implementation of getting a transform. will need to be changed to work for Maestro
 						gm::vec2f halfSizeA = (ia->aabb.tRight - ia->aabb.bLeft) / 2;
