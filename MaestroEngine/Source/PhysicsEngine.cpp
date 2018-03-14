@@ -6,9 +6,9 @@ namespace mae
 {
 	
 
-	void PhysicsEngine::AddRigibodies(RigidBody rigidBody)
+	void PhysicsEngine::AddRigibodies(RigidBody *rigidBody)
 	{
-		rigidBodies.push_back(rigidBody);
+		rigidBodies.push_back(*rigidBody);
 	}
 
 	void PhysicsEngine::IntegrateBodies(float dt)
@@ -51,7 +51,7 @@ namespace mae
 						CollisionPair pair{ *ia,*ib };
 						CollisionInfo colInfo{};
 
-						gm::vec2f distance = ib.transform.position - ia.transform.position; //this is wrong, and Unity's implementation of getting a transform. will need to be changed to work for Maestro
+						gm::vec2f distance = ib->transform.GetPosition().xy - ia->transform.GetPosition().xy; //this is wrong, and Unity's implementation of getting a transform. will need to be changed to work for Maestro
 						gm::vec2f halfSizeA = (ia->aabb.tRight - ia->aabb.bLeft) / 2;
 						gm::vec2f halfSizeB = (ib->aabb.tRight - ib->aabb.bLeft) / 2;
 						gm::vec2f gap = gm::vec2f(std::abs(distance.x), std::abs(distance.y)) - (halfSizeA + halfSizeB);
@@ -88,7 +88,7 @@ namespace mae
 								}
 								colInfo.penetration = gap.y;
 							}
-							collisions.insert(pair, colInfo);
+							collisions.emplace(pair, colInfo);
 						}
 						else if (collisions.find(pair) != collisions.end())
 						{
@@ -165,6 +165,14 @@ namespace mae
 					{
 						invMassB = 1 / c.rigidBodyB.mass;
 					}
+					gm::vec2f correction = -collisions[c].collisionNormal * ((collisions[c].penetration / (invMassA + invMassB)) * percent);
+					gm::vec2f temp = c.rigidBodyA.transform.GetPosition().xy; //wrong would need to get the actual position from the rigidbody's owning object
+					
+					temp -= correction * invMassA;
+					c.rigidBodyA.transform.SetPosition(gm::vec3f(temp)); //probably also wrong
+					temp += correction * invMassB;
+					c.rigidBodyB.transform.SetPosition(gm::vec3f(temp));
+
 				}
 
 				void PhysicsEngine::UpdatePhysics()
@@ -179,6 +187,5 @@ namespace mae
 				void PhysicsEngine::OnFixedUpdate() //hopefully this is integrated in with the engine by doing this
 				{
 					UpdatePhysics();
-				}
-			}
+				}			
 }

@@ -9,7 +9,7 @@
 
 namespace mae
 {
-class PhysicsEngine //: public System
+class PhysicsEngine: public Updatable //: public System
 {
 	
 private:
@@ -34,7 +34,7 @@ private:
 	std::vector<RigidBody> rigidBodies;
 
 public:
-	void AddRigibodies(RigidBody rigidBody);
+	void AddRigibodies(RigidBody *rigidBody);
 	void IntegrateBodies(float dt);
 
 	bool IsGrounded(RigidBody rigidBody);
@@ -42,7 +42,7 @@ public:
 	void ResolveCollisions();
 	void PositionalCorrection(CollisionPair c);
 	void UpdatePhysics();
-	//virtual void OnFixedUpdate();
+	virtual void OnFixedUpdate();
 
 
 };
