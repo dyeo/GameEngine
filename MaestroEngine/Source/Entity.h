@@ -23,7 +23,7 @@ namespace mae
 		/// Gets the first Component of this type from this Component's Entity.
 		/// </summary>
 		/// <returns>The Component if it exists, or nullptr otherwise.</returns>
-		template <typename C> Component *const GetComponent();
+		template <typename C> C *const GetComponent();
 		Component *const GetComponent(std::type_index cmpType);
 
 		/// <summary>
@@ -31,14 +31,14 @@ namespace mae
 		/// </summary>
 		/// <param name="mpInd">The order of the Components of the current type, ranging from 0-n, where 0 is the first created Component and n is the last.</param>
 		/// <returns>The Component if it exists, or nullptr otherwise.</returns>
-		template <typename C> Component *const GetComponent(int cmpInd);
+		template <typename C> C *const GetComponent(int cmpInd);
 		Component *const GetComponent(int cmpInd, std::type_index cmpType);
 
 		/// <summary>
 		/// Creates a Component and assigns it to its respective System to be updated by the Engine.
 		/// </summary>
 		/// <returns>The created Component, or nullptr if the Component could not be created.</returns>
-		template <typename C> Component *const AddComponent();
+		template <typename C> C *const AddComponent();
 		Component *const AddComponent(std::type_index cmpType);
 
 		/// <summary>
@@ -46,7 +46,7 @@ namespace mae
 		/// </summary>
 		/// <param name="component">The component to be destroyed.</param>
 		/// <returns>True if the destroy operation was successful, false otherwise.</returns>
-		template <typename C> bool RemoveComponent(Component *const cmp);
+		template <typename C> bool RemoveComponent(C *const cmp);
 		bool RemoveComponent(Component *const cmp, std::type_index cmpType);
 		
 	private:
@@ -70,36 +70,36 @@ namespace mae
 	private:
 	};
 
-	template <typename C> Component *const Entity::GetComponent()
+	template <typename C> C *const Entity::GetComponent()
 	{
 		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		std::type_index cmpType = std::type_index(typeid(C));
 
-		return GetComponent(cmpType);
+		return static_cast<C *const>(GetComponent(cmpType));
 	}
 
-	template <typename C> Component *const Entity::GetComponent(int cmpInd)
+	template <typename C> C *const Entity::GetComponent(int cmpInd)
 	{
 		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		std::type_index cmpType = std::type_index(typeid(C));
 
-		return GetComponent(cmpInd, cmpType);
+		return static_cast<C *const>(GetComponent(cmpInd, cmpType));
 	}
 
-	template <typename C> inline Component *const Entity::AddComponent()
+	template <typename C> inline C *const Entity::AddComponent()
 	{
 		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		std::type_index cmpType = std::type_index(typeid(C));
 
-		return AddComponent(cmpType);
+		return static_cast<C *const>(AddComponent(cmpType));
 	}
 
-	template <typename C> inline bool Entity::RemoveComponent(Component *const component)
+	template <typename C> inline bool Entity::RemoveComponent(C *const component)
 	{
 		static_assert(std::is_base_of<Component, C>::value, "Generic C does not inherit Component.");
 		std::type_index cmpType = std::type_index(typeid(C));
 
-		return RemoveComponent(component, cmpType);
+		return RemoveComponent(static_cast<Component *const>(component), cmpType);
 	}
 
 }
