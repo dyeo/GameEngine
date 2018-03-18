@@ -6,14 +6,17 @@
 
 namespace mae
 {
-
-	class Component;
+	class Transform;
 
 	/// <summary>
 	/// A static Component that contains other components, and is the smallest object representable in a game Scene.
 	/// </summary>
 	class Entity
 	{
+		friend class Component;
+		friend class EntityHandle;
+		friend class ObjectFactory;
+
 		// methods
 	public:
 
@@ -56,12 +59,10 @@ namespace mae
 		// members
 	public:
 
-		const char *name = "New Entity";
+		const char *name = "New Entity";	
 
-		friend Component;
-		friend class EntityHandle;
-		friend class ObjectFactory;
-		
+		Transform * transform;
+
 		std::multimap<std::type_index, Component *const> components;
 
 		uint32_t handleIndex;

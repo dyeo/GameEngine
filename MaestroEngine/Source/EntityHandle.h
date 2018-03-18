@@ -1,12 +1,11 @@
 #ifndef _MAESTRO_ENTITYHANDLE_HPP_
 #define _MAESTRO_ENTITYHANDLE_HPP_
 
-#include "Entity.h"
-
 #include <cstdint>
 
 namespace mae
 {
+	class Entity;
 
 	class EntityHandle
 	{
@@ -15,19 +14,17 @@ namespace mae
 
 		EntityHandle();
 
-		EntityHandle(Entity *const entity);
+		EntityHandle(Entity *const GetEntity);
 
-		EntityHandle &operator=(EntityHandle & other);
+		EntityHandle &operator=(EntityHandle &other);
 
 		EntityHandle &operator=(Entity *const other);
 		
 		bool operator==(const EntityHandle &other);
 
-		bool operator==(const Entity &other);
+		Entity *operator->();
 
-		Entity& operator*();
-
-		Entity* operator->();
+		Entity *GetEntity();
 
 	private:
 		

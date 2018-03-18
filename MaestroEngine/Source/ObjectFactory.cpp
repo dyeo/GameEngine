@@ -8,21 +8,21 @@ namespace mae
 	uint32_t ObjectFactory::counter = 0;
 
 	ObjectFactory::ObjectFactory()
-		: entities()
-		, handles()
 	{
+		entities.reserve(65535);
+		handles.reserve(65535);
 	}
 
 	EntityHandle ObjectFactory::CreateEntity()
 	{
-		entities.push_back(Entity());
-		entities.back().handleIndex = GetNextFreeIndex();
+		Entity e;
+		entities.push_back(e);
 		entities.back().handleUid = GetUniqueIdentifier();
+		entities.back().handleIndex = GetNextFreeIndex();
 		handles.push_back(&(entities.back()));
+		handles.back()->transform = handles.back()->AddComponent<Transform>();
 
-		entities.back().AddComponent<Transform>();
-
-		return EntityHandle(&entities.back());
+		return EntityHandle(handles.back());
 	}
 
 	bool ObjectFactory::DestroyEntity(Entity * const srcEnt)

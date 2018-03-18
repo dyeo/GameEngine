@@ -5,6 +5,7 @@
 #include <Maestro.h>
 #include <Engine.h>
 #include <GameMode.h>
+#include <Entity.h>
 #include <EntityHandle.h>
 #include <Logging.h>
 
@@ -26,14 +27,17 @@ public:
 	virtual inline void OnStart() override
 	{
 		ent1 = CreateEntity();
-		t1 = ent1->GetComponent<mae::Transform>();
-		t1->SetLocalPosition(gm::vec3(0, 0, 0));
-		t1->SetLocalScale(gm::vec3(10, 10, 10));
 
 		ent2 = CreateEntity();
-		t2 = ent2->GetComponent<mae::Transform>();
-		t2->SetParent(t1);
-		t2->SetLocalPosition(gm::vec3(1, 1, 1));
+
+		mae::Entity *const tEnt1 = ent1.GetEntity();
+
+		ent2->transform->SetParent(ent1->transform);
+
+		ent1->transform->SetLocalPosition(gm::vec3(0, 0, 0));
+		ent2->transform->SetLocalPosition(gm::vec3(0.5f, 0.5f, 0.5f));
+		
+		ent1->transform->SetLocalScale(gm::vec3(1, 1, 1));
 
 		tex.loadFromFile("./Assets/orb.png");
 		s1 = sf::Sprite(tex); //s2 = sf::Sprite(tex);
@@ -42,10 +46,8 @@ public:
 
 	virtual inline void OnUpdate() override
 	{
-		printf("nope\n");
-		s1.setPosition(t1->GetLocalPosition().x, t1->GetLocalPosition().y);
-		s1.setScale(t1->GetLocalScale().x, t1->GetLocalScale().y);
-		s2.setPosition(sf::Vector2f(t2->GetLocalPosition().x, t2->GetLocalPosition().y));
+		s1.setPosition(ent1->transform->GetLocalPosition().x, ent1->transform->GetLocalPosition().y);
+		s2.setPosition(ent2->transform->GetLocalPosition().x, ent2->transform->GetLocalPosition().y);
 	}
 
 	virtual inline void OnFixedUpdate() override
@@ -73,9 +75,6 @@ private:
 
 	mae::EntityHandle ent1;
 	mae::EntityHandle ent2;
-
-	mae::Transform *t1;
-	mae::Transform *t2;
 
 	sf::Texture tex;
 	sf::Sprite s1;

@@ -13,20 +13,20 @@ namespace mae
 
 	}
 
-	EntityHandle::EntityHandle(Entity * const entity)
-		: index(entity->handleIndex)
-		, uid(entity->handleUid)
+	EntityHandle::EntityHandle(Entity * const GetEntity)
+		: index(GetEntity->handleIndex)
+		, uid(GetEntity->handleUid)
 	{
 	}
 
-	EntityHandle &EntityHandle::operator=(EntityHandle &other)
+	EntityHandle & EntityHandle::operator=(EntityHandle &other)
 	{
 		index = other.index;
 		uid = other.uid;
 		return *this;
 	}
 
-	EntityHandle &EntityHandle::operator=(Entity *const other)
+	EntityHandle & EntityHandle::operator=(Entity * const other)
 	{
 		index = other->handleIndex;
 		uid = other->handleUid;
@@ -38,18 +38,15 @@ namespace mae
 		return uid == other.uid;
 	}
 
-	bool EntityHandle::operator==(const Entity &other)
+	Entity * EntityHandle::operator->()
 	{
-		return uid == other.handleUid;
+		return GetEntity();
 	}
 
-	Entity& EntityHandle::operator*()
+	Entity * EntityHandle::GetEntity()
 	{
-		return *Maestro::GetEngine()->objectFactory.handles[index];
-	}
-
-	Entity* EntityHandle::operator->()
-	{
-		return Maestro::GetEngine()->objectFactory.handles[index];
+		Engine *const engine = Maestro::GetEngine();
+		Entity *entity = engine->objectFactory.handles[index];
+		return entity;
 	}
 }
