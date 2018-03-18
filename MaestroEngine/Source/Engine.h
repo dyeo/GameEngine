@@ -38,6 +38,10 @@ namespace mae
 	/// </summary>
 	class Engine : public Updatable
 	{
+		friend class Component;
+		friend class EntityHandle;
+		friend class ObjectFactory;
+
 		// methods
 	public:
 		
@@ -202,9 +206,6 @@ namespace mae
 		// members
 	public:
 
-		friend class EntityHandle;
-		friend class ObjectFactory;
-
 		ObjectFactory objectFactory;
 
 		std::stack<GameMode *> gameModeStack;
@@ -224,8 +225,6 @@ namespace mae
 		sf::RenderWindow window;
 
 	private:
-
-		friend class Component;
 
 		double accumulator = 0.0;
 		std::chrono::time_point<std::chrono::high_resolution_clock> t0;

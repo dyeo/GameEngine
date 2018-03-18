@@ -13,6 +13,8 @@ namespace mae
 	
 	class ObjectFactory
 	{
+		friend EntityHandle;
+
 		// methods
 	public:
 
@@ -27,8 +29,6 @@ namespace mae
 
 		// members
 	protected:
-
-		friend EntityHandle;
 				
 		std::vector<Entity> entities;
 		std::vector<Entity *> handles;

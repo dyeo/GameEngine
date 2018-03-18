@@ -13,6 +13,8 @@ namespace mae
 	/// </summary>
 	class Transform : public Component
 	{
+		friend class SceneGraph;
+
 		// methods
 	public:
 
@@ -80,8 +82,6 @@ namespace mae
 
 		// members
 	private:
-
-		friend class SceneGraph;
 
 		Transform *parent;
 
