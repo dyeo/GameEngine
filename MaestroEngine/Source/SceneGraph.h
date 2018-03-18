@@ -3,13 +3,13 @@
 
 #include "System.h"
 
-#include "Transform.h"
-
 namespace mae
 {
 
 	class SceneGraph : public System
 	{
+		friend class Transform;
+
 		// methods
 	public:
 
