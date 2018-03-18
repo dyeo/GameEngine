@@ -9,9 +9,7 @@ namespace mae
 {
 
 	Entity::Entity()
-		: components()
 	{
-		AddComponent<Transform>();
 	}
 
 	bool Entity::operator==(const Entity &other)
@@ -22,6 +20,7 @@ namespace mae
 	Component *const Entity::GetComponent(std::type_index cmpType)
 	{
 		auto it = components.find(cmpType);
+
 		Component *const component = (it == components.end()) ? nullptr : it->second;
 
 		return component;
@@ -33,7 +32,7 @@ namespace mae
 		auto it = bucket.first;
 		std::advance(it, cmpInd);
 
-		Component *const component = (it != bucket.second) ? nullptr : it->second;
+		Component *const component = (it == bucket.second) ? nullptr : it->second;
 
 		return component;
 	}
@@ -58,7 +57,7 @@ namespace mae
 			if (component == it->second)
 			{
 				component->OnDestroy();
-				components.erase(it);
+				components.erase(it--);
 				break;
 			}
 		}

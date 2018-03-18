@@ -1,4 +1,5 @@
 #include "ObjectFactory.h"
+#include "Transform.h"
 
 #include <algorithm>
 
@@ -6,13 +7,22 @@ namespace mae
 {
 	uint32_t ObjectFactory::counter = 0;
 
-	Entity *const ObjectFactory::CreateEntity()
+	ObjectFactory::ObjectFactory()
+	{
+		entities.reserve(65535);
+		handles.reserve(65535);
+	}
+
+	EntityHandle ObjectFactory::CreateEntity()
 	{
 		Entity e;
-		e.handleIndex = GetNextFreeIndex();
-		e.handleUid = GetUniqueIdentifier();
 		entities.push_back(e);
-		return &e;
+		entities.back().handleUid = GetUniqueIdentifier();
+		entities.back().handleIndex = GetNextFreeIndex();
+		handles.push_back(&(entities.back()));
+		handles.back()->transform = handles.back()->AddComponent<Transform>();
+
+		return EntityHandle(handles.back());
 	}
 
 	bool ObjectFactory::DestroyEntity(Entity * const srcEnt)
@@ -35,8 +45,9 @@ namespace mae
 
 	uint32_t ObjectFactory::GetNextFreeIndex()
 	{
-		auto it = std::find(handles.begin(), handles.end(), nullptr);
-		return (it - handles.begin());
+		return handles.size();
+		// auto it = std::find(handles.begin(), handles.end(), nullptr);
+		// return (it - handles.begin());
 	}
 
 	uint32_t ObjectFactory::GetUniqueIdentifier()

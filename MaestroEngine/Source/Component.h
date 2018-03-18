@@ -23,7 +23,7 @@ namespace mae
 		// methods
 	public:
 
-		Component(System *const system, EntityHandle entity);
+		Component(System *const system, EntityHandle GetEntity);
 		virtual ~Component() override;
 		
 		/// <summary>
@@ -102,7 +102,7 @@ namespace mae
 		// members
 	public:
 
-		EntityHandle entity;
+		EntityHandle GetEntity;
 		System *const system;
 
 	private:
@@ -115,25 +115,25 @@ namespace mae
 	template<typename C>
 	inline Component * const Component::GetComponent()
 	{
-		return entity->GetComponent<C>();
+		return GetEntity->GetComponent<C>();
 	}
 
 	template<typename C>
 	inline Component * const Component::GetComponent(int cmpInd)
 	{
-		return entity->GetComponent<C>(cmpInd);
+		return GetEntity->GetComponent<C>(cmpInd);
 	}
 
 	template<typename C>
 	inline Component * const Component::AddComponent()
 	{
-		return entity->AddComponent<C>();
+		return GetEntity->AddComponent<C>();
 	}
 
 	template<typename C>
 	inline bool Component::RemoveComponent(Component * const cmp)
 	{
-		return entity->RemoveComponent<C>(cmp);
+		return GetEntity->RemoveComponent<C>(cmp);
 	}
 
 }

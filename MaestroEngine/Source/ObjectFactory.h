@@ -16,7 +16,9 @@ namespace mae
 		// methods
 	public:
 
-		Entity *const CreateEntity();
+		ObjectFactory();
+
+		EntityHandle CreateEntity();
 		bool DestroyEntity(Entity *const srcEnt);
 		bool DestroyEntity(EntityHandle srcHnd);
 
