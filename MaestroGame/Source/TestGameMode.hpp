@@ -38,9 +38,7 @@ public:
 
 		mae::Sprite *const s2 = ent2->AddComponent<mae::Sprite>();
 		s2->sprite = sf::Sprite(tex);
-
-		ent2->transform->SetParent(ent1->transform);
-
+		
 		ent1->transform->SetLocalPosition(gm::vec3(0, 0, 0));
 		ent2->transform->SetLocalPosition(gm::vec3(0.5f, 0.5f, 0));
 		

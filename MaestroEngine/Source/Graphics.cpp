@@ -15,7 +15,6 @@ namespace mae
 		: System(engine)
 	{
 		engine->SetManagingSystem<Sprite>(this);
-		sprites.reserve(65535);
 	}
 
 	Component * const Graphics::OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType)
