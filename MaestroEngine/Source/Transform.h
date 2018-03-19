@@ -87,13 +87,13 @@ namespace mae
 
 		std::vector<Transform *> children;
 
-		gm::vec3 local_position;
-		gm::quat local_rotation;
-		gm::vec3 local_scale;
+		gm::vec3 local_position = gm::vec3::zero();
+		gm::quat local_rotation = gm::quat::identity();
+		gm::vec3 local_scale	= gm::vec3::one();
 
-		gm::vec3 global_position;
-		gm::quat global_rotation;
-		gm::vec3 global_scale;
+		gm::vec3 global_position = gm::vec3::zero();
+		gm::quat global_rotation = gm::quat::identity();;
+		gm::vec3 global_scale	 = gm::vec3::one();
 
 	};
 
