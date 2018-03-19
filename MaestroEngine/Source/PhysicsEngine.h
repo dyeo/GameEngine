@@ -7,20 +7,36 @@
 #include <map>
 #include <list>
 
+class RigidBody;
+
 namespace mae
 {
-class PhysicsEngine: public System //: public System
+class PhysicsEngine: public System
 {
+public:
+	PhysicsEngine(Engine *const engine);
+
+	virtual Component *const OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType) override;
+
+	virtual bool OnComponentDestroy(EntityHandle srcEnt, Component * const srcCmp) override;
 	
 private:
 	float groundedTol = 0.1f;
 
 public:
 
-	struct CollisionPair
+public:
+	class CollisionPair
 	{
-		RigidBody rigidBodyA;
-		RigidBody rigidBodyB;
+	public:
+		RigidBody * rigidBodyA;
+		RigidBody *rigidBodyB;
+		virtual ~CollisionPair()
+		{
+			delete rigidBodyA;
+			delete rigidBodyB;
+		}
+
 	};
 
 	struct CollisionInfo
@@ -31,18 +47,18 @@ public:
 
 private:
 	std::map<CollisionPair, CollisionInfo> collisions;
-	std::vector<RigidBody> rigidBodies;
+	std::vector<RigidBody*> rigidBodies;
 
 public:
 	void AddRigibodies(RigidBody *rigidBody);
 	void IntegrateBodies(float dt);
 
-	bool IsGrounded(RigidBody rigidBody);
+	bool IsGrounded(RigidBody *rigidBody);
 	void CheckCollision();
 	void ResolveCollisions();
 	void PositionalCorrection(CollisionPair c);
 	void UpdatePhysics();
-	virtual void OnFixedUpdate();
+	void OnFixedUpdate() override;
 
 
 };

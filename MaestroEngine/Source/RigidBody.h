@@ -4,12 +4,19 @@
 
 #include <gmtk/gmtk.h>
 #include "PhysicsEngine.h"
+#include "Bounds.h"
 #include "Transform.h"
+#include "Maestro.h"
 
 namespace mae
 {
-class RigidBody //: public Component
+class RigidBody : public Component
 {
+
+public:
+	RigidBody(System * const sys, EntityHandle ent);
+
+	virtual ~RigidBody();
 public:
 	/**
 	 * \Mass of the RigidBody
@@ -24,12 +31,15 @@ public:
 	gm::vec2 currentVelocity;
 	gm::vec2 maximumVelocity;
 	bool grounded;
-	Transform transform;
+	//Transform transform; //initialize this
+	
 
 
 
 private:
+	RigidBody *parent;
 	gm::vec2f totalForces;
+	void OnStart() override; 
 
 public:
 	struct AABB
@@ -47,7 +57,7 @@ public:
 	void SetAABB();
 	void Integrate(float dt);
 
-	bool operator!=(RigidBody rb);
+	bool operator!=(RigidBody rb) const;
 
 };
 
