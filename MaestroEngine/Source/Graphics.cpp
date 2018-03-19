@@ -14,18 +14,16 @@ namespace mae
 	Graphics::Graphics(Engine * const engine)
 		: System(engine)
 	{
-		engine->SetManagingSystem<Sprite>(this);
+		engine->SetManagingSystem<mae::Sprite>(this);
+		sprites.reserve(65535);
 	}
 
 	Component * const Graphics::OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType)
 	{
-		if (cmpType == typeid(Sprite))
-		{
-			sprites.push_back(new Sprite(this, srcEnt));
-		
-			return sprites.back();
-		}
-		return nullptr;
+		Sprite *spr = new Sprite(this, srcEnt);
+		sprites.push_back(spr);
+
+		return sprites.back();
 	}
 
 	bool Graphics::OnComponentDestroy(EntityHandle srcEnt, Component * const srcCmp)
@@ -40,16 +38,24 @@ namespace mae
 		return false;
 	}
 
+	void Graphics::OnUpdate()
+	{
+		for (int s = 0; s < sprites.size(); s++)
+		{
+			sprites[s]->OnUpdate();
+		}
+	}
+
 	void Graphics::OnRender()
 	{
 		for (int s = 0; s < sprites.size(); s++)
 		{
-			EntityHandle sprEnt = sprites[s]->entity;
-			Transform *const sprTrn = sprEnt->transform;
-			sf::Sprite& spr = sprites[s]->sprite;
-			
-			spr.setPosition(sprTrn->GetPosition().x, sprTrn->GetPosition().y);
-			engine->window.draw(spr);
+			sprites[s]->OnRender();
+			//EntityHandle sprEnt = sprites[s]->entity;
+			//Transform *const sprTrn = sprEnt->transform;
+			//
+			//sprites[s]->setPosition(sprTrn->GetPosition().x, sprTrn->GetPosition().y);
+			//engine->window.draw(*sprites[s]);
 		}
 	}
 

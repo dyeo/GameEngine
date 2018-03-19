@@ -9,7 +9,7 @@ namespace mae
 {
 
 	// Component wrapper for an SFML sprite. 
-	class Sprite : public Component
+	class Sprite : public Component, public sf::Sprite
 	{
 		friend class Graphics;
 		
@@ -18,7 +18,9 @@ namespace mae
 
 		Sprite(System * const sys, EntityHandle ent);
 
-		sf::Sprite sprite;
+		virtual void OnUpdate() override;
+
+		virtual void OnRender() override;
 
 		// members
 	private:

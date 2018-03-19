@@ -27,20 +27,25 @@ public:
 
 	virtual inline void OnStart() override
 	{
-		tex.loadFromFile("./Assets/orb.png");
+		const char *texStr = "./Assets/orb.png";
+		if (!tex.loadFromFile(texStr))
+		{
+			LOG_ERROR("Texture %s not supported.", texStr);
+			assert(0);
+		}
 
 		ent1 = CreateEntity();
 		
+		mae::Sprite *const s1 = ent1->AddComponent<mae::Sprite>();
+		s1->setTexture(tex);
+
 		ent2 = CreateEntity();
 
-		mae::Sprite *const s1 = ent1->AddComponent<mae::Sprite>();
-		s1->sprite = sf::Sprite(tex); 
-
 		mae::Sprite *const s2 = ent2->AddComponent<mae::Sprite>();
-		s2->sprite = sf::Sprite(tex);
+		s2->setTexture(tex);
 		
-		ent1->transform->SetLocalPosition(gm::vec3(0, 0, 0));
-		ent2->transform->SetLocalPosition(gm::vec3(0.5f, 0.5f, 0));
+		ent1->transform->SetPosition(gm::vec3(0.5f, 0.5f, 0));
+		ent2->transform->SetPosition(gm::vec3(0.5f, 0.5f, 0));
 		
 		ent1->transform->SetLocalScale(gm::vec3(1, 1, 1));
 

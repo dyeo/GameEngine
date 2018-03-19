@@ -21,6 +21,8 @@ namespace mae
 		virtual Component * const OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType) override;
 
 		virtual bool OnComponentDestroy(EntityHandle srcEnt, Component * const srcCmp) override;
+		
+		virtual void OnUpdate() override;
 
 		virtual void OnRender() override;
 
