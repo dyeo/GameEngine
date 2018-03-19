@@ -1,9 +1,5 @@
 #include "System.h"
 
-#include "Component.h"
-
-#include <type_traits>
-
 namespace mae
 {
 
