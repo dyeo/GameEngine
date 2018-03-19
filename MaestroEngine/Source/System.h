@@ -21,6 +21,8 @@ namespace mae
 	/// </summary>
 	class System : public Updatable
 	{
+		friend class Component;
+
 		// methods
 	public:
 
@@ -88,8 +90,6 @@ namespace mae
 
 		// members
 	public:
-
-		friend class Component;
 
 		uint32_t counter = 0;
 

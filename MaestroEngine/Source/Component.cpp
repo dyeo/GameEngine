@@ -9,9 +9,9 @@
 namespace mae
 {
 
-	Component::Component(System *const system, EntityHandle entity)
+	Component::Component(System *const system, EntityHandle GetEntity)
 		: system(system)
-		, entity(entity)
+		, GetEntity(GetEntity)
 	{
 	}
 

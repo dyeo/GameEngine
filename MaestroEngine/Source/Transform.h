@@ -13,10 +13,12 @@ namespace mae
 	/// </summary>
 	class Transform : public Component
 	{
+		friend class SceneGraph;
+
 		// methods
 	public:
 
-		Transform(System * const sys, Entity * const ent);
+		Transform(System * const sys, EntityHandle ent);
 
 		virtual ~Transform();
 
@@ -80,8 +82,6 @@ namespace mae
 
 		// members
 	private:
-
-		friend class SceneGraph;
 
 		Transform *parent;
 

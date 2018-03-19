@@ -133,6 +133,7 @@ namespace mae
 
 						j /= (invMassA + invMassB);
 						const auto impulse = collisions[it->first].collisionNormal * j;
+
 						it->first.rigidBodyA.AddForce(-impulse / Maestro::GetEngine()->deltaTime);
 						it->first.rigidBodyB.AddForce(impulse / Maestro::GetEngine()->deltaTime);
 

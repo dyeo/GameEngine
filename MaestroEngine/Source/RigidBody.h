@@ -29,7 +29,7 @@ public:
 
 
 private:
-	gm::vec2 totalForces;
+	gm::vec2f totalForces;
 
 public:
 	struct AABB

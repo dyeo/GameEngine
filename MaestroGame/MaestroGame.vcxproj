@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\TestGameMode.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{65047270-E870-452A-BADE-E96D927C978C}</ProjectGuid>

@@ -4,6 +4,7 @@
 // maestro core includes
 #include "Updatable.h"
 #include "System.h"
+#include "GameMode.h"
 
 // maestro container includes
 #include "ObjectFactory.h"
@@ -24,6 +25,7 @@
 #include <type_traits>
 #include <typeinfo>
 #include <typeindex>
+#include <stack>
 
 #define MINIMUM_SPACE_REQUIRED 300
 #define MINIMUM_PHYSICAL_MEMORY_REQUIRED 1024
@@ -36,6 +38,10 @@ namespace mae
 	/// </summary>
 	class Engine : public Updatable
 	{
+		friend class Component;
+		friend class EntityHandle;
+		friend class ObjectFactory;
+
 		// methods
 	public:
 		
@@ -200,12 +206,9 @@ namespace mae
 		// members
 	public:
 
-		friend class EntityHandle;
-		friend class ObjectFactory;
-
 		ObjectFactory objectFactory;
 
-		//create instance of the physics engine
+		std::stack<GameMode *> gameModeStack;
 
 		// application state
 		bool isStarted = false;
@@ -219,19 +222,18 @@ namespace mae
 		double currentTime = 0.0;
 		double deltaTime = 0.0;
 
-	private:
+		sf::RenderWindow window;
 
-		friend class Component;
+	private:
 
 		double accumulator = 0.0;
 		std::chrono::time_point<std::chrono::high_resolution_clock> t0;
 
 		std::vector<std::pair<std::type_index, System*>> systems;
 		std::map<std::type_index, nonstd::optional<std::type_index>> managers;
-		
-		sf::RenderWindow window;
 		sf::Sprite *splashSprite;
 		sf::Texture *splashTexture;
+
 
 	};
 

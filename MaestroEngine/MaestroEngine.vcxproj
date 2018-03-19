@@ -23,6 +23,7 @@
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\EntityHandle.cpp" />
+    <ClCompile Include="Source\GameMode.cpp" />
     <ClCompile Include="Source\Maestro.cpp" />
     <ClCompile Include="Source\ObjectFactory.cpp" />
     <ClCompile Include="Source\PhysicsEngine.cpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\EntityHandle.h" />
+    <ClInclude Include="Source\GameMode.h" />
     <ClInclude Include="Source\Logging.h" />
     <ClInclude Include="Source\Maestro.h" />
     <ClInclude Include="Source\ObjectFactory.h" />

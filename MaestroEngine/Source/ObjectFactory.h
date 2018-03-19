@@ -13,10 +13,14 @@ namespace mae
 	
 	class ObjectFactory
 	{
+		friend EntityHandle;
+
 		// methods
 	public:
 
-		Entity *const CreateEntity();
+		ObjectFactory();
+
+		EntityHandle CreateEntity();
 		bool DestroyEntity(Entity *const srcEnt);
 		bool DestroyEntity(EntityHandle srcHnd);
 
@@ -25,8 +29,6 @@ namespace mae
 
 		// members
 	protected:
-
-		friend EntityHandle;
 				
 		std::vector<Entity> entities;
 		std::vector<Entity *> handles;

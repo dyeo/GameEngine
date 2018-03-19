@@ -37,12 +37,6 @@
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{2dd6690a-e13c-45a7-909b-7276c678deb8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Physics">
-      <UniqueIdentifier>{6b52082e-2097-4432-8838-29e6ac861892}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Physics">
-      <UniqueIdentifier>{7d448955-1aa0-4eb8-b0c8-347872a61781}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Transform.cpp">
@@ -72,11 +66,8 @@
     <ClCompile Include="Source\SceneGraph.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PhysicsEngine.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RigidBody.cpp">
-      <Filter>Source Files\Physics</Filter>
+    <ClCompile Include="Source\GameMode.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,11 +104,8 @@
     <ClInclude Include="Source\Logging.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PhysicsEngine.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RigidBody.h">
-      <Filter>Header Files\Physics</Filter>
+    <ClInclude Include="Source\GameMode.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

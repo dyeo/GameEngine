@@ -9,7 +9,7 @@
 
 namespace mae
 {
-class PhysicsEngine: public Updatable //: public System
+class PhysicsEngine: public System //: public System
 {
 	
 private:
