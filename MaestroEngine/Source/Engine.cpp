@@ -9,7 +9,6 @@
 #include <Windows.h>
 #include <direct.h>
 #include "Logging.h"
-#include "Logging.h"
 
 #include <typeinfo>
 #include <typeindex>
