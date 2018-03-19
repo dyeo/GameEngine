@@ -44,18 +44,35 @@ public:
 		mae::Sprite *const s2 = ent2->AddComponent<mae::Sprite>();
 		s2->setTexture(tex);
 		
-		ent1->transform->SetPosition(gm::vec3(100, 100, 0));
+		ent2->transform->SetParent(ent1->transform);
 
-		ent1->transform->SetParent(ent2->transform);
-
+		ent1->transform->SetPosition(gm::vec3(50, 50, 0));
+		
 		ent2->transform->SetPosition(gm::vec3(50, 50, 0));
 		
-		ent1->transform->SetScale(gm::vec3(10, 10, 1));
 
 	}
 
 	virtual inline void OnUpdate() override
 	{
+		float dt = 128 * mae::Maestro::GetEngine()->deltaTime;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+		{
+			ent1->transform->Translate(gm::vec3::right() * dt);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+		{
+			ent1->transform->Translate(gm::vec3::left() * dt);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+		{
+			ent1->transform->Translate(gm::vec3::down() * dt);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+		{
+			ent1->transform->Translate(gm::vec3::up() * dt);
+		}
 	}
 
 	virtual inline void OnFixedUpdate() override

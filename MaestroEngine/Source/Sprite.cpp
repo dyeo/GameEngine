@@ -17,7 +17,9 @@ namespace mae
 
 	void Sprite::OnUpdate()
 	{
-		setPosition(entity->transform->GetPosition().x, entity->transform->GetPosition().y);
+		Transform *const t = entity->transform;
+		setPosition(t->GetPosition().x, t->GetPosition().y);
+		setScale(t->GetScale().x, t->GetScale().y);
 	}
 
 	void Sprite::OnRender()

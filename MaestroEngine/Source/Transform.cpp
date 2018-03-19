@@ -1,6 +1,7 @@
 #include "Transform.h"
 
 #include "Entity.h"
+#include "SceneGraph.h"
 
 namespace mae
 {
@@ -36,6 +37,11 @@ namespace mae
 	void Transform::AddChild(Transform *const child)
 	{
 		if (child == nullptr || parent == child || IsChild(child) || child == this) return;
+		if (child->parent == nullptr)
+		{
+			SceneGraph *const sg = ((SceneGraph*)child->system);
+			sg->roots.erase(std::remove(sg->roots.begin(), sg->roots.end(), child), sg->roots.end());
+		}
 		children.push_back(child);
 		child->parent = this;
 	}
@@ -80,7 +86,7 @@ namespace mae
 		for (auto ch = children.begin(); ch != children.end(); ++ch)
 		{
 			(*ch)->global_position = global_position + local_position;
-			(*ch)->global_scale = global_scale + local_scale;
+			(*ch)->global_scale = global_scale * local_scale;
 			(*ch)->global_rotation = local_rotation * global_rotation; // dan: doing it backwards, may cause rotation transformation errors (i forget how i implemented my gm::quat mult)
 			(*ch)->OnUpdate();
 		}
