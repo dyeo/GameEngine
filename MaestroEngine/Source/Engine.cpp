@@ -160,6 +160,7 @@ namespace mae
 
 	void Engine::OnRender()
 	{
+		window.clear();
 
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
@@ -168,12 +169,11 @@ namespace mae
 		LOG_MESSAGE(__FUNCTION__);
 
 		gameModeStack.top()->OnRender();
-
-		window.clear();
 		if (splashSprite != nullptr)
 		{
 			window.draw(*splashSprite);
 		}
+
 		window.display();
 	}
 

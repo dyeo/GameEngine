@@ -44,10 +44,13 @@ public:
 		mae::Sprite *const s2 = ent2->AddComponent<mae::Sprite>();
 		s2->setTexture(tex);
 		
-		ent1->transform->SetPosition(gm::vec3(0.5f, 0.5f, 0));
-		ent2->transform->SetPosition(gm::vec3(0.5f, 0.5f, 0));
+		ent1->transform->SetPosition(gm::vec3(100, 100, 0));
+
+		ent1->transform->SetParent(ent2->transform);
+
+		ent2->transform->SetPosition(gm::vec3(50, 50, 0));
 		
-		ent1->transform->SetLocalScale(gm::vec3(1, 1, 1));
+		ent1->transform->SetScale(gm::vec3(10, 10, 1));
 
 	}
 

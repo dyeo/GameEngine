@@ -100,7 +100,7 @@ namespace mae
 
 	void Transform::SetPosition(gm::vec3 & pos)
 	{
-		local_position = pos - GetPosition();
+		local_position = pos - global_position;
 	}
 
 	const gm::vec3 & Transform::GetLocalPosition() const
@@ -128,7 +128,7 @@ namespace mae
 	void Transform::SetRotation(gm::quat & rot)
 	{
 		gm::quat lr = rot * global_rotation;
-		local_rotation = rot * GetRotation();
+		local_rotation = lr;
 	}
 
 	const gm::quat & Transform::GetLocalRotation() const
@@ -156,7 +156,7 @@ namespace mae
 
 	void Transform::SetScale(gm::vec3 & scl)
 	{
-		local_scale = scl - GetScale();
+		local_scale = scl - global_scale;
 	}
 
 	const gm::vec3 & Transform::GetLocalScale() const

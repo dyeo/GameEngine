@@ -32,13 +32,16 @@ namespace mae
 
 	void SceneGraph::OnUpdate()
 	{
-		for (auto it = roots.begin(); it != roots.end(); ++it)
+		for (auto it = roots.begin(); it != roots.end(); it++)
 		{
 			if ((*it)->GetParent() != nullptr)
 			{
-				roots.erase(it--);
+				it = roots.erase(it);
 			}
-			(*it)->OnUpdate();
+			if (it != roots.end())
+			{
+				(*it)->OnUpdate();
+			}
 		}
 	}
 	
