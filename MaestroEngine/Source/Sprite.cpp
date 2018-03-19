@@ -18,13 +18,11 @@ namespace mae
 	void Sprite::OnUpdate()
 	{
 		setPosition(entity->transform->GetPosition().x, entity->transform->GetPosition().y);
-		printf("Sprite::OnUpdate");
 	}
 
 	void Sprite::OnRender()
 	{
 		Maestro::GetEngine()->window.draw(*this);
-		printf("Sprite::OnRender");
 	}
 
 }

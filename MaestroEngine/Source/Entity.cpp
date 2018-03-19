@@ -44,6 +44,8 @@ namespace mae
 		Component *const component = managingSystem->OnComponentCreate(this, cmpType);
 		components.insert(std::make_pair(cmpType, component));
 		component->OnCreate();
+
+		//printf("Entity::AddComponent(%s) -> %p\n", name, cmpType.name(), component);
 		return component;
 	}
 
