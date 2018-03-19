@@ -38,6 +38,10 @@ namespace mae
 	/// </summary>
 	class Engine : public Updatable
 	{
+		friend System;
+		friend class Graphics;
+		friend class SceneGraph;
+
 		friend class Component;
 		friend class EntityHandle;
 		friend class ObjectFactory;

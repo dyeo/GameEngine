@@ -2,11 +2,11 @@
 
 namespace mae
 {
-
-	System::System(Engine *const engine)
+	System::System(Engine * const engine)
+		: engine(engine)
 	{
 	}
-	
+
 	void System::OnCreate()
 	{
 	}

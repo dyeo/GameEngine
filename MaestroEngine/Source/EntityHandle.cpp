@@ -13,9 +13,9 @@ namespace mae
 
 	}
 
-	EntityHandle::EntityHandle(Entity * const GetEntity)
-		: index(GetEntity->handleIndex)
-		, uid(GetEntity->handleUid)
+	EntityHandle::EntityHandle(Entity * const entity)
+		: index(entity->handleIndex)
+		, uid(entity->handleUid)
 	{
 	}
 
@@ -40,10 +40,10 @@ namespace mae
 
 	Entity * EntityHandle::operator->()
 	{
-		return GetEntity();
+		return entity();
 	}
 
-	Entity * EntityHandle::GetEntity()
+	Entity * EntityHandle::entity()
 	{
 		Engine *const engine = Maestro::GetEngine();
 		Entity *entity = engine->objectFactory.handles[index];

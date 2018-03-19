@@ -15,7 +15,7 @@ namespace mae
 
 	Component * const SceneGraph::OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType)
 	{
-		Transform *const t = new Transform(this, srcEnt);
+		Transform *t = new Transform(this, srcEnt);
 		roots.push_back(t);
 		return roots.back();
 	}
@@ -24,7 +24,7 @@ namespace mae
 	{
 		bool destroyed = false;
 		for (Transform *t : roots)
-		{
+		{			
 			destroyed = destroyed || DestroyTransform(t, static_cast<Transform*>(srcCmp));
 		}
 		return destroyed;
@@ -41,7 +41,7 @@ namespace mae
 			(*it)->OnUpdate();
 		}
 	}
-
+	
 	bool SceneGraph::DestroyTransform(Transform *const current, Transform *const target)
 	{
 		if (current == nullptr) return false;

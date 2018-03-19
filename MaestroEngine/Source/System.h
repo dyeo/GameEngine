@@ -93,6 +93,10 @@ namespace mae
 
 		uint32_t counter = 0;
 
+	protected:
+
+		Engine *const engine;
+
 	private:
 	};
 

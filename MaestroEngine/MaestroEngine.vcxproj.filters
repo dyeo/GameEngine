@@ -22,9 +22,6 @@
     <Filter Include="Header Files\Systems">
       <UniqueIdentifier>{b3e15ba7-0874-4013-b874-7ebb582018c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Systems">
-      <UniqueIdentifier>{7c0786a2-d60f-4a97-8e83-3005f845c90b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Containers">
       <UniqueIdentifier>{1ca856a1-b386-42f2-afb6-81659f7e543b}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,15 @@
     </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{2dd6690a-e13c-45a7-909b-7276c678deb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems">
+      <UniqueIdentifier>{7c0786a2-d60f-4a97-8e83-3005f845c90b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{3a5eafb8-fe8b-4b43-869e-43e438eb2470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{46f8e404-a901-4b38-b312-bbddc269445b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +74,12 @@
     </ClCompile>
     <ClCompile Include="Source\GameMode.cpp">
       <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sprite.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +118,12 @@
     </ClInclude>
     <ClInclude Include="Source\GameMode.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sprite.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
