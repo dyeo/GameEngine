@@ -41,6 +41,10 @@ namespace mae
 	/// </summary>
 	class Engine : public Updatable
 	{
+		friend System;
+		friend class Graphics;
+		friend class SceneGraph;
+
 		friend class Component;
 		friend class EntityHandle;
 		friend class ObjectFactory;
@@ -129,13 +133,6 @@ namespace mae
 		/// <param name="sysType">The System type.</param>
 		/// <returns>The System if it exists, or nullptr otherwise.</returns>
 		System *const GetSystem(std::type_index sysType);
-
-		/// <summary>
-		/// Retrieves a System currently in the engine's update loop.
-		/// </summary>
-		/// <param name="s">The system's type_index.</param>
-		/// <returns>The System if it exists, or nullptr otherwise.</returns>
-		System *const GetSystemFromTypeIndex(std::type_index s);
 
 		/// <summary>
 		///	Assigns the component designated in the template argument to a system to be managed. 
@@ -234,7 +231,7 @@ namespace mae
 		double accumulator = 0.0;
 		std::chrono::time_point<std::chrono::high_resolution_clock> t0;
 
-		std::vector<std::pair<std::type_index, System*>> systems;
+		std::vector<System*> systems;
 		std::map<std::type_index, nonstd::optional<std::type_index>> managers;
 		sf::Sprite *splashSprite;
 		sf::Texture *splashTexture;
@@ -257,8 +254,7 @@ namespace mae
 			}
 		}
 		System *system = new S(this);
-		auto p = std::make_pair(sysType, system);
-		systems.push_back(p);
+		systems.push_back(system);
 		return true;
 	}
 

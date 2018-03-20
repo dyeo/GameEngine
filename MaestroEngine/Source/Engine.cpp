@@ -9,7 +9,9 @@
 #include <Windows.h>
 #include <direct.h>
 #include "Logging.h"
-#include "Logging.h"
+
+#include <typeinfo>
+#include <typeindex>
 
 namespace mae
 {
@@ -28,7 +30,7 @@ namespace mae
 
 		currentTime = GetHiresTimeSeconds();
 
-		while (true)
+		while (isRunning)
 		{
 			double newTime = GetHiresTimeSeconds();
 			deltaTime = newTime - currentTime;
@@ -62,7 +64,7 @@ namespace mae
 			// render
 			OnRender();
 
-			if (!isRunning || !window.isOpen())
+			if (!isRunning)
 			{
 				OnFinish();
 				break;
@@ -70,51 +72,6 @@ namespace mae
 		}
 
 		OnDestroy();
-
-		getchar();
-	}
-
-	bool Engine::RemoveSystem(std::type_index sysType)
-	{
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			auto st = std::type_index(typeid(it->second));
-			if (st == sysType)
-			{
-				it->second->OnDestroy();
-				delete it->second;
-				systems.erase(it--);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	System * const Engine::GetSystem(std::type_index sysType)
-	{
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			auto st = std::type_index(typeid(it->second));
-			if (st == sysType)
-			{
-				return it->second;
-			}
-		}
-		return nullptr;
-	}
-
-	///
-	System *const Engine::GetSystemFromTypeIndex(std::type_index sysType)
-	{
-		for (auto it = systems.begin(); it != systems.end(); ++it)
-		{
-			auto st = std::type_index(typeid(it->second));
-			if (st == sysType)
-			{
-				return it->second;
-			}
-		}
-		return nullptr;
 	}
 
 	void Engine::OnCreate()
@@ -140,7 +97,7 @@ namespace mae
 
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->second->OnCreate();
+			(*it)->OnCreate();
 		}
 		LOG_WARNING(__FUNCTION__);
 
@@ -152,7 +109,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->second->OnStart();
+			(*it)->OnStart();
 		}
 		LOG_MESSAGE(__FUNCTION__);
 
@@ -164,7 +121,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->second->OnUpdate();
+			(*it)->OnUpdate();
 		}
 		LOG_MESSAGE(__FUNCTION__);
 
@@ -192,7 +149,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->second->OnFixedUpdate();
+			(*it)->OnFixedUpdate();
 		}
 		LOG_MESSAGE(__FUNCTION__);
 
@@ -201,20 +158,20 @@ namespace mae
 
 	void Engine::OnRender()
 	{
+		window.clear();
 
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->second->OnRender();
+			(*it)->OnRender();
 		}
 		LOG_MESSAGE(__FUNCTION__);
 
 		gameModeStack.top()->OnRender();
-
-		window.clear();
 		if (splashSprite != nullptr)
 		{
 			window.draw(*splashSprite);
 		}
+
 		window.display();
 	}
 
@@ -222,7 +179,7 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->second->OnFinish();
+			(*it)->OnFinish();
 		}
 		LOG_MESSAGE(__FUNCTION__);
 
@@ -233,26 +190,57 @@ namespace mae
 	{
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
-			it->second->OnDestroy();
+			(*it)->OnDestroy();
 		}
 		LOG_MESSAGE(__FUNCTION__);
 
 		gameModeStack.top()->OnDestroy();
 	}
 
+	bool Engine::RemoveSystem(std::type_index sysType)
+	{
+		for (auto it = systems.begin(); it != systems.end(); ++it)
+		{
+			auto st = std::type_index(typeid(*(*it)));
+			if (st == sysType)
+			{
+				(*it)->OnDestroy();
+				delete (*it);
+				systems.erase(it--);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	System * const Engine::GetSystem(std::type_index sysType)
+	{
+		auto it = std::find_if(systems.begin(), systems.end(), [=](System *v)->bool
+		{
+			return std::type_index(typeid(*v)) == sysType;
+		});
+		System *const res = (it != std::end(systems)) ? *it : nullptr;
+
+		//printf("Engine::GetSystem(%s) -> %p\n", sysType.name(), res);
+		return res;
+	}
+
 	System * const Engine::GetManagingSystem(std::type_index cmpType)
 	{
+
 		auto type = managers[cmpType];
 		if (type == nonstd::nullopt)
 		{
 			return nullptr;
 		}
-		return GetSystemFromTypeIndex(*type);
+
+		//printf("Engine::GetManagingSystem(%s) -> %s\n", cmpType.name(), type->name());
+		return GetSystem(*type);
 	}
 
 	bool Engine::SetManagingSystem(System * const system, std::type_index cmpType)
 	{
-		auto type = nonstd::make_optional(std::type_index(typeid(system)));
+		auto type = nonstd::make_optional(std::type_index(typeid(*system)));
 		if (type == nonstd::nullopt)
 		{
 			return false;

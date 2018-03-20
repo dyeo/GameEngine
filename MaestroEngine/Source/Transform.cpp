@@ -1,6 +1,7 @@
 #include "Transform.h"
 
 #include "Entity.h"
+#include "SceneGraph.h"
 
 namespace mae
 {
@@ -36,6 +37,11 @@ namespace mae
 	void Transform::AddChild(Transform *const child)
 	{
 		if (child == nullptr || parent == child || IsChild(child) || child == this) return;
+		if (child->parent == nullptr)
+		{
+			SceneGraph *const sg = ((SceneGraph*)child->system);
+			sg->roots.erase(std::remove(sg->roots.begin(), sg->roots.end(), child), sg->roots.end());
+		}
 		children.push_back(child);
 		child->parent = this;
 	}
@@ -80,7 +86,7 @@ namespace mae
 		for (auto ch = children.begin(); ch != children.end(); ++ch)
 		{
 			(*ch)->global_position = global_position + local_position;
-			(*ch)->global_scale = global_scale + local_scale;
+			(*ch)->global_scale = global_scale * local_scale;
 			(*ch)->global_rotation = local_rotation * global_rotation; // dan: doing it backwards, may cause rotation transformation errors (i forget how i implemented my gm::quat mult)
 			(*ch)->OnUpdate();
 		}
@@ -100,7 +106,7 @@ namespace mae
 
 	void Transform::SetPosition(gm::vec3 & pos)
 	{
-		local_position = pos - GetPosition();
+		local_position = pos - global_position;
 	}
 
 	const gm::vec3 & Transform::GetLocalPosition() const
@@ -128,7 +134,7 @@ namespace mae
 	void Transform::SetRotation(gm::quat & rot)
 	{
 		gm::quat lr = rot * global_rotation;
-		local_rotation = rot * GetRotation();
+		local_rotation = lr;
 	}
 
 	const gm::quat & Transform::GetLocalRotation() const
@@ -156,7 +162,7 @@ namespace mae
 
 	void Transform::SetScale(gm::vec3 & scl)
 	{
-		local_scale = scl - GetScale();
+		local_scale = scl - global_scale;
 	}
 
 	const gm::vec3 & Transform::GetLocalScale() const

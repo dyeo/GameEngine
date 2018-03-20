@@ -14,7 +14,7 @@ namespace mae
 
 		EntityHandle();
 
-		EntityHandle(Entity *const GetEntity);
+		EntityHandle(Entity *const entity);
 
 		EntityHandle &operator=(EntityHandle &other);
 
@@ -24,7 +24,7 @@ namespace mae
 
 		Entity *operator->();
 
-		Entity *GetEntity();
+		Entity *entity();
 
 	private:
 		

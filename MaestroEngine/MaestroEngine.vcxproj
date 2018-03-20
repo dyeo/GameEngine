@@ -19,33 +19,37 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Bounds.cpp" />
+    <ClCompile Include="Source\Audio.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Engine.cpp" />
     <ClCompile Include="Source\EntityHandle.cpp" />
     <ClCompile Include="Source\GameMode.cpp" />
+    <ClCompile Include="Source\Graphics.cpp" />
     <ClCompile Include="Source\Maestro.cpp" />
+    <ClCompile Include="Source\Music.cpp" />
     <ClCompile Include="Source\ObjectFactory.cpp" />
-    <ClCompile Include="Source\PhysicsEngine.cpp" />
-    <ClCompile Include="Source\RigidBody.cpp" />
     <ClCompile Include="Source\SceneGraph.cpp" />
+    <ClCompile Include="Source\Sound.cpp" />
+    <ClCompile Include="Source\Sprite.cpp" />
     <ClCompile Include="Source\System.cpp" />
     <ClCompile Include="Source\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Bounds.h" />
+    <ClInclude Include="Source\Audio.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\EntityHandle.h" />
     <ClInclude Include="Source\GameMode.h" />
+    <ClInclude Include="Source\Graphics.h" />
     <ClInclude Include="Source\Logging.h" />
     <ClInclude Include="Source\Maestro.h" />
+    <ClInclude Include="Source\Music.h" />
     <ClInclude Include="Source\ObjectFactory.h" />
-    <ClInclude Include="Source\PhysicsEngine.h" />
-    <ClInclude Include="Source\RigidBody.h" />
     <ClInclude Include="Source\SceneGraph.h" />
+    <ClInclude Include="Source\Sound.h" />
+    <ClInclude Include="Source\Sprite.h" />
     <ClInclude Include="Source\System.h" />
     <ClInclude Include="Source\Transform.h" />
     <ClInclude Include="Source\Updatable.h" />
