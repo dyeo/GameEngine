@@ -9,10 +9,14 @@
 #include <EntityHandle.h>
 #include <Logging.h>
 #include <Sprite.h>
+#include <Music.h>
+#include <Sound.h>
 
 #include <SFML/Graphics.hpp>
 
-class TestGameMode : public mae::GameMode
+using namespace mae;
+
+class TestGameMode : public GameMode
 {
 public:
 
@@ -30,19 +34,40 @@ public:
 		const char *texStr = "./Assets/orb.png";
 		if (!tex.loadFromFile(texStr))
 		{
-			LOG_ERROR("Texture %s not supported.", texStr);
+			LOG_ERROR("Texture %s does not exist.", texStr);
+			assert(0);
+		}
+
+		const char *sndStr = "./Assets/sound.ogg";
+		if (!snd.loadFromFile(sndStr))
+		{
+			LOG_ERROR("Sound file %s does not exist.", texStr);
 			assert(0);
 		}
 
 		ent1 = CreateEntity();
 		
-		mae::Sprite *const s1 = ent1->AddComponent<mae::Sprite>();
+		Sprite *const s1 = ent1->AddComponent<Sprite>();
+		Sound *const a1 = ent1->AddComponent<Sound>();
 		s1->setTexture(tex);
+		a1->setBuffer(snd);
+		a1->setVolume(100);
+
+		const char *musStr = "./Assets/theme.ogg";
 
 		ent2 = CreateEntity();
 
-		mae::Sprite *const s2 = ent2->AddComponent<mae::Sprite>();
+		Sprite *const s2 = ent2->AddComponent<Sprite>();
+		Music *const a2 = ent2->AddComponent<Music>();
 		s2->setTexture(tex);
+		if (!a2->openFromFile(musStr))
+		{
+			LOG_ERROR("Music file ", texStr, " does not exist.");
+			assert(0);
+		}
+
+		a2->setVolume(50);
+		a2->play();
 		
 		ent2->transform->SetParent(ent1->transform);
 
@@ -73,6 +98,12 @@ public:
 		{
 			ent1->transform->Translate(gm::vec3::up() * dt);
 		}
+
+		Sound *s1 = ent1->GetComponent<Sound>();
+		if (s1->getStatus() != Sound::Status::Playing && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+		{
+			s1->play();
+		}
 	}
 
 	virtual inline void OnFixedUpdate() override
@@ -96,6 +127,7 @@ public:
 private:
 
 	sf::Texture tex;
+	sf::SoundBuffer snd;
 
 	mae::EntityHandle ent1;
 	mae::EntityHandle ent2;	
