@@ -9,12 +9,12 @@
 
 namespace mae
 {
-class PhysicsEngine: public System
+class Physics: public System
 {
 
 	friend class RigidBody;
 public:
-	PhysicsEngine(Engine *const engine);
+	Physics(Engine *const engine);
 
 	virtual Component *const OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType) override;
 
@@ -26,17 +26,10 @@ private:
 public:
 
 public:
-	class CollisionPair
+	struct CollisionPair
 	{
-	public:
-		RigidBody * rigidBodyA;
+		RigidBody *rigidBodyA;
 		RigidBody *rigidBodyB;
-		virtual ~CollisionPair()
-		{
-			delete rigidBodyA;
-			delete rigidBodyB;
-		}
-
 	};
 
 	struct CollisionInfo
@@ -50,20 +43,16 @@ private:
 	std::vector<RigidBody*> rigidBodies;
 
 public:
-	void AddRigibodies(RigidBody *rigidBody);
 	void IntegrateBodies(float dt);
 
 	bool IsGrounded(RigidBody *rigidBody);
 	void CheckCollision();
 	void ResolveCollisions();
 	void PositionalCorrection(CollisionPair c);
-	void UpdatePhysics();
-	void OnFixedUpdate() override;
+	virtual void OnFixedUpdate() override;
 
 
 };
-
-//once integrated. The engine will call 'UpdatePhysics' so that the physics engine will work.
 
 }
 

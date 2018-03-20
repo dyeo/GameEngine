@@ -6,8 +6,6 @@
 #include "System.h"
 #include "GameMode.h"
 
-//maestro physics includes
-#include "PhysicsEngine.h"
 
 // maestro container includes
 #include "ObjectFactory.h"
@@ -208,7 +206,7 @@ namespace mae
 
 		ObjectFactory objectFactory;
 
-		//PhysicsEngine physicsEngine;
+		//Physics physicsEngine;
 
 		std::stack<GameMode *> gameModeStack;
 

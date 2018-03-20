@@ -7,19 +7,6 @@ namespace mae
 	RigidBody::RigidBody(System * const sys, EntityHandle ent)
 		: Component(sys, ent)
 	{
-		
-	}
-
-	RigidBody::~RigidBody()
-	{
-		//not sure what to do in destructor
-	}
-
-	void RigidBody::OnStart()
-	{
-		SetAABB();
-		//Maestro::GetEngine()->GetManagingSystem<RigidBody>();
-		static_cast<PhysicsEngine*>(system)->AddRigibodies(this);
 	}
 
 	void RigidBody::AddForce(gm::vec2f force)
@@ -35,7 +22,7 @@ namespace mae
 
 	bool RigidBody::IsGrounded()
 	{
-		grounded = static_cast<PhysicsEngine*>(system)->IsGrounded(this); //instance of the physics engine
+		grounded = static_cast<Physics*>(system)->IsGrounded(this); //instance of the physics engine
 		return grounded;
 	}
 
@@ -71,14 +58,14 @@ namespace mae
 			acceleration = gm::vec2f::zero();
 		}
 		currentVelocity += acceleration * dt;
-		gm::vec2f temp = transform->GetPosition().xy ; //probably wrong. Would need to get the actual transform
+		gm::vec2f temp = entity->transform->GetPosition().xy;
 		temp += currentVelocity * dt;
-		transform->SetPosition(gm::vec3f(temp));
+		entity->transform->SetPosition(gm::vec3f(temp));
 		SetAABB();
 		totalForces = gm::vec2f::zero();
 	}
 
-	bool RigidBody::operator!=(const RigidBody rb) const
+	bool RigidBody::operator!=(const RigidBody rb)
 	{
 		return (this->mass != rb.mass || this->bounciness != rb.bounciness || this->UseGravity != rb.UseGravity || this->grounded);
 		//couldn't compare gravity, currentVelocity, maxmimumVelocity, transform, or totalForces as there is no overload in the math library

@@ -12,7 +12,7 @@ int main(char *argc, char **argv)
 	using namespace mae;
 	Maestro::Initialize();
 	Maestro::GetEngine()->AddSystem<SceneGraph>();
-	Maestro::GetEngine()->AddSystem<PhysicsEngine>();
+	Maestro::GetEngine()->AddSystem<Physics>();
 	Maestro::GetEngine()->AddSystem<Graphics>();
 	Maestro::GetEngine()->AddSystem<Audio>();
 	Maestro::GetEngine()->gameModeStack.push(new TestGameMode());

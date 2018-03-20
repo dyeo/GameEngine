@@ -1,35 +1,41 @@
-#include "PhysicsEngine.h"
+#include "Physics.h"
 #include <iostream>
 #include "Maestro.h"
 
 namespace mae
 {
-	PhysicsEngine::PhysicsEngine(Engine* const engine) : System(engine)
+	Physics::Physics(Engine* const engine) : System(engine)
 	{
-		engine->SetManagingSystem<mae::PhysicsEngine>(this);
 		engine->SetManagingSystem <mae::RigidBody>(this);
 	}
 
-	Component* const PhysicsEngine::OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType)
+	Component* const Physics::OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType)
 	{
-
-		RigidBody *const rb = new RigidBody(this, srcEnt);
-		rigidBodies.push_back(rb);
-		return rigidBodies.back();
+		if (cmpType == typeid(RigidBody))
+		{
+			RigidBody *rb = new RigidBody(this, srcEnt);
+			rigidBodies.push_back(rb);
+			rb->SetAABB();
+			return rigidBodies.back();			
+		}
+		return nullptr;
 
 	}
 
-	bool PhysicsEngine::OnComponentDestroy(EntityHandle srcEnt, Component* const srcCmp)
+	bool Physics::OnComponentDestroy(EntityHandle srcEnt, Component* const srcCmp)
 	{
-
+		std::type_index cmpType = typeid(*srcCmp);
+		if (cmpType == typeid(RigidBody))
+		{
+			RigidBody *const rb = static_cast<RigidBody*>(srcCmp);
+			rigidBodies.erase(std::remove(rigidBodies.begin(), rigidBodies.end(), rb), rigidBodies.end());
+			delete rb;
+			return true;
+		}
+		return false;
 	}
 
-	void PhysicsEngine::AddRigibodies(RigidBody *rigidBody)
-	{
-		rigidBodies.push_back(rigidBody);
-	}
-
-	void PhysicsEngine::IntegrateBodies(float dt)
+	void Physics::IntegrateBodies(float dt)
 	{
 		for (auto rb : rigidBodies)
 		{
@@ -37,7 +43,7 @@ namespace mae
 		}
 	}
 
-	bool PhysicsEngine::IsGrounded(RigidBody *rigidBody)
+	bool Physics::IsGrounded(RigidBody *rigidBody)
 	{
 		for (auto rb : rigidBodies)
 		{
@@ -57,7 +63,7 @@ namespace mae
 			return false;
 	}
 
-	void PhysicsEngine::CheckCollision()
+	void Physics::CheckCollision()
 	{
 
 		for (auto bodyA : rigidBodies)
@@ -68,11 +74,10 @@ namespace mae
 				{
 					if (ia != ib)
 					{
-						//CollisionPair pair{ *ia,*ib };
-						CollisionPair pair = CollisionPair();
+						CollisionPair pair{*ia, *ib};
 						CollisionInfo colInfo;
 
-						gm::vec2f distance = (*ib)->transform->GetPosition().xy - (*ia)->transform->GetPosition().xy; //this is wrong, and Unity's implementation of getting a transform. will need to be changed to work for Maestro
+						gm::vec2f distance = (*ib)->entity->transform->GetPosition().xy - (*ia)->entity->transform->GetPosition().xy;
 						gm::vec2f halfSizeA = ((*ia)->aabb.tRight - (*ia)->aabb.bLeft) / 2;
 						gm::vec2f halfSizeB = ((*ib)->aabb.tRight - (*ib)->aabb.bLeft) / 2;
 						gm::vec2f gap = gm::vec2f(std::abs(distance.x), std::abs(distance.y)) - (halfSizeA + halfSizeB);
@@ -123,9 +128,8 @@ namespace mae
 	}
 
 
-				void PhysicsEngine::ResolveCollisions()
+				void Physics::ResolveCollisions()
 				{
-					//would we use a lambda to iterate through all keys?
 					for (auto it = collisions.begin(); it != collisions.end(); ++it) // it->first is CollisionPair, it->second is CollisionInfo
 					{
 						float minBounce = std::min(it->first.rigidBodyA->bounciness, it->first.rigidBodyB->bounciness);
@@ -166,7 +170,7 @@ namespace mae
 					}
 				}
 
-				void PhysicsEngine::PositionalCorrection(CollisionPair c)
+				void Physics::PositionalCorrection(CollisionPair c)
 				{
 					const float percent = 0.2f;
 					float invMassA, invMassB;
@@ -189,26 +193,21 @@ namespace mae
 						invMassB = 1 / c.rigidBodyB->mass;
 					}
 					gm::vec2f correction = -collisions[c].collisionNormal * ((collisions[c].penetration / (invMassA + invMassB)) * percent);
-					gm::vec2f temp = c.rigidBodyA->transform->GetPosition().xy; //wrong would need to get the actual position from the rigidbody's owning object
+					gm::vec2f temp = c.rigidBodyA->entity->transform->GetPosition().xy;
 					
 					temp -= correction * invMassA;
-					c.rigidBodyA->transform->SetPosition(gm::vec3f(temp)); //probably also wrong
+					c.rigidBodyA->entity->transform->SetPosition(gm::vec3f(temp));
 					temp += correction * invMassB;
-					c.rigidBodyB->transform->SetPosition(gm::vec3f(temp));
+					c.rigidBodyB->entity->transform->SetPosition(gm::vec3f(temp));
 
 				}
 
-				void PhysicsEngine::UpdatePhysics()
+				void Physics::OnFixedUpdate()
 				{
 					CheckCollision();
 
 					ResolveCollisions();
 
-					IntegrateBodies(Maestro::GetEngine()->DELTATIME_FIXED); //needs deltaTime from engine
-				}
-
-				void PhysicsEngine::OnFixedUpdate() //hopefully this is integrated in with the engine by doing this
-				{
-					UpdatePhysics();
+					IntegrateBodies(Maestro::GetEngine()->DELTATIME_FIXED);
 				}			
 }
