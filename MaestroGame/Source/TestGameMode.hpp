@@ -57,10 +57,12 @@ public:
 
 		const char *musStr = "./Assets/theme.ogg";
 
-		ent2 = CreateEntity();
+		/*ent2 = CreateEntity();
 
 		Sprite *const s2 = ent2->AddComponent<Sprite>();
 		Music *const a2 = ent2->AddComponent<Music>();
+		RigidBody *const r2 = ent2->AddComponent<RigidBody>();
+		r2->UseGravity = false;
 		s2->setTexture(tex);
 		if (!a2->openFromFile(musStr))
 		{
@@ -71,7 +73,7 @@ public:
 		a2->setVolume(50);
 		a2->play();
 		
-		ent2->transform->SetParent(ent1->transform);
+		ent2->transform->SetParent(ent1->transform);*/
 
 		ent1->transform->SetPosition(gm::vec3(50, 50, 0));
 		

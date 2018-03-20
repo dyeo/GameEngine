@@ -30,6 +30,11 @@ public:
 	{
 		RigidBody *rigidBodyA;
 		RigidBody *rigidBodyB;
+		friend bool operator<(const CollisionPair& l, const CollisionPair& r)
+		{
+			return std::tie(l.rigidBodyA, l.rigidBodyB)
+				< std::tie(r.rigidBodyA, r.rigidBodyB); // keep the same order
+		}
 	};
 
 	struct CollisionInfo

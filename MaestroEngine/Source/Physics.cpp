@@ -16,7 +16,7 @@ namespace mae
 			RigidBody *rb = new RigidBody(this, srcEnt);
 			rigidBodies.push_back(rb);
 			rb->SetAABB();
-			return rigidBodies.back();			
+			return rigidBodies.back();
 		}
 		return nullptr;
 
@@ -47,7 +47,7 @@ namespace mae
 	{
 		for (auto rb : rigidBodies)
 		{
-			if (rb != rigidBody) 
+			if (rb != rigidBody)
 			{
 				if (rigidBody->aabb.bLeft.x < rb->aabb.tRight.x
 					&& rigidBody->aabb.tRight.x > rb->aabb.bLeft.x
@@ -60,12 +60,11 @@ namespace mae
 				}
 			}
 		}
-			return false;
+		return false;
 	}
 
 	void Physics::CheckCollision()
 	{
-
 		for (auto bodyA : rigidBodies)
 		{
 			for (auto ia = rigidBodies.begin(); ia != rigidBodies.end() - 1; ++ia)
@@ -74,7 +73,7 @@ namespace mae
 				{
 					if (ia != ib)
 					{
-						CollisionPair pair{*ia, *ib};
+						CollisionPair pair = { *ia, *ib };
 						CollisionInfo colInfo;
 
 						gm::vec2f distance = (*ib)->entity->transform->GetPosition().xy - (*ia)->entity->transform->GetPosition().xy;
@@ -114,6 +113,7 @@ namespace mae
 								}
 								colInfo.penetration = gap.y;
 							}
+							
 							collisions.emplace(pair, colInfo);
 						}
 						else if (collisions.find(pair) != collisions.end())
@@ -127,87 +127,86 @@ namespace mae
 		}
 	}
 
+	void Physics::ResolveCollisions()
+	{
+		for (auto it = collisions.begin(); it != collisions.end(); ++it) // it->first is CollisionPair, it->second is CollisionInfo
+		{
+			float minBounce = std::min(it->first.rigidBodyA->bounciness, it->first.rigidBodyB->bounciness);
+			float velAlongNormal = gm::dot(it->first.rigidBodyB->currentVelocity - it->first.rigidBodyA->currentVelocity, collisions[it->first].collisionNormal);
+			if (velAlongNormal > 0)
+			{
+				continue;
+			}
+			float j = -(1 + minBounce) * velAlongNormal;
+			float invMassA, invMassB;
+			if (it->first.rigidBodyA->mass == 0)
+			{
+				invMassA = 0;
+			}
+			else
+			{
+				invMassA = 1 / it->first.rigidBodyA->mass;
+			}
+			if (it->first.rigidBodyB->mass == 0)
+			{
+				invMassB = 0;
+			}
+			else
+			{
+				invMassB = 1 / it->first.rigidBodyB->mass;
+			}
 
-				void Physics::ResolveCollisions()
-				{
-					for (auto it = collisions.begin(); it != collisions.end(); ++it) // it->first is CollisionPair, it->second is CollisionInfo
-					{
-						float minBounce = std::min(it->first.rigidBodyA->bounciness, it->first.rigidBodyB->bounciness);
-						float velAlongNormal = gm::dot(it->first.rigidBodyB->currentVelocity - it->first.rigidBodyA->currentVelocity, collisions[it->first].collisionNormal);
-						if (velAlongNormal > 0)
-						{
-							continue;
-						}
-						float j = -(1 + minBounce) * velAlongNormal;
-						float invMassA, invMassB;
-						if (it->first.rigidBodyA->mass == 0)
-						{
-							invMassA = 0;
-						}
-						else
-						{
-							invMassA = 1 / it->first.rigidBodyA->mass;
-						}
-						if (it->first.rigidBodyB->mass == 0)
-						{
-							invMassB = 0;
-						}
-						else
-						{
-							invMassB = 1 / it->first.rigidBodyB->mass;
-						}
+			j /= (invMassA + invMassB);
+			auto impulse = collisions[it->first].collisionNormal * j;
 
-						j /= (invMassA + invMassB);
-						auto impulse = collisions[it->first].collisionNormal * j;
+			it->first.rigidBodyA->AddForce(-impulse / Maestro::GetEngine()->deltaTime);
+			it->first.rigidBodyB->AddForce(impulse / Maestro::GetEngine()->deltaTime);
 
-						it->first.rigidBodyA->AddForce(-impulse / Maestro::GetEngine()->deltaTime);
-						it->first.rigidBodyB->AddForce(impulse / Maestro::GetEngine()->deltaTime);
+			if (std::abs(collisions[it->first].penetration) > 0.01f)
+			{
+				PositionalCorrection(it->first);
+			}
+		}
+	}
 
-						if (std::abs(collisions[it->first].penetration) > 0.01f)
-						{
-							PositionalCorrection(it->first);
-						}
-					}
-				}
+	void Physics::PositionalCorrection(CollisionPair c)
+	{
+		const float percent = 0.2f;
+		float invMassA, invMassB;
 
-				void Physics::PositionalCorrection(CollisionPair c)
-				{
-					const float percent = 0.2f;
-					float invMassA, invMassB;
+		if (c.rigidBodyA->mass == 0)
+		{
+			invMassA = 0;
+		}
+		else
+		{
+			invMassA = 1 / c.rigidBodyA->mass;
+		}
 
-					if (c.rigidBodyA->mass == 0)
-					{
-						invMassA = 0;
-					}
-					else
-					{
-						invMassA = 1 / c.rigidBodyA->mass;
-					}
+		if (c.rigidBodyB->mass == 0)
+		{
+			invMassB = 0;
+		}
+		else
+		{
+			invMassB = 1 / c.rigidBodyB->mass;
+		}
+		gm::vec2f correction = -collisions[c].collisionNormal * ((collisions[c].penetration / (invMassA + invMassB)) * percent);
+		gm::vec2f temp = c.rigidBodyA->entity->transform->GetPosition().xy;
 
-					if (c.rigidBodyB->mass == 0)
-					{
-						invMassB = 0;
-					}
-					else
-					{
-						invMassB = 1 / c.rigidBodyB->mass;
-					}
-					gm::vec2f correction = -collisions[c].collisionNormal * ((collisions[c].penetration / (invMassA + invMassB)) * percent);
-					gm::vec2f temp = c.rigidBodyA->entity->transform->GetPosition().xy;
-					
-					temp -= correction * invMassA;
-					c.rigidBodyA->entity->transform->SetPosition(gm::vec3f(temp));
-					temp += correction * invMassB;
-					c.rigidBodyB->entity->transform->SetPosition(gm::vec3f(temp));
+		temp -= correction * invMassA;
+		c.rigidBodyA->entity->transform->SetPosition(gm::vec3(temp));
+		temp += correction * invMassB;
+		c.rigidBodyB->entity->transform->SetPosition(gm::vec3(temp));
 
-				}
+	}
 
-				void Physics::OnFixedUpdate()
-				{
-					CheckCollision();
+	void Physics::OnFixedUpdate()
+	{
+		CheckCollision();
 
-					ResolveCollisions();
+		ResolveCollisions();
 
-					IntegrateBodies(Maestro::GetEngine()->DELTATIME_FIXED);
-				}			
+		IntegrateBodies(Maestro::GetEngine()->DELTATIME_FIXED);
+	}
 }
