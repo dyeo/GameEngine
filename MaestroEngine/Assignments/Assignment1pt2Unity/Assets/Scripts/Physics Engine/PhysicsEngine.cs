@@ -45,7 +45,9 @@ public class PhysicsEngine : MonoBehaviour
                     && Mathf.Abs(rigidBody.aabb.bLeft.y - rb.aabb.tRight.y) <= groundedTol)
                 {
                     if (Mathf.Abs(rigidBody.currentVelocity.y) < groundedTol)
-                        return true;
+                    {
+                      return true;
+                    }
                 }
             }
         }

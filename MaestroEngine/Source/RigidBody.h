@@ -31,7 +31,7 @@ public:
 	gm::vec2 currentVelocity;
 	gm::vec2 maximumVelocity;
 	bool grounded;
-	//Transform transform; //initialize this
+	Transform *const transform = entity->transform; //initialize this
 	
 
 
@@ -50,7 +50,6 @@ public:
 
 	AABB aabb;
 
-public:
 	void AddForce(gm::vec2f force);
 	void Stop();
 	bool IsGrounded();

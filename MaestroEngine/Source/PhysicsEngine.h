@@ -7,12 +7,12 @@
 #include <map>
 #include <list>
 
-class RigidBody;
-
 namespace mae
 {
 class PhysicsEngine: public System
 {
+
+	friend class RigidBody;
 public:
 	PhysicsEngine(Engine *const engine);
 

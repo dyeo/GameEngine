@@ -6,7 +6,6 @@ namespace mae
 {
 	RigidBody::RigidBody(System * const sys, EntityHandle ent)
 		: Component(sys, ent)
-		, parent(nullptr)
 	{
 		
 	}
@@ -19,9 +18,8 @@ namespace mae
 	void RigidBody::OnStart()
 	{
 		SetAABB();
-
-		//get reference to physics engine
-		//add rigidbody to physics engine
+		//Maestro::GetEngine()->GetManagingSystem<RigidBody>();
+		static_cast<PhysicsEngine*>(system)->AddRigibodies(this);
 	}
 
 	void RigidBody::AddForce(gm::vec2f force)

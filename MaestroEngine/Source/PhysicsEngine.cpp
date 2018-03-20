@@ -6,7 +6,8 @@ namespace mae
 {
 	PhysicsEngine::PhysicsEngine(Engine* const engine) : System(engine)
 	{
-		engine->SetManagingSystem<PhysicsEngine>(this);
+		engine->SetManagingSystem<mae::PhysicsEngine>(this);
+		engine->SetManagingSystem <mae::RigidBody>(this);
 	}
 
 	Component* const PhysicsEngine::OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType)
@@ -52,17 +53,18 @@ namespace mae
 					}
 				}
 			}
-			return false;
 		}
+			return false;
 	}
 
 	void PhysicsEngine::CheckCollision()
 	{
 
 		for (auto bodyA : rigidBodies)
-			for (auto ia = rigidBodies.begin(); ia != rigidBodies.end() - 1; ia++)
+		{
+			for (auto ia = rigidBodies.begin(); ia != rigidBodies.end() - 1; ++ia)
 			{
-				for (auto ib = ia; ib != rigidBodies.end(); ib++)
+				for (auto ib = ia; ib != rigidBodies.end(); ++ib)
 				{
 					if (ia != ib)
 					{
@@ -70,9 +72,9 @@ namespace mae
 						CollisionPair pair = CollisionPair();
 						CollisionInfo colInfo;
 
-						gm::vec2f distance =  ib->transform.GetPosition().xy - ia->transform.GetPosition().xy; //this is wrong, and Unity's implementation of getting a transform. will need to be changed to work for Maestro
-						gm::vec2f halfSizeA = (ia->aabb.tRight - ia->aabb.bLeft) / 2;
-						gm::vec2f halfSizeB = (ib->aabb.tRight - ib->aabb.bLeft) / 2;
+						gm::vec2f distance = (*ib)->transform->GetPosition().xy - (*ia)->transform->GetPosition().xy; //this is wrong, and Unity's implementation of getting a transform. will need to be changed to work for Maestro
+						gm::vec2f halfSizeA = ((*ia)->aabb.tRight - (*ia)->aabb.bLeft) / 2;
+						gm::vec2f halfSizeB = ((*ib)->aabb.tRight - (*ib)->aabb.bLeft) / 2;
 						gm::vec2f gap = gm::vec2f(std::abs(distance.x), std::abs(distance.y)) - (halfSizeA + halfSizeB);
 
 						//separating axis theorem test
@@ -117,6 +119,7 @@ namespace mae
 					}
 				}
 			}
+		}
 	}
 
 
@@ -168,7 +171,7 @@ namespace mae
 					const float percent = 0.2f;
 					float invMassA, invMassB;
 
-					if (c.rigidBodyA.mass == 0)
+					if (c.rigidBodyA->mass == 0)
 					{
 						invMassA = 0;
 					}
@@ -186,12 +189,12 @@ namespace mae
 						invMassB = 1 / c.rigidBodyB->mass;
 					}
 					gm::vec2f correction = -collisions[c].collisionNormal * ((collisions[c].penetration / (invMassA + invMassB)) * percent);
-					gm::vec2f temp = c.rigidBodyA->transform.GetPosition().xy; //wrong would need to get the actual position from the rigidbody's owning object
+					gm::vec2f temp = c.rigidBodyA->transform->GetPosition().xy; //wrong would need to get the actual position from the rigidbody's owning object
 					
 					temp -= correction * invMassA;
-					c.rigidBodyA->transform.SetPosition(gm::vec3f(temp)); //probably also wrong
+					c.rigidBodyA->transform->SetPosition(gm::vec3f(temp)); //probably also wrong
 					temp += correction * invMassB;
-					c.rigidBodyB->transform.SetPosition(gm::vec3f(temp));
+					c.rigidBodyB->transform->SetPosition(gm::vec3f(temp));
 
 				}
 

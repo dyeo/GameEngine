@@ -9,6 +9,7 @@
 #include <EntityHandle.h>
 #include <Logging.h>
 #include <Sprite.h>
+#include "RigidBody.h"
 #include <Music.h>
 #include <Sound.h>
 
@@ -49,6 +50,7 @@ public:
 		
 		Sprite *const s1 = ent1->AddComponent<Sprite>();
 		Sound *const a1 = ent1->AddComponent<Sound>();
+		RigidBody *const r1 = ent1->AddComponent<RigidBody>();
 		s1->setTexture(tex);
 		a1->setBuffer(snd);
 		a1->setVolume(100);
