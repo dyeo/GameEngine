@@ -20,20 +20,24 @@ namespace mae
 
 	Component * const Graphics::OnComponentCreate(EntityHandle srcEnt, std::type_index cmpType)
 	{
-		Sprite *spr = new Sprite(this, srcEnt);
-		sprites.push_back(spr);
-
-		return sprites.back();
+		if (cmpType == typeid(Sprite))
+		{
+			Sprite *spr = new Sprite(this, srcEnt);
+			sprites.push_back(spr);
+			return sprites.back();
+		}
+		return nullptr;
 	}
 
-	bool Graphics::OnComponentDestroy(EntityHandle srcEnt, Component * const srcCmp)
+	bool Graphics::OnComponentDestroy(EntityHandle srcEnt, Component *const srcCmp)
 	{
-		std::type_index cmpType = typeid(srcCmp);
+		std::type_index cmpType = typeid(*srcCmp);
 		if (cmpType == typeid(Sprite))
 		{
 			Sprite *const s = static_cast<Sprite*>(srcCmp);
 			sprites.erase(std::remove(sprites.begin(), sprites.end(), s), sprites.end());
 			delete s;
+			return true;
 		}
 		return false;
 	}
@@ -51,11 +55,6 @@ namespace mae
 		for (int s = 0; s < sprites.size(); s++)
 		{
 			sprites[s]->OnRender();
-			//EntityHandle sprEnt = sprites[s]->entity;
-			//Transform *const sprTrn = sprEnt->transform;
-			//
-			//sprites[s]->setPosition(sprTrn->GetPosition().x, sprTrn->GetPosition().y);
-			//engine->window.draw(*sprites[s]);
 		}
 	}
 

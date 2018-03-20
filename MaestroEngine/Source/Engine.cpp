@@ -30,7 +30,7 @@ namespace mae
 
 		currentTime = GetHiresTimeSeconds();
 
-		while (true)
+		while (isRunning)
 		{
 			double newTime = GetHiresTimeSeconds();
 			deltaTime = newTime - currentTime;
@@ -64,7 +64,7 @@ namespace mae
 			// render
 			OnRender();
 
-			if (!isRunning || !window.isOpen())
+			if (!isRunning)
 			{
 				OnFinish();
 				break;
@@ -72,8 +72,6 @@ namespace mae
 		}
 
 		OnDestroy();
-
-		getchar();
 	}
 
 	void Engine::OnCreate()
