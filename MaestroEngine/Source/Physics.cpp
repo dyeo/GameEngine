@@ -65,8 +65,8 @@ namespace mae
 
 	void Physics::CheckCollision()
 	{
-		for (auto bodyA : rigidBodies)
-		{
+		//for (auto bodyA : rigidBodies)
+		//{
 			for (auto ia = rigidBodies.begin(); ia != rigidBodies.end() - 1; ++ia)
 			{
 				for (auto ib = ia; ib != rigidBodies.end(); ++ib)
@@ -124,7 +124,7 @@ namespace mae
 					}
 				}
 			}
-		}
+		//}
 	}
 
 	void Physics::ResolveCollisions()
@@ -157,6 +157,7 @@ namespace mae
 			}
 
 			j /= (invMassA + invMassB);
+
 			auto impulse = collisions[it->first].collisionNormal * j;
 
 			it->first.rigidBodyA->AddForce(-impulse / Maestro::GetEngine()->deltaTime);
@@ -191,6 +192,7 @@ namespace mae
 		{
 			invMassB = 1 / c.rigidBodyB->mass;
 		}
+
 		gm::vec2f correction = -collisions[c].collisionNormal * ((collisions[c].penetration / (invMassA + invMassB)) * percent);
 		gm::vec2f temp = c.rigidBodyA->entity->transform->GetLocalPosition().xy;
 
@@ -207,7 +209,7 @@ namespace mae
 
 		ResolveCollisions();
 
-		IntegrateBodies(Maestro::GetEngine()->deltaTime); //should be fixed deltaTime, but because that is too fast I'm using deltaTime
+		IntegrateBodies(Maestro::GetEngine()->DELTATIME_FIXED); //should be fixed deltaTime, but because that is too fast I'm using deltaTime
 	}
 
 	void Physics::OnFixedUpdate()
