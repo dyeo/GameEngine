@@ -82,6 +82,11 @@ public:
 	{
 		float dt = 128 * mae::Maestro::GetEngine()->deltaTime;
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+		{
+			Maestro::GetEngine()->isRunning = false;
+		}
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
 		{
 			ent1->transform->Translate(gm::vec3::right() * dt);
@@ -97,6 +102,23 @@ public:
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
 		{
 			ent1->transform->Translate(gm::vec3::up() * dt);
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
+		{
+			ent2->transform->Translate(gm::vec3::right() * dt);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
+		{
+			ent2->transform->Translate(gm::vec3::left() * dt);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I))
+		{
+			ent2->transform->Translate(gm::vec3::down() * dt);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
+		{
+			ent2->transform->Translate(gm::vec3::up() * dt);
 		}
 
 		Sound *s1 = ent1->GetComponent<Sound>();
