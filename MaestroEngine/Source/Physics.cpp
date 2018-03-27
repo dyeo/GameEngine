@@ -199,7 +199,7 @@ namespace mae
 		temp -= correction * invMassA;
 		c.rigidBodyA->entity->transform->SetPosition(gm::vec3(temp));
 		temp += correction * invMassB;
-		c.rigidBodyB->entity->transform->SetPosition(gm::vec3(temp));
+		c.rigidBodyB->entity->transform->SetLocalPosition(gm::vec3(temp));
 
 	}
 

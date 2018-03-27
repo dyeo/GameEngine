@@ -217,7 +217,7 @@ namespace mae
 		// bool hasFocus = true;
 
 		// timestepping
-		const double DELTATIME_FIXED = 1.0 / 60.0;
+		const double DELTATIME_FIXED = 1.0 / 600.0;
 		double elapsedTime = 0.0;
 		double currentTime = 0.0;
 		double deltaTime = 0.0;

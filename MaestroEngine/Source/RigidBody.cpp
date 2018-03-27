@@ -1,5 +1,5 @@
 #include "RigidBody.h"
-
+#include "Engine.h"
 #include "Maestro.h"
 #include "Sprite.h"
 
@@ -8,6 +8,7 @@ namespace mae
 	RigidBody::RigidBody(System * const sys, EntityHandle ent)
 		: Component(sys, ent)
 	{
+		SetAABB();			
 	}
 
 	void RigidBody::AddForce(gm::vec2f force)
@@ -30,13 +31,15 @@ namespace mae
 	void RigidBody::SetAABB()
 	{
 		//needs work
-		Bounds bound = Bounds(gm::vec2f(0.f, 0.f), gm::vec2f(1.0f, 1.0f));
+		sf::FloatRect bound = sf::FloatRect(0.0f,0.0f,1.0f,1.0f);//Bounds(gm::vec2f(0.f, 0.f), gm::vec2f(1.0f, 1.0f));
 
-		//part where you need to get the renderer component and check to see if it's valid
-		//if it is, assign bound to be equal to that, otherwise use default values
+		if (entity->GetComponent<Sprite>() != nullptr)
+		{
+			bound = entity->GetComponent<Sprite>()->getLocalBounds();
+		}
 
-		aabb.bLeft =  gm::vec2f(bound.m_center.x - bound.m_Extents.x, bound.m_center.y - bound.m_Extents.y);
-		aabb.tRight =  gm::vec2f(bound.m_center.x + bound.m_Extents.x, bound.m_center.y + bound.m_Extents.y);
+		aabb.bLeft =  gm::vec2f(bound.left, bound.top);
+		aabb.tRight =  gm::vec2f(bound.width, bound.height);
 	}
 
 	void RigidBody::Integrate(float dt)

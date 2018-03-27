@@ -93,9 +93,11 @@ public:
 		Sprite *const s3 = ent3->AddComponent<Sprite>();
 		RigidBody *const r3 = ent3->AddComponent<RigidBody>();
 		s3->setTexture(brickTex);
+		//s3->setTextureRect(sf::IntRect(0, 0, 30, 30));
+		//s3->setScale(0.25f, 0.25f);
 
 		ent3->GetComponent<RigidBody>()->UseGravity = false;
-		ent3->GetComponent<RigidBody>()->mass = 0.8f;
+		ent3->GetComponent<RigidBody>()->mass = 10.8f;
 		ent3->GetComponent<RigidBody>()->bounciness = 0.0f;
 
 		ent3->transform->SetPosition(gm::vec3(50, 200, 0));

@@ -5,7 +5,7 @@
 
 namespace mae
 {
-struct Bounds
+struct Bounds : sf::FloatRect
 {
 	Bounds() : m_center(), m_Extents() {}
 
