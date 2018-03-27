@@ -1,6 +1,7 @@
 #include "RigidBody.h"
 
 #include "Maestro.h"
+#include "Sprite.h"
 
 namespace mae
 {
@@ -58,7 +59,7 @@ namespace mae
 			acceleration = gm::vec2f::zero();
 		}
 		currentVelocity += acceleration * dt;
-		gm::vec2f temp = entity->transform->GetPosition().xy;
+		gm::vec2f temp = entity->transform->GetLocalPosition().xy;
 		temp += currentVelocity * dt;
 		entity->transform->SetPosition(gm::vec3f(temp));
 		SetAABB();

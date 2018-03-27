@@ -76,7 +76,7 @@ namespace mae
 						CollisionPair pair = { *ia, *ib };
 						CollisionInfo colInfo;
 
-						gm::vec2f distance = (*ib)->entity->transform->GetPosition().xy - (*ia)->entity->transform->GetPosition().xy;
+						gm::vec2f distance = (*ib)->entity->transform->GetLocalPosition().xy - (*ia)->entity->transform->GetLocalPosition().xy;
 						gm::vec2f halfSizeA = ((*ia)->aabb.tRight - (*ia)->aabb.bLeft) / 2;
 						gm::vec2f halfSizeB = ((*ib)->aabb.tRight - (*ib)->aabb.bLeft) / 2;
 						gm::vec2f gap = gm::vec2f(std::abs(distance.x), std::abs(distance.y)) - (halfSizeA + halfSizeB);
@@ -192,7 +192,7 @@ namespace mae
 			invMassB = 1 / c.rigidBodyB->mass;
 		}
 		gm::vec2f correction = -collisions[c].collisionNormal * ((collisions[c].penetration / (invMassA + invMassB)) * percent);
-		gm::vec2f temp = c.rigidBodyA->entity->transform->GetPosition().xy;
+		gm::vec2f temp = c.rigidBodyA->entity->transform->GetLocalPosition().xy;
 
 		temp -= correction * invMassA;
 		c.rigidBodyA->entity->transform->SetPosition(gm::vec3(temp));
@@ -201,12 +201,17 @@ namespace mae
 
 	}
 
-	void Physics::OnFixedUpdate()
+	void Physics::UpdatePhysics()
 	{
 		CheckCollision();
 
 		ResolveCollisions();
 
-		IntegrateBodies(Maestro::GetEngine()->DELTATIME_FIXED);
+		IntegrateBodies(Maestro::GetEngine()->deltaTime); //should be fixed deltaTime, but because that is too fast I'm using deltaTime
+	}
+
+	void Physics::OnFixedUpdate()
+	{
+		UpdatePhysics();
 	}
 }

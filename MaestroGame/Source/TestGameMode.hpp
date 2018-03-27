@@ -14,12 +14,15 @@
 #include <Sound.h>
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 using namespace mae;
 
 class TestGameMode : public GameMode
 {
 public:
+
+	float counter = 0.0f;
 
 	TestGameMode()
 	{
@@ -39,6 +42,16 @@ public:
 			assert(0);
 		}
 
+		const char *brickTexStr = "./Assets/brick.png";
+		if(!brickTex.loadFromFile(brickTexStr))
+		{
+			if (!tex.loadFromFile(texStr))
+			{
+				LOG_ERROR("Texture %s does not exist.", brickTexStr);
+				assert(0);
+			}
+		}
+
 		const char *sndStr = "./Assets/sound.ogg";
 		if (!snd.loadFromFile(sndStr))
 		{
@@ -51,18 +64,20 @@ public:
 		Sprite *const s1 = ent1->AddComponent<Sprite>();
 		Sound *const a1 = ent1->AddComponent<Sound>();
 		RigidBody *const r1 = ent1->AddComponent<RigidBody>();
+		ent3->GetComponent<RigidBody>()->bounciness = 1.0f;
+		ent3->GetComponent<RigidBody>()->mass = 0.8f;
+		r1->UseGravity = false;
+		//std::cout << "position after adding RB" << ent1->transform->GetPosition() << std::endl;
 		s1->setTexture(tex);
 		a1->setBuffer(snd);
 		a1->setVolume(100);
 
 		const char *musStr = "./Assets/theme.ogg";
 
-		/*ent2 = CreateEntity();
+		ent2 = CreateEntity();
 
 		Sprite *const s2 = ent2->AddComponent<Sprite>();
 		Music *const a2 = ent2->AddComponent<Music>();
-		RigidBody *const r2 = ent2->AddComponent<RigidBody>();
-		r2->UseGravity = false;
 		s2->setTexture(tex);
 		if (!a2->openFromFile(musStr))
 		{
@@ -72,8 +87,20 @@ public:
 
 		a2->setVolume(50);
 		a2->play();
+
+		ent3 = CreateEntity();
+
+		Sprite *const s3 = ent3->AddComponent<Sprite>();
+		RigidBody *const r3 = ent3->AddComponent<RigidBody>();
+		s3->setTexture(brickTex);
+
+		ent3->GetComponent<RigidBody>()->UseGravity = false;
+		ent3->GetComponent<RigidBody>()->mass = 0.8f;
+		ent3->GetComponent<RigidBody>()->bounciness = 0.0f;
+
+		ent3->transform->SetPosition(gm::vec3(50, 200, 0));
 		
-		ent2->transform->SetParent(ent1->transform);*/
+		ent2->transform->SetParent(ent1->transform);
 
 		ent1->transform->SetPosition(gm::vec3(50, 50, 0));
 		
@@ -84,7 +111,17 @@ public:
 
 	virtual inline void OnUpdate() override
 	{
+	
 		float dt = 128 * mae::Maestro::GetEngine()->deltaTime;
+
+		if (counter <= 3.5f)
+		{
+			counter += Maestro::GetEngine()->deltaTime;
+		}
+		else
+		{
+			ent1->GetComponent<RigidBody>()->UseGravity = true;
+		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
 		{
@@ -131,8 +168,10 @@ public:
 private:
 
 	sf::Texture tex;
+	sf::Texture brickTex;
 	sf::SoundBuffer snd;
 
 	mae::EntityHandle ent1;
 	mae::EntityHandle ent2;	
+	mae::EntityHandle ent3;
 };

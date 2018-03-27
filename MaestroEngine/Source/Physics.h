@@ -54,6 +54,7 @@ public:
 	void CheckCollision();
 	void ResolveCollisions();
 	void PositionalCorrection(CollisionPair c);
+	void UpdatePhysics();
 	virtual void OnFixedUpdate() override;
 
 

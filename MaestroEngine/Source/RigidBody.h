@@ -26,7 +26,7 @@ public:
 	 */
 	float bounciness = 1.0f;
 	bool UseGravity = true;
-	gm::vec2f gravity = gm::vec2f(0.f, -9.8f);
+	gm::vec2f gravity = gm::vec2f(0.f, 9.8f);
 	gm::vec2 currentVelocity;
 	gm::vec2 maximumVelocity;
 	bool grounded;
