@@ -200,7 +200,7 @@ namespace mae
 		/// </summary>
 		/// <returns>Returns the elapsed time, in seconds.</returns>
 		const double GetHiresTimeSeconds() const;
-
+		
 		// members
 	public:
 
