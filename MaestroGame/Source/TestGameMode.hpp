@@ -9,7 +9,7 @@
 #include <EntityHandle.h>
 #include <Logging.h>
 #include <Sprite.h>
-#include "RigidBody.h"
+#include <RigidBody.h>
 #include <Music.h>
 #include <Sound.h>
 
