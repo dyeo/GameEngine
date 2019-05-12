@@ -10,7 +10,7 @@
 
 //! gmtk namespace
 #ifndef GMTK_NAMESPACE
-#define GMTK_NAMESPACE gmtk
+#define GMTK_NAMESPACE gm
 #endif
 
 #include <cmath>
