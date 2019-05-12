@@ -27,7 +27,7 @@
 	{ Quat<T> res; GMTK_QUAT_LOOP(res.data[i] = data[i] op q); return res; }
 
 #define GMTK_QUAT_QUAT_ROP(op) \
-	inline Quat<T>& operator op (const Quat<T>&  q) \
+	inline Quat<T>& operator op (const Quat<T>& q) \
 	{ GMTK_QUAT_LOOP(data[i] op q.data[i]); return *this; }
 
 #define GMTK_QUAT_SCL_ROP(op) \
