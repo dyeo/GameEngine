@@ -209,7 +209,7 @@ namespace mae
 
 		ResolveCollisions();
 
-		IntegrateBodies(Maestro::GetEngine()->DELTATIME_FIXED); //should be fixed deltaTime, but because that is too fast I'm using deltaTime
+		IntegrateBodies(static_cast<float>(Maestro::GetEngine()->DELTATIME_FIXED)); //should be fixed deltaTime, but because that is too fast I'm using deltaTime
 	}
 
 	void Physics::OnFixedUpdate()
