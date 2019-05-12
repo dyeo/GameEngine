@@ -1,5 +1,5 @@
-#ifndef _MAESTRO_ENTITYHANDLE_HPP_
-#define _MAESTRO_ENTITYHANDLE_HPP_
+#ifndef _MAESTRO_ENTITYHANDLE_H_
+#define _MAESTRO_ENTITYHANDLE_H_
 
 #include <cstdint>
 
@@ -39,4 +39,4 @@ namespace mae
 
 }
 
-#endif // !_MAESTRO_ENTITYHANDLE_HPP_
+#endif // !_MAESTRO_ENTITYHANDLE_H_
