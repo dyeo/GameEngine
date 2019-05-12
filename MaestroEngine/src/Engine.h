@@ -6,7 +6,6 @@
 #include "System.h"
 #include "GameMode.h"
 
-
 // maestro container includes
 #include "ObjectFactory.h"
 
@@ -217,7 +216,7 @@ namespace mae
 		// bool hasFocus = true;
 
 		// timestepping
-		const double DELTATIME_FIXED = 1.0 / 600.0;
+		const double DELTATIME_FIXED = 1.0 / 60.0;
 		double elapsedTime = 0.0;
 		double currentTime = 0.0;
 		double deltaTime = 0.0;
