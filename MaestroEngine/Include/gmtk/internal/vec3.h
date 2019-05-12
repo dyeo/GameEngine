@@ -3,80 +3,137 @@
 
 //
 
-#include "vec.h"
+#pragma warning(push)
+#pragma warning(disable:4456; disable:4127)
 
 //
 
-#define GMTK_VEC3_LOOP(oper) GMTK_UNROLL_LOOP(i,3,oper)
+#include "vec.h"
 
-#define GMTK_VEC3_OPERATOR(oper) \
-		{ vec<T,3> res; \
-		GMTK_VEC3_LOOP(res[i] = oper); \
-		return res; }
+#ifndef GMTK_DISABLE_SWIZZLING
+#include "swizzle2.h"
+#include "swizzle3.h"
+#include "swizzle4.h"
+#endif
 
-#define GMTK_VEC3_REF_OPERATOR(oper) \
-		{ GMTK_VEC3_LOOP(oper); \
-		return *this; }
+//
+
+#define GMTK_VEC3_LOOP(oper) GMTK_STATIC_LOOP(i,3,oper)
+
+//
+
+#define GMTK_VEC3_INIT(a, b, c) : x( a ), y( b ), z( c ) { }
+
+#define GMTK_VEC3_UN_OP(op) \
+	inline vec<3, T> operator op () const \
+	{ vec<3, T> res; GMTK_VEC3_LOOP(res.data[i] = op data[i]); return res; }
+
+#define GMTK_VEC3_VEC_OP(op) \
+	inline vec<3, T> operator op (const vec<3, T>& v) const \
+	{ vec<3, T> res; GMTK_VEC3_LOOP(res.data[i] = data[i] op v.data[i]); return res; }
+
+#define GMTK_VEC3_SCL_OP(op) \
+	inline vec<3, T> operator op (const T& v) const \
+	{ vec<3, T> res; GMTK_VEC3_LOOP(res.data[i] = data[i] op v); return res; }
+
+#define GMTK_VEC3_VEC_ROP(op) \
+	inline vec<3, T>& operator op (const vec<3, T>& v) \
+	{ GMTK_VEC3_LOOP(data[i] op v.data[i]); return *this; }
+
+#define GMTK_VEC3_SCL_ROP(op) \
+	inline vec<3, T>& operator op (const T& v) \
+	{ GMTK_VEC3_LOOP(data[i] op v); return *this; }
 
 //
 
 namespace GMTK_NAMESPACE
 {////
 
-	template <typename T> struct vec < T, 3 >
+	template <typename T> struct vec <3, T>
 	{
+		////////////
+		//! TYPES //
+		////////////
+		
+		#ifndef GMTK_DISABLE_SWIZZLING
+		GMTK_SWZ2_TYPE
+		GMTK_SWZ3_TYPE
+		GMTK_SWZ4_TYPE
+		#endif
+
+		///////////////////
+		//! DATA MEMBERS //
+		///////////////////
+
 		union
 		{
 			struct { T data[3]; };
 			struct { T x, y, z; };
-			struct { vec<T, 2> xy; };
+			struct { T r, g, b; };
+			struct { T s, t, p; };			
+			#ifndef GMTK_DISABLE_SWIZZLING
+			GMTK_VEC3_SWIZZLES
+			#endif
 		};
+
+		///////////////////
+		//! CONSTRUCTORS //
+		///////////////////
 
 		//! Initialize vec3 with three values
 		inline vec(const T& s0, const T& s1, const T& s2)
-		{
-			data[0] = s0;
-			data[1] = s1;
-			data[2] = s2;
-		}
+			GMTK_VEC3_INIT(s0, s1, s2)
 
 		//! Initialize vec3 with a vec2 and a third value
-		inline vec(const vec<T, 2>& v01, const T& s2)
-		{
-			data[0] = v01.data[0];
-			data[1] = v01.data[1];
-			data[2] = s2;
-		}
+		inline vec(const vec<2, T>& v01, const T& s2)
+			GMTK_VEC3_INIT(v0.x, v0.y, s2)
 
 		//! Default constructor
-		inline vec() {
-		}
+		inline vec() 
+			GMTK_VEC3_INIT(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0))
 
-		//! Initializer list constructor
-		inline vec(std::initializer_list<T> list)
-		{
-			GMTK_VEC_LOOP(data[i] = *(list.begin() + i));
-		}
-
+		//! Swizzle constructor
+		template<int a, int b, int c>
+		inline vec(const swz3<a, b, c>&s) 
+			GMTK_VEC3_INIT(s[a], s[b], s[c])
+		
 		//! Copy constructor
-		inline vec(const vec<T, 3>& v) {
-			GMTK_VEC3_LOOP(data[i] = v.data[i]);
-		}
+		inline vec(const vec<3, T>& v) 
+			GMTK_VEC3_INIT(v.x, v.y, v.z)
 
 		//! Explicit type-conversion copy constructor
-		template<typename U> explicit inline vec(const vec<U, 2>& v) {
-			GMTK_VEC3_LOOP(data[i] = static_cast<T>(v[i]));
-		}
+		template<typename U> 
+		explicit inline vec(const vec<3, U>& v)
+			GMTK_VEC3_INIT(static_cast<T>(v.x), static_cast<T>(v.y), static_cast<T>(v.z))
 
 		//! Fill constructor
-		explicit inline vec(const T& s) {
-			GMTK_VEC3_LOOP(data[i] = s);
-		}
+		explicit inline vec(const T& s)
+			GMTK_VEC3_INIT(s, s, s)
 
 		//! Array initializer
-		explicit inline vec(const T* a) {
-			GMTK_VEC3_LOOP(data[i] = a[i]);
+		explicit inline vec(const T* a)
+			GMTK_VEC3_INIT(a[0], a[1], a[2])
+
+		//! Initializer list constructor
+		inline vec(std::initializer_list<T> l)
+			GMTK_VEC3_INIT(*(l.begin()), *(l.begin() + 1), *(l.begin() + 2))
+
+		//! Copy constructor for differently-sized vector
+		template<int d2>
+		inline vec(const vec<d2, T> &v) {
+			if constexpr (d2 < 3)
+			{
+				GMTK_UNROLL_LOOP(i, d2, data[i] = v.data[i]);
+			}
+			else
+			{
+				GMTK_UNROLL_LOOP(i, d, data[i] = v.data[i]);
+			}
 		}
+
+		///////////////////////
+		//! ACCESS OPERATORS //
+		///////////////////////
 
 		//! Vector index operator
 		inline T& operator[](const int i) {
@@ -88,148 +145,166 @@ namespace GMTK_NAMESPACE
 			return data[i];
 		}
 
-		//! Returns a negative vector
-		inline vec<T, 3> operator-() const {
-			GMTK_VEC3_OPERATOR(-data[i]);
-		}
+		///////////////////////////
+		//! RIGHT-HAND OPERATORS //
+		///////////////////////////
 
+		//! Component-wise unary negation
+		GMTK_VEC3_UN_OP(-)
+		//! Component-wise unary negation
+		GMTK_VEC3_UN_OP(~)
+		//! Vector assignment
+		GMTK_VEC3_VEC_ROP(=)
+		
 		//! Component-wise vector multiplication
-		inline vec<T, 3> operator*(const vec<T, 3>& v) const {
-			GMTK_VEC3_OPERATOR(data[i] * v.data[i]);
-		}
-
+		GMTK_VEC3_VEC_OP(*)		
 		//! Component-wise vector division
-		inline vec<T, 3> operator/(const vec<T, 3>& v) const {
-			GMTK_VEC3_OPERATOR(data[i] / v.data[i]);
-		}
-
+		GMTK_VEC3_VEC_OP(/)		
 		//! Component-wise vector addition
-		inline vec<T, 3> operator+(const vec<T, 3>& v) const {
-			GMTK_VEC3_OPERATOR(data[i] + v.data[i]);
-		}
-
+		GMTK_VEC3_VEC_OP(+)		
 		//! Component-wise vector subtraction
-		inline vec<T, 3> operator-(const vec<T, 3>& v) const {
-			GMTK_VEC3_OPERATOR(data[i] - v.data[i]);
-		}
-
-		//! Component-wise vector reference multiplication
-		inline vec<T, 3>& operator*=(const vec<T, 3>& v) {
-			GMTK_VEC3_REF_OPERATOR(data[i] *= v.data[i]);
-		}
-
-		//! Component-wise vector reference division
-		inline vec<T, 3>& operator/=(const vec<T, 3>& v) {
-			GMTK_VEC3_REF_OPERATOR(data[i] /= v.data[i]);
-		}
-
-		//! Component-wise vector reference addition
-		inline vec<T, 3>& operator+=(const vec<T, 3>& v) {
-			GMTK_VEC3_REF_OPERATOR(data[i] += v.data[i]);
-		}
-
-		//! Component-wise vector reference subtraction
-		inline vec<T, 3>& operator-=(const vec<T, 3>& v) {
-			GMTK_VEC3_REF_OPERATOR(data[i] -= v.data[i]);
-		}
+		GMTK_VEC3_VEC_OP(-)		
+		//! Component-wise vector OR
+		GMTK_VEC3_VEC_OP(|)
+		//! Component-wise vector AND
+		GMTK_VEC3_VEC_OP(&)
+		//! Component-wise vector XOR
+		GMTK_VEC3_VEC_OP(^)
+		//! Component-wise vector modulus
+		GMTK_VEC3_VEC_OP(%)
+		//! Component-wise vector shift left
+		GMTK_VEC3_VEC_OP(<<)
+		//! Component-wise vector shift right
+		GMTK_VEC3_VEC_OP(>>)	
 
 		//! Component-wise scalar multiplication
-		inline vec<T, 3> operator*(const T& s) const {
-			GMTK_VEC3_OPERATOR(data[i] * s);
-		}
-
+		GMTK_VEC3_SCL_OP(*)		
 		//! Component-wise scalar division
-		inline vec<T, 3> operator/(const T& s) const {
-			GMTK_VEC3_OPERATOR(data[i] / s);
-		}
-
+		GMTK_VEC3_SCL_OP(/)		
 		//! Component-wise scalar addition
-		inline vec<T, 3> operator+(const T& s) const {
-			GMTK_VEC3_OPERATOR(data[i] + s);
-		}
-
+		GMTK_VEC3_SCL_OP(+)		
 		//! Component-wise scalar subtraction
-		inline vec<T, 3> operator-(const T& s) const {
-			GMTK_VEC3_OPERATOR(data[i] - s);
-		}
+		GMTK_VEC3_SCL_OP(-)		
+		//! Component-wise scalar OR
+		GMTK_VEC3_SCL_OP(|)
+		//! Component-wise scalar AND
+		GMTK_VEC3_SCL_OP(&)
+		//! Component-wise scalar XOR
+		GMTK_VEC3_SCL_OP(^)
+		//! Component-wise scalar modulus
+		GMTK_VEC3_SCL_OP(%)
+		//! Component-wise scalar shift left
+		GMTK_VEC3_SCL_OP(<<)
+		//! Component-wise scalar shift right
+		GMTK_VEC3_SCL_OP(>>)
+						
+		//! Component-wise vector reference multiplication
+		GMTK_VEC3_VEC_ROP(*=)		
+		//! Component-wise vector reference division
+		GMTK_VEC3_VEC_ROP(/=)		
+		//! Component-wise vector reference addition
+		GMTK_VEC3_VEC_ROP(+=)		
+		//! Component-wise vector reference subtraction
+		GMTK_VEC3_VEC_ROP(-=)
+		//! Component-wise vector reference OR
+		GMTK_VEC3_VEC_ROP(|=)
+		//! Component-wise vector reference AND
+		GMTK_VEC3_VEC_ROP(&=)
+		//! Component-wise vector reference XOR
+		GMTK_VEC3_VEC_ROP(^=)
+		//! Component-wise vector reference modulus
+		GMTK_VEC3_VEC_ROP(%=)
+		//! Component-wise vector reference shift left
+		GMTK_VEC3_VEC_ROP(<<=)
+		//! Component-wise vector reference shift right
+		GMTK_VEC3_VEC_ROP(>>=)
 
 		//! Component-wise scalar reference multiplication
-		inline vec<T, 3>& operator*=(const T& s) {
-			GMTK_VEC3_REF_OPERATOR(data[i] *= s);
-		}
-
+		GMTK_VEC3_SCL_ROP(*=)	
 		//! Component-wise scalar reference division
-		inline vec<T, 3>& operator/=(const T& s) {
-			GMTK_VEC3_REF_OPERATOR(data[i] /= s);
-		}
-
+		GMTK_VEC3_SCL_ROP(/=)		
 		//! Component-wise scalar reference addition
-		inline vec<T, 3>& operator+=(const T& s) {
-			GMTK_VEC3_REF_OPERATOR(data[i] += s);
-		}
-
+		GMTK_VEC3_SCL_ROP(+=)		
 		//! Component-wise scalar reference subtraction
-		inline vec<T, 3>& operator-=(const T& s) {
-			GMTK_VEC3_REF_OPERATOR(data[i] -= s);
-		}
+		GMTK_VEC3_SCL_ROP(-=)
+		//! Component-wise scalar reference OR
+		GMTK_VEC3_SCL_ROP(|=)
+		//! Component-wise scalar reference AND
+		GMTK_VEC3_SCL_ROP(&=)
+		//! Component-wise scalar reference XOR
+		GMTK_VEC3_SCL_ROP(^=)
+		//! Component-wise scalar reference modulus
+		GMTK_VEC3_SCL_ROP(%=)
+		//! Component-wise scalar reference shift left
+		GMTK_VEC3_SCL_ROP(<<=)
+		//! Component-wise scalar reference shift right
+		GMTK_VEC3_SCL_ROP(>>=)
+
+		//////////////////////////
+		//! GENERATOR FUNCTIONS //
+		//////////////////////////
 
 		//! Zero vector (0,0,0)
-		static inline vec<T, 3> zero() {
-			return vec<T, 3>(0, 0, 0);
-		}
+		static inline constexpr vec<3, T> zero() { return vec<3, T>(0, 0, 0); }
 
 		//! One vector (1,1,1)
-		static inline vec<T, 3> one() {
-			return vec<T, 3>(1, 1, 1);
-		}
+		static inline constexpr vec<3, T> one() { return vec<3, T>(1, 1, 1); }
 
 		//! Up vector (0,1,0)
-		static inline vec<T, 3> up() {
-			return vec<T, 3>(0, 1, 0);
-		}
+		static inline constexpr vec<3, T> up() { return vec<3, T>(0, 1, 0); }
 
 		//! Down vector (0,-1,0)
-		static inline vec<T, 3> down() {
-			return vec<T, 3>(0, -1, 0);
-		}
+		static inline constexpr vec<3, T> down() { return vec<3, T>(0, -1, 0); }
 
 		//! Right vector (1,0,0)
-		static inline vec<T, 3> right() {
-			return vec<T, 3>(1, 0, 0);
-		}
+		static inline constexpr vec<3, T> right() { return vec<3, T>(1, 0, 0); }
 
 		//! Left vector (-1,0,0)
-		static inline vec<T, 3> left() {
-			return vec<T, 3>(-1, 0, 0);
-		}
+		static inline constexpr vec<3, T> left() { return vec<3, T>(-1, 0, 0); }
 
 		//! Forward vector (0,0,1)
-		static inline vec<T, 3> forward() {
-			return vec<T, 3>(0, 0, 1);
-		}
+		static inline constexpr vec<3, T> forward() { return vec<3, T>(0, 0, 1); }
 
 		//! Back vector (0,0,-1)
-		static inline vec<T, 3> back() {
-			return vec<T, 3>(0, 0, -1);
-		}
+		static inline constexpr vec<3, T> back() { return vec<3, T>(0, 0, -1); }
 
-	};
+	}; //! struct vec3
 
-	typedef vec<float, 3> vec3, vec3f;
-	typedef vec<double, 3> vec3d;
+	///////////////////////
+	//! TYPE DEFINITIONS //
+	///////////////////////
 
-	typedef vec<unsigned char, 3> vec3uc;
-	typedef vec<char, 3> vec3c;
-
-	typedef vec<unsigned short, 3> vec3us;
-	typedef vec<short, 3> vec3s;
-
-	typedef vec<unsigned int, 3> vec3ui;
-	typedef vec<int, 3> vec3i;
-
-	typedef vec<unsigned long, 3> vec3ul;
-	typedef vec<long, 3> vec3l;
+	typedef vec<3, float>			vec3, vec3f;
+	typedef vec<3, double>			vec3d;
+	typedef vec<3, unsigned char>	vec3uc;
+	typedef vec<3, char>			vec3c;
+	typedef vec<3, unsigned short>	vec3us;
+	typedef vec<3, short>			vec3s;
+	typedef vec<3, unsigned int>	vec3ui;
+	typedef vec<3, int>				vec3i;
+	typedef vec<3, unsigned long>	vec3ul;
+	typedef vec<3, long>			vec3l;
 
 }////
+
+//
+
+#undef GMTK_VEC3_LOOP
+
+#undef GMTK_VEC3_INIT
+#undef GMTK_VEC3_UN_OP
+#undef GMTK_VEC3_VEC_OP
+#undef GMTK_VEC3_SCL_OP
+#undef GMTK_VEC3_VEC_ROP
+#undef GMTK_VEC3_SCL_ROP
+
+#undef GMTK_SWZ3_BOP
+#undef GMTK_SWZ3_BROP
+
+//
+
+#pragma warning(pop)
+
+//
 
 #endif
