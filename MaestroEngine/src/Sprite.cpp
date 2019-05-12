@@ -2,10 +2,6 @@
 
 #include "Maestro.h"
 #include "Engine.h"
-#include "Logging.h"
-#include "Transform.h"
-
-#include <SFML/Graphics.hpp>
 
 namespace mae
 {
