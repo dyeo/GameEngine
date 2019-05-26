@@ -1,12 +1,26 @@
 #include <stdio.h>
 #include <Engine.h>
+#include <Maestro.h>
+#include <SceneGraph.h>
+
+using namespace mae;
+
+class TestMode : public GameMode
+{
+public:
+
+	TestMode() {}
+};
 
 int main(int argc, char **argv)
 {
-	mae::Engine e;
+	Maestro::Initialize();
+	auto engine = Maestro::GetEngine();
 
-	e.Run();
+	engine->AddSystem<SceneGraph>();
+	engine->gameModeStack.push(new TestMode());
 
-	system("pause");
+	engine->Run();
+
 	return 0;
 }
