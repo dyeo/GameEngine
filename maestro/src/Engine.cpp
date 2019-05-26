@@ -75,24 +75,39 @@ namespace mae
 	void Engine::OnCreate()
 	{
 		t0 = std::chrono::high_resolution_clock::now();
-
-		// TODO: Create the window.
-		/*window.create(sf::VideoMode(1920, 1080), "Maestro Test Window");
-
-		splashTexture = new sf::Texture();
-		if (splashTexture->loadFromFile("./Assets/splash.png") != true)
+		
+		if (!CheckStorage(MINIMUM_SPACE_REQUIRED))
 		{
-			LOG_ERROR("Splash screen image not found. Not really fatal, but c'mon man you need one.");
-			isRunning = false;
-			return;
+			LOG_ERROR("Could not initialize Maestro: Insufficient storage.");
+			exit(1);
 		}
-		splashSprite = new sf::Sprite();
-		splashSprite->setTexture(*splashTexture);*/
 
-		CheckStorage(MINIMUM_SPACE_REQUIRED);
-		CheckMemory(MINIMUM_PHYSICAL_MEMORY_REQUIRED, MINIMUM_VIRTUAL_MEMORY_REQUIRED);
+		if(CheckMemory(MINIMUM_PHYSICAL_MEMORY_REQUIRED, MINIMUM_VIRTUAL_MEMORY_REQUIRED))
+		{
+			LOG_ERROR("Could not initialize Maestro: Insufficient memory.");
+			exit(1);
+		}
+		
 		ReadCPUSpeed();
 		ReadCPUArch();
+
+		if (SDL_Init(SDL_INIT_VIDEO) < 0) 
+		{
+			LOG_ERROR("Could not initialize SDL2: ", SDL_GetError());
+			exit(1);
+		}
+
+		window = SDL_CreateWindow("Maestro", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_SHOWN);
+
+		if (window == nullptr)
+		{
+			LOG_ERROR("Could not create window: ", SDL_GetError());
+			exit(1);
+		}
+
+		screenSurface = SDL_GetWindowSurface(window);
+		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+		SDL_UpdateWindowSurface(window);
 
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
@@ -140,8 +155,7 @@ namespace mae
 
 	void Engine::OnRender()
 	{
-		// TODO: Window clearing.
-		/*window.clear();*/
+		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0X00, 0x00, 0x00));
 
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
@@ -149,8 +163,7 @@ namespace mae
 		}
 		LOG_MESSAGE(__FUNCTION__);
 		
-		// TODO: Window rendering.
-		/*window.display();*/
+		SDL_UpdateWindowSurface(window);
 	}
 
 	void Engine::OnFinish()
@@ -173,6 +186,9 @@ namespace mae
 		LOG_MESSAGE(__FUNCTION__);
 
 		gameModeStack.top()->OnDestroy();
+		
+		SDL_DestroyWindow(window);
+		SDL_Quit();
 	}
 
 	bool Engine::RemoveSystem(std::type_index sysType)

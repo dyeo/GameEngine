@@ -14,6 +14,7 @@
 
 // external includes
 #include <optional.h>
+#include <SDL/SDL.h>
 
 // standard includes
 #include <cstdint>
@@ -203,16 +204,11 @@ namespace mae
 	public:
 
 		ObjectFactory objectFactory;
-
-		//Physics physicsEngine;
-
 		std::stack<GameMode *> gameModeStack;
 
 		// application state
 		bool isStarted = false;
 		bool isRunning = true;
-		// bool isPaused = false;
-		// bool hasFocus = true;
 
 		// timestepping
 		const double DELTATIME_FIXED = 1.0 / 60.0;
@@ -227,6 +223,10 @@ namespace mae
 
 		std::vector<System*> systems;
 		std::map<std::type_index, nonstd::optional<std::type_index>> managers;
+
+		SDL_Window *window;
+		SDL_Surface *screenSurface;
+
 	};
 
 	///
