@@ -6,3 +6,4 @@ project(maestro)
 
 # Include sub-projects.
 add_subdirectory(maestro-engine)
+add_subdirectory(maestro-tests)

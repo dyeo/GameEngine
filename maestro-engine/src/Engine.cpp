@@ -82,7 +82,7 @@ namespace mae
 			exit(1);
 		}
 
-		if(CheckMemory(MINIMUM_PHYSICAL_MEMORY_REQUIRED, MINIMUM_VIRTUAL_MEMORY_REQUIRED))
+		if(!CheckMemory(MINIMUM_PHYSICAL_MEMORY_REQUIRED, MINIMUM_VIRTUAL_MEMORY_REQUIRED))
 		{
 			LOG_ERROR("Could not initialize Maestro: Insufficient memory.");
 			exit(1);
