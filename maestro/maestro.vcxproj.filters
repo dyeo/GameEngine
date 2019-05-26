@@ -48,16 +48,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Music.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\RigidBody.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="src\Transform.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Sound.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Component.cpp">
@@ -78,26 +69,11 @@
     <ClCompile Include="src\SceneGraph.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics.cpp">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Audio.cpp">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Sprite.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="src\ObjectFactory.cpp">
       <Filter>Source Files\Containers</Filter>
     </ClCompile>
     <ClCompile Include="src\Maestro.cpp">
       <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bounds.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Physics.cpp">
-      <Filter>Source Files\Systems</Filter>
     </ClCompile>
     <ClCompile Include="src\System.cpp">
       <Filter>Source Files\Core</Filter>
@@ -107,20 +83,8 @@
     <ClInclude Include="src\Updatable.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="src\Music.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\RigidBody.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="src\Transform.h">
       <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Sprite.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Audio.h">
-      <Filter>Header Files\Systems</Filter>
     </ClInclude>
     <ClInclude Include="src\Component.h">
       <Filter>Header Files\Core</Filter>
@@ -133,12 +97,6 @@
     </ClInclude>
     <ClInclude Include="src\GameMode.h">
       <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Physics.h">
-      <Filter>Header Files\Systems</Filter>
     </ClInclude>
     <ClInclude Include="src\System.h">
       <Filter>Header Files\Core</Filter>
@@ -155,14 +113,8 @@
     <ClInclude Include="src\Maestro.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Bounds.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="src\ObjectFactory.h">
       <Filter>Header Files\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Sound.h">
-      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

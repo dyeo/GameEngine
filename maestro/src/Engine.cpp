@@ -1,7 +1,5 @@
 #include "Engine.h"
 
-#include <SFML/Graphics.hpp>
-
 #include <algorithm>
 #include <cassert>
 #include <iostream>
@@ -78,7 +76,8 @@ namespace mae
 	{
 		t0 = std::chrono::high_resolution_clock::now();
 
-		window.create(sf::VideoMode(1920, 1080), "Maestro Test Window");
+		// TODO: Create the window.
+		/*window.create(sf::VideoMode(1920, 1080), "Maestro Test Window");
 
 		splashTexture = new sf::Texture();
 		if (splashTexture->loadFromFile("./Assets/splash.png") != true)
@@ -88,7 +87,7 @@ namespace mae
 			return;
 		}
 		splashSprite = new sf::Sprite();
-		splashSprite->setTexture(*splashTexture);
+		splashSprite->setTexture(*splashTexture);*/
 
 		CheckStorage(MINIMUM_SPACE_REQUIRED);
 		CheckMemory(MINIMUM_PHYSICAL_MEMORY_REQUIRED, MINIMUM_VIRTUAL_MEMORY_REQUIRED);
@@ -126,23 +125,6 @@ namespace mae
 		LOG_MESSAGE(__FUNCTION__);
 
 		gameModeStack.top()->OnUpdate();
-
-		if (elapsedTime >= 3.0f)
-		{
-			delete splashSprite;
-			splashSprite = nullptr;
-		}
-
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-			{
-				isRunning = false;
-				window.close();
-				return;
-			}
-		}
 	}
 
 	void Engine::OnFixedUpdate()
@@ -158,21 +140,17 @@ namespace mae
 
 	void Engine::OnRender()
 	{
-		window.clear();
+		// TODO: Window clearing.
+		/*window.clear();*/
 
 		for (auto it = systems.begin(); it != systems.end(); ++it)
 		{
 			(*it)->OnRender();
 		}
 		LOG_MESSAGE(__FUNCTION__);
-
-		gameModeStack.top()->OnRender();
-		if (splashSprite != nullptr)
-		{
-			window.draw(*splashSprite);
-		}
-
-		window.display();
+		
+		// TODO: Window rendering.
+		/*window.display();*/
 	}
 
 	void Engine::OnFinish()

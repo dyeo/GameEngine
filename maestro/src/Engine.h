@@ -14,7 +14,6 @@
 
 // external includes
 #include <optional.h>
-#include <SFML/Graphics.hpp>
 
 // standard includes
 #include <cstdint>
@@ -220,9 +219,7 @@ namespace mae
 		double elapsedTime = 0.0;
 		double currentTime = 0.0;
 		double deltaTime = 0.0;
-
-		sf::RenderWindow window;
-
+		
 	private:
 
 		double accumulator = 0.0;
@@ -230,10 +227,6 @@ namespace mae
 
 		std::vector<System*> systems;
 		std::map<std::type_index, nonstd::optional<std::type_index>> managers;
-		sf::Sprite *splashSprite;
-		sf::Texture *splashTexture;
-
-
 	};
 
 	///

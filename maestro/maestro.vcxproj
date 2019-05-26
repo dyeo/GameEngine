@@ -19,43 +19,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Audio.cpp" />
-    <ClCompile Include="src\Bounds.cpp" />
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\EntityHandle.cpp" />
     <ClCompile Include="src\GameMode.cpp" />
-    <ClCompile Include="src\Graphics.cpp" />
     <ClCompile Include="src\Maestro.cpp" />
-    <ClCompile Include="src\Music.cpp" />
     <ClCompile Include="src\ObjectFactory.cpp" />
-    <ClCompile Include="src\Physics.cpp" />
-    <ClCompile Include="src\RigidBody.cpp" />
     <ClCompile Include="src\SceneGraph.cpp" />
-    <ClCompile Include="src\Sound.cpp" />
-    <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\System.cpp" />
     <ClCompile Include="src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Audio.h" />
-    <ClInclude Include="src\Bounds.h" />
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\EntityHandle.h" />
     <ClInclude Include="src\GameMode.h" />
-    <ClInclude Include="src\Graphics.h" />
     <ClInclude Include="src\Logging.h" />
     <ClInclude Include="src\Maestro.h" />
-    <ClInclude Include="src\Music.h" />
     <ClInclude Include="src\ObjectFactory.h" />
-    <ClInclude Include="src\Physics.h" />
-    <ClInclude Include="src\RigidBody.h" />
     <ClInclude Include="src\SceneGraph.h" />
-    <ClInclude Include="src\Sound.h" />
-    <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\System.h" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\Updatable.h" />
@@ -180,7 +164,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>flac.lib;freetype.lib;gdi32.lib;jpeg.lib;ogg.lib;openal32.lib;opengl32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;winmm.lib;sfml-main.lib;sfml-window.lib;sfml-system.lib;sfml-graphics.lib;sfml-audio.lib;sfml-network.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
