@@ -61,7 +61,7 @@ namespace mae
 
 		const char *name = "New Entity";	
 
-		Transform * transform;
+		Transform *transform;
 
 		std::multimap<std::type_index, Component *const> components;
 

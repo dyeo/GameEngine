@@ -74,24 +74,14 @@ namespace mae
 	{
 		t0 = std::chrono::high_resolution_clock::now();
 		
-		if (!CheckStorage(MINIMUM_SPACE_REQUIRED))
-		{
-			LOG_ERROR("Could not initialize Maestro: Insufficient storage.");
-			exit(1);
-		}
-
-		if(!CheckMemory(MINIMUM_PHYSICAL_MEMORY_REQUIRED, MINIMUM_VIRTUAL_MEMORY_REQUIRED))
-		{
-			LOG_ERROR("Could not initialize Maestro: Insufficient memory.");
-			exit(1);
-		}
-		
+		CheckStorage(MINIMUM_SPACE_REQUIRED);
+		CheckMemory(MINIMUM_PHYSICAL_MEMORY_REQUIRED, MINIMUM_VIRTUAL_MEMORY_REQUIRED);		
 		ReadCPUSpeed();
 		ReadCPUArch();
 
 		if (SDL_Init(SDL_INIT_VIDEO) < 0) 
 		{
-			LOG_ERROR("Could not initialize SDL2: ", SDL_GetError());
+			LOG_ERROR_FORMAT("Could not initialize SDL2: %s", SDL_GetError());
 			exit(1);
 		}
 
@@ -99,7 +89,7 @@ namespace mae
 
 		if (window == nullptr)
 		{
-			LOG_ERROR("Could not create window: ", SDL_GetError());
+			LOG_ERROR_FORMAT("Could not create window: %s", SDL_GetError());
 			exit(1);
 		}
 
@@ -111,7 +101,6 @@ namespace mae
 		{
 			(*it)->OnCreate();
 		}
-		LOG_WARNING(__FUNCTION__);
 
 		gameModeStack.top()->OnCreate();
 
@@ -123,7 +112,6 @@ namespace mae
 		{
 			(*it)->OnStart();
 		}
-		LOG_MESSAGE(__FUNCTION__);
 
 		gameModeStack.top()->OnStart();
 
@@ -135,7 +123,6 @@ namespace mae
 		{
 			(*it)->OnUpdate();
 		}
-		LOG_MESSAGE(__FUNCTION__);
 
 		pollEvents();
 
@@ -148,7 +135,6 @@ namespace mae
 		{
 			(*it)->OnFixedUpdate();
 		}
-		LOG_MESSAGE(__FUNCTION__);
 
 		gameModeStack.top()->OnFixedUpdate();
 	}
@@ -161,7 +147,6 @@ namespace mae
 		{
 			(*it)->OnRender();
 		}
-		LOG_MESSAGE(__FUNCTION__);
 		
 		SDL_UpdateWindowSurface(window);
 	}
@@ -172,7 +157,6 @@ namespace mae
 		{
 			(*it)->OnFinish();
 		}
-		LOG_MESSAGE(__FUNCTION__);
 
 		gameModeStack.top()->OnFinish();
 	}
@@ -183,7 +167,6 @@ namespace mae
 		{
 			(*it)->OnDestroy();
 		}
-		LOG_MESSAGE(__FUNCTION__);
 
 		gameModeStack.top()->OnDestroy();
 		
@@ -253,11 +236,11 @@ namespace mae
 			(diskfree.sectors_per_cluster*diskfree.bytes_per_sector);
 		if (diskfree.avail_clusters < neededClusters) {
 			// if you get here you dont have enough disk space!
-			LOG_ERROR("CheckStorage Failure : Not enough physical storage.");
+			LOG_ERROR("Insufficient physical storage.");
 			isRunning = false;
 			return false;
 		}
-		LOG_MESSAGE("Sufficient disk space. Only %i MB needed.\n", diskSpaceNeeded);
+		LOG_MESSAGE_FORMAT("Sufficient disk space. Only %i MB needed.", diskSpaceNeeded);
 		return true;
 	}
 
@@ -267,13 +250,13 @@ namespace mae
 		status.dwLength = sizeof(status);
 		GlobalMemoryStatusEx(&status);
 		if ((status.ullTotalPhys / 1048576) < physicalRAMNeeded) {
-			LOG_ERROR("CheckMemory Failure : Not enough physical memory.");
+			LOG_ERROR("Not enough physical memory.");
 			isRunning = false;
 			return false;
 		}
 		else
 		{
-			LOG_MESSAGE("Sufficient Physical Memory. Physical Memory Available: %i MB available.\n", (status.ullAvailPhys / 1048576));
+			LOG_MESSAGE_FORMAT("Sufficient physical memory. Physical memory available: %i MB.", (status.ullAvailPhys / 1048576));
 		}
 		// Check for enough free memory.
 		if ((status.ullAvailVirtual / 1048576) < virtualRAMNeeded)
@@ -284,7 +267,7 @@ namespace mae
 		}
 		else
 		{
-			LOG_MESSAGE("Sufficient Virtual Memory. Virtual Memory Available: %u MB vailable.\n", (status.ullAvailVirtual / 1048576));
+			LOG_MESSAGE_FORMAT("Sufficient virtual memory. Virtual Memory Available: %u MB vailable.", (status.ullAvailVirtual / 1048576));
 		}
 		return true;
 	}
@@ -303,7 +286,7 @@ namespace mae
 			RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)&name, &BufSize);
 		}
 		//std::cout << "Your CPU Architecture: \n" << name << std::endl;
-		LOG_MESSAGE("Your CPU Architecture: %s \n", name);
+		LOG_MESSAGE_FORMAT("Your CPU Architecture: %s", name);
 		return std::string(name);
 	}
 
@@ -318,7 +301,7 @@ namespace mae
 		if (lError == ERROR_SUCCESS) {
 			// query the key:
 			RegQueryValueEx(hKey, "~MHz", NULL, &type, (LPBYTE)&dwMHz, &BufSize);
-			LOG_MESSAGE("CPU Speed is ~%f GHz.\n", ((float)dwMHz * 0.001f));
+			LOG_MESSAGE_FORMAT("CPU Speed is ~%f GHz.", ((float)dwMHz * 0.001f));
 		}
 		return dwMHz;
 	}

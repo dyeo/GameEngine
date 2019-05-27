@@ -3,6 +3,8 @@
 #include <Maestro.h>
 #include <SceneGraph.h>
 
+#include <iostream>
+
 using namespace mae;
 
 class TestMode : public GameMode
@@ -10,6 +12,14 @@ class TestMode : public GameMode
 public:
 
 	TestMode() {}
+
+	virtual void OnStart() override
+	{
+		auto a = CreateEntity();
+		auto t = a->GetComponent<Transform>();
+
+		LOG_MESSAGE("Hello world!");
+	}
 };
 
 int main(int argc, char **argv)
