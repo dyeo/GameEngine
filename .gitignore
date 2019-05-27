@@ -24,10 +24,9 @@ Maestro.lib
 # x86/
 [Bb]uild/
 [Bb]in/
-# [Gg]ame/
 [Oo]bj/
 [Ll]og/
-[Tt]emp/
+[Tt]mp/
 .[Tt]log/
 
 # Visual Studio 2015/2017 cache/options directory
