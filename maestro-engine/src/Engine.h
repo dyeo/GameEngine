@@ -199,6 +199,10 @@ namespace mae
 		/// </summary>
 		/// <returns>Returns the elapsed time, in seconds.</returns>
 		const double GetHiresTimeSeconds() const;
+
+	private:
+			   
+		void pollEvents();
 		
 		// members
 	public:
@@ -226,6 +230,7 @@ namespace mae
 
 		SDL_Window *window;
 		SDL_Surface *screenSurface;
+		SDL_Event event;
 
 	};
 

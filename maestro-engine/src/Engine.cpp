@@ -42,8 +42,6 @@ namespace mae
 				isStarted = true;
 			}
 
-			// dan: make this more robust later
-
 			// regular update
 			OnUpdate();
 
@@ -138,6 +136,8 @@ namespace mae
 			(*it)->OnUpdate();
 		}
 		LOG_MESSAGE(__FUNCTION__);
+
+		pollEvents();
 
 		gameModeStack.top()->OnUpdate();
 	}
@@ -332,4 +332,16 @@ namespace mae
 		duration<double> time_span = duration_cast<duration<double>>(t1 - t0);
 		return time_span.count();
 	}
+
+	void Engine::pollEvents()
+	{
+		while (SDL_PollEvent(&event) != 0)
+		{
+			if (event.type == SDL_QUIT)
+			{
+				isRunning = false;
+			}
+		}
+	}
+
 }
