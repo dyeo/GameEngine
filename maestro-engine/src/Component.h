@@ -18,7 +18,7 @@ namespace mae
 	/// Components are discrete buckets of data and functionality associated with an Entity. 
 	/// Component types are claimed by a System, and the System manages their creation, updating, and destruction.
 	/// </summary>
-	class Component : public Updatable
+	class Component : public IUpdatable
 	{
 		// methods
 	public:

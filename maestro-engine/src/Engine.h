@@ -2,7 +2,7 @@
 #define _MAESTRO_ENGINE_H_
 
 // maestro core includes
-#include "Updatable.h"
+#include "IUpdatable.h"
 #include "System.h"
 #include "GameMode.h"
 
@@ -36,7 +36,7 @@ namespace mae
 	/// <summary>
 	/// The main Engine object. Responsible for interfacing with the operating system, managing systems, providing the update loop, and managing additional update threads.
 	/// </summary>
-	class Engine : public Updatable
+	class Engine : public IUpdatable
 	{
 		friend System;
 		friend class Graphics;
@@ -60,17 +60,17 @@ namespace mae
 		virtual ~Engine() override {};
 
 		/// <summary>
-		/// Called once when the Updatable is created, before OnStart or OnUpdate.
+		/// Called once when the IUpdatable is created, before OnStart or OnUpdate.
 		/// </summary>
 		virtual void OnCreate() override;
 
 		/// <summary>
-		/// Called once during the update loop for this Updatable, before the first OnUpdate.
+		/// Called once during the update loop for this IUpdatable, before the first OnUpdate.
 		/// </summary>
 		virtual void OnStart() override;
 
 		/// <summary>
-		/// Called during the update loop for this Updatable, and is called at least once per frame.
+		/// Called during the update loop for this IUpdatable, and is called at least once per frame.
 		/// </summary>
 		virtual void OnUpdate() override;
 		
@@ -80,17 +80,17 @@ namespace mae
 		virtual void OnFixedUpdate() override;
 
 		/// <summary>
-		/// Called following OnUpdate for this Updatable, and is called as many times as possible per frame (or once per frame if vsync is enabled).
+		/// Called following OnUpdate for this IUpdatable, and is called as many times as possible per frame (or once per frame if vsync is enabled).
 		/// </summary>
 		virtual void OnRender() override;
 
 		/// <summary>
-		/// Called once after the update loop for this Updatable, before any Updatables in this object's update loop are destroyed.
+		/// Called once after the update loop for this IUpdatable, before any Updatables in this object's update loop are destroyed.
 		/// </summary>
 		virtual void OnFinish() override;
 
 		/// <summary>
-		/// Called after OnFinish for this Updatable, before the object is destroyed.
+		/// Called after OnFinish for this IUpdatable, before the object is destroyed.
 		/// </summary>
 		virtual void OnDestroy() override;
 

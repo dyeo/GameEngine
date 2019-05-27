@@ -1,12 +1,12 @@
 #ifndef _MAESTRO_GAMEMODE_H_
 #define _MAESTRO_GAMEMODE_H_
 
-#include "Updatable.h"
+#include "IUpdatable.h"
 #include "EntityHandle.h"
 
 namespace mae
 {
-	class GameMode : Updatable
+	class GameMode : IUpdatable
 	{
 		// methods
 	public:

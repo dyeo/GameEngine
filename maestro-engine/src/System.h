@@ -1,7 +1,7 @@
 #ifndef _MAESTRO_SYSTEM_H_
 #define _MAESTRO_SYSTEM_H_
 
-#include "Updatable.h"
+#include "IUpdatable.h"
 
 #include "EntityHandle.h"
 
@@ -19,7 +19,7 @@ namespace mae
 	/// A System to be managed by the Engine. Hooks into the Engine's update loop and manages Components that it claims through communication with the Engine. 
 	/// Systems are responsible for allocating new Components on request, appropriately calling their OnStart and OnFinish methods, updating them according to their purpose, and destroying them on request.
 	/// </summary>
-	class System : public Updatable
+	class System : public IUpdatable
 	{
 		friend class Component;
 
@@ -54,17 +54,17 @@ namespace mae
 		virtual bool OnComponentDestroy(EntityHandle srcEnt, Component *const srcCmp) = 0;
 		
 		/// <summary>
-		/// Called once when the Updatable is created, before OnStart or OnUpdate.
+		/// Called once when the IUpdatable is created, before OnStart or OnUpdate.
 		/// </summary>
 		virtual void OnCreate() override;
 		
 		/// <summary>
-		/// Called once during the update loop for this Updatable, before the first OnUpdate.
+		/// Called once during the update loop for this IUpdatable, before the first OnUpdate.
 		/// </summary>
 		virtual void OnStart() override;
 		
 		/// <summary>
-		/// Called during the update loop for this Updatable, and is called at least once per frame.
+		/// Called during the update loop for this IUpdatable, and is called at least once per frame.
 		/// </summary>
 		virtual void OnUpdate() override;
 		
@@ -74,17 +74,17 @@ namespace mae
 		virtual void OnFixedUpdate() override;
 		
 		/// <summary>
-		/// Called following OnUpdate for this Updatable, and is called as many times as possible per frame (or once per frame if vsync is enabled).
+		/// Called following OnUpdate for this IUpdatable, and is called as many times as possible per frame (or once per frame if vsync is enabled).
 		/// </summary>
 		virtual void OnRender() override;		
 
 		/// <summary>
-		/// Called once after the update loop for this Updatable, before any Updatables in this object's update loop are destroyed.
+		/// Called once after the update loop for this IUpdatable, before any Updatables in this object's update loop are destroyed.
 		/// </summary>
 		virtual void OnFinish() override;
 		
 		/// <summary>
-		/// Called after OnFinish for this Updatable, before the object is destroyed.
+		/// Called after OnFinish for this IUpdatable, before the object is destroyed.
 		/// </summary>
 		virtual void OnDestroy() override;
 
